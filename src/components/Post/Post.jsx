@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import React from "react";
 
 function Post() {
     const [posts, setPosts] = useState([]);

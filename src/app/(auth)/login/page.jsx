@@ -1,69 +1,44 @@
 'use client';
-import { useState } from 'react';
-// import './Login.css';
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useData } from "@/context/DataProvider";
-import React from 'react';
-// import Navigation from '@/components/Navigation/Navigation';
 
-// NEXT uses this for .env 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { useActionState } from 'react';
+import { authenticate } from '@/lib/actions';
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  // NEXT uses this for Router
-  const router = useRouter(); 
-  const { handleHeaders, handleLogin } = useData();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    try {
-      const loginCredentials = {
-        email,
-        password
-      }
-
-      const response = await axios.post(`${API_URL}/auth/sign_in`, loginCredentials);
-      const { data, headers } = response;
-      
-      if(data.data && headers) {
-        handleHeaders(headers);
-        handleLogin(true);
-        router.push('/'); // NEXT navigation
-      }
-
-    } catch (error) {
-      if(error) {
-        alert(`Invalid email or password: ${error}`);
-      }
-    }
-  };
+export default function LoginPage() {
+  const [errorMessage, formAction, isPending] = useActionState(
+    authenticate,
+    undefined,
+  );
 
   return (
-      <div style={{ textAlign: "center" }}>
-        <h2>Login</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Email:</label>
-            <input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Password:</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <button type="submit">Login</button>
-        </form>
-      </div>
+    <div style={{ maxWidth: '400px', margin: 'auto', marginTop: '100px' }}>
+      <h1>Please log in to continue.</h1>
+      <form action={formAction}>
+        <div>
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email address"
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+          />
+        </div>
+        <button type="submit" aria-disabled={isPending}>
+          {isPending ? 'Logging in...' : 'Log in'}
+        </button>
+        {errorMessage && (
+          <p style={{ color: 'red' }}>{errorMessage}</p>
+        )}
+      </form>
+    </div>
   );
 }
