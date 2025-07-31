@@ -56,7 +56,7 @@ export default function RootPage() {
             Welcome Section
           </Box>
           <Paper>
-
+            Login Section
           </Paper>
         </Box>
         <Box

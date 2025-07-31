@@ -9,6 +9,8 @@ async function getAuthenticatedApi() {
   console.log('getAuthenticatedApi: Session:', session);
   console.log('getAuthenticatedApi: API Headers:', session?.apiHeaders);
   
+  // All tokens here use the session token from auth.js,
+  // Which was passed by JWT, which was passed by the Authenticator
   const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     headers: {
@@ -19,6 +21,7 @@ async function getAuthenticatedApi() {
       'token-type': session?.apiHeaders?.['token-type'],
     },
   });
+  console.log('getAuthenticatedApi API:', api);
   return api;
 }
 
@@ -26,17 +29,20 @@ export async function fetchChannels() {
   try {
     const api = await getAuthenticatedApi();
     const response = await api.get('/channels');
+    console.log('fetchChannels response:', response.data.data);
     return response.data.data;
   } catch (error) {
     console.error('API Error fetching channels:', error);
     throw new Error('Failed to fetch channels.');
   }
+  
 }
 
 export async function fetchUsers() {
     try {
       const api = await getAuthenticatedApi();
       const response = await api.get('/users');
+      console.log('fetchUsers response:', response.data.data);
       return response.data.data;
     } catch (error) {
       console.error('API Error fetching users:', error);
@@ -49,6 +55,7 @@ export async function fetchChannelMessages(channelId) {
   try {
     const api = await getAuthenticatedApi();
     const response = await api.get(`/messages?receiver_id=${channelId}&receiver_class=Channel`);
+    console.log(`fetchChannelMessages${channelId} response:`, response.data.data);
     return response.data.data;
   } catch (error) {
     console.error(`API Error fetching messages for channel ${channelId}:`, error);
@@ -61,6 +68,7 @@ export async function fetchDirectMessages(userId) {
     try {
       const api = await getAuthenticatedApi();
       const response = await api.get(`/messages?receiver_id=${userId}&receiver_class=User`);
+      console.log(`fetchDirectMessages${userId} response:`, response.data.data);
       return response.data.data;
     } catch (error) {
       console.error(`API Error fetching messages for user ${userId}:`, error);

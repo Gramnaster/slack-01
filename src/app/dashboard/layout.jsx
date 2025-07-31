@@ -7,14 +7,17 @@ export default async function MainLayout({ children }) {
   // Check authentication on the server side
   const session = await auth();
   
-  console.log('Dashboard layout: Server-side session check:', !!session);
+  console.log('Dashboard session check:', !!session);
   
+  // If no session, redirect to login
+  // Should ideally be universal instead, but middleware doesn't work for some reason
+  // Users never see protected content since it runs before component mounts
   if (!session) {
-    console.log('Dashboard layout: No session found, redirecting to login');
+    console.log('Dashboard no session found, redirecting to login');
     redirect('/login');
   }
 
-  console.log('Dashboard layout: User authenticated, fetching data');
+  console.log('Dashboard user authenticated, fetching data');
   
   // User is authenticated, fetch the data on the server
   const channels = await fetchChannels();
