@@ -1,3 +1,5 @@
+'use server';
+
 import axios from 'axios';
 import { auth } from '../../auth';
 
@@ -35,20 +37,19 @@ export async function fetchChannels() {
     console.error('API Error fetching channels:', error);
     throw new Error('Failed to fetch channels.');
   }
-  
 }
 
 export async function fetchUsers() {
-    try {
-      const api = await getAuthenticatedApi();
-      const response = await api.get('/users');
-      console.log('fetchUsers response:', response.data.data);
-      return response.data.data;
-    } catch (error) {
-      console.error('API Error fetching users:', error);
-      throw new Error('Failed to fetch users.');
-    }
+  try {
+    const api = await getAuthenticatedApi();
+    const response = await api.get('/users');
+    console.log('fetchUsers response:', response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error('API Error fetching users:', error);
+    throw new Error('Failed to fetch users.');
   }
+}
 
 export async function fetchChannelMessages(channelId) {
   if (!channelId) return [];
@@ -64,14 +65,44 @@ export async function fetchChannelMessages(channelId) {
 }
 
 export async function fetchDirectMessages(userId) {
-    if (!userId) return [];
-    try {
-      const api = await getAuthenticatedApi();
-      const response = await api.get(`/messages?receiver_id=${userId}&receiver_class=User`);
-      console.log(`fetchDirectMessages${userId} response:`, response.data.data);
-      return response.data.data;
-    } catch (error) {
-      console.error(`API Error fetching messages for user ${userId}:`, error);
-      throw new Error('Failed to fetch direct messages.');
-    }
+  if (!userId) return [];
+  try {
+    const api = await getAuthenticatedApi();
+    const response = await api.get(`/messages?receiver_id=${userId}&receiver_class=User`);
+    console.log(`fetchDirectMessages${userId} response:`, response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error(`API Error fetching messages for user ${userId}:`, error);
+    throw new Error('Failed to fetch direct messages.');
   }
+}
+
+// export async function fetchGenCode() {
+//   try {
+//     const response = await axios.get(`https://generate-secret.vercel.app/21`);
+//     console.log(`fetchGenCode response:`, response.data);
+
+//     if (!response.ok) {
+//       throw new Error(`fetchGenCode status:`, response.ok);
+//     }
+    
+//     const data = await response.String();
+//     return data;
+//   } catch (error) {
+//     console.error(`FetchGenCode error:`, error);
+//     throw new Error('Failed to fetch generated code');
+//   }
+// }
+
+// export async function fetchGenCode() {
+//   fetch(`https://generate-secret.vercel.app/21`)
+//     .then(response => {
+//       if (response.ok) {
+//         return response.data;
+//       }
+//     })
+//     .catch(error => {
+//       console.error(`FetchGenCode error:`, error);
+//       throw new Error('Failed to fetch generated code');
+//     });
+// }
