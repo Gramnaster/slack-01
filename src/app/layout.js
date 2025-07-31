@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import "./globals.css";
 import { jetBrainsMono, robotoMono } from "@/ui/fonts";
 // import ThemeRegistry from "@/components/ThemeRegistry/ThemeRegistry";
