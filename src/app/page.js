@@ -2,12 +2,14 @@
 
 // import { redirect } from 'next/navigation';
 // import Navigation from "@/components/Navigation/Navigation";
-import { Box, List, ListItemIcon, Typography } from "@mui/material";
+import { Box, Button, Icon, List, ListItemIcon, Stack, Typography } from "@mui/material";
 // import Link from "next/link";
 import Background from '../../public/assets/images/bg-welcome-01.png';
 import ListItem from '@mui/material/ListItem';
 import { displayUserAccess, formatDateToLocal } from "@/lib/utils";
-// import codegen from "@/components/main-menu/codegen";
+import Codegen from "@/components/main-menu/codegen";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function RootPage() {
   // By default, redirect logged-in users to a general channel.
@@ -20,7 +22,15 @@ export default function RootPage() {
     'This project has been designed and programmed by John Patrick Villalon.'
   ];
 
-  const randomTriGenValue = 111;
+  const [triNumber, setTriNumber] = useState('000 000 000 000');
+
+  useEffect(() => {
+    setTriNumber(Codegen());
+  }, []);
+
+  const redirectLogin = () => {
+    
+  }
 
   return (
     <Box
@@ -48,7 +58,7 @@ export default function RootPage() {
         {/* eslint-disable-next-line */}
         <Typography sx={{ position: 'absolute', top: 60, left: 60 }}> user-access // </Typography>
         {/* eslint-disable-next-line */}
-        <Typography sx={{ position: 'absolute', bottom: 60, left: 60 }}>{randomTriGenValue} // </Typography>
+        <Typography sx={{ position: 'absolute', bottom: 60, left: 60 }}>{triNumber} // </Typography>
         <Typography sx={{ position: 'absolute', top: 60, right: 60 }}>{formatDateToLocal()} </Typography>
         {/* eslint-disable-next-line */}
         <Typography sx={{ position: 'absolute', bottom: 60, right: 60 }}>// {formatDateToLocal('yearFormat')}-ALLRIGHTSRESERVED-COPYRIGHT:JPVILLALON </Typography>
@@ -80,22 +90,33 @@ export default function RootPage() {
               <img src='/assets/images/bg-largebox-01.png'/>
             </Box>
           <Typography variant='h1' component='h1' color={"primary"}
-            sx={{ letterSpacing: 10, fontSize: '128px' }}>WELCOME</Typography>
+            sx={{ letterSpacing: 10, fontSize: '110px' }}>WELCOME</Typography>
           </Box>
-          <Box>
+          <Box sx={{paddingBottom: 4}}>
             <List>
               { mainDescription.map((description, index) => {
                 return (
-                  <ListItem key={index} sx={{maxWidth: '66ch'}}>
-                    <ListItemIcon><img src='/assets/images/bg-smallbox-01.png'/></ListItemIcon>
+                  <ListItem key={index} sx={{maxWidth: '66ch', gap: 2}}>
+                    <ListItemIcon sx={{pl: 5, pr: 2}}><img src='/assets/images/bg-smallbox-01.png'/></ListItemIcon>
                     <ListItemIcon><img src='/assets/images/bg-plus-01.png'/></ListItemIcon>
                     <Typography variant="body1">{description}</Typography>
                   </ListItem>
-                )
-              })
+                )})
               }
             </List>
           </Box>
+          <Stack spacing={4} direction='row' sx={{pb: 5}}>
+            <Link href='/login'>
+              <Button variant='contained' sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}
+                onClick={redirectLogin()}>
+                <img src='/assets/images/button-login-01.png'/> LOG_IN
+              </Button>
+            </Link>
+            <Button variant='contained' sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}
+              onClick={redirectLogin()}>
+              <img src='/assets/images/button-signup-01.png'/> SIGN_UP
+            </Button>
+          </Stack>
           <img src='/assets/images/bg-dots-bottom-01.png' style={{ position: 'absolute', bottom: 40, width: '400px', height: '12px' }} alt="Center three dots" />
         </Box>
         <Box

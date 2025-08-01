@@ -14,6 +14,8 @@ export const formatDateToLocal = (dateRequest) => {
   // console.log(`Variable 'current' is:, ${current}`);
   // const formatter = new Intl.DateTimeFormat(locale, options);
   // console.log(`Variable 'formatter' is: ${formatter}`);
+
+  // Tomorrow, fix the date so it's local rather than UTC and it has proper zeroes
   const dateFormat = `//TZ:${current.getUTCFullYear()}.${current.getUTCMonth()}.${current.getUTCDate()}-${current.getUTCHours()}${current.getUTCMinutes()}HRS-PHNCRBGC`;
   const yearFormat = `${current.getUTCFullYear()}`;
   // console.log(`Variable 'dateFormat' is: ${dateFormat}`);
@@ -42,7 +44,7 @@ export const formatDateToLocal = (dateRequest) => {
 //   }
 // };
 
-// export const displayUserAccess = async () => {
-//   const x = 0;
-//   return x;
-// }
+export const displayUserAccess = async () => {
+  const x = 0;
+  return x;
+}
