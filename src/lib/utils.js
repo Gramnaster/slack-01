@@ -1,4 +1,4 @@
-import { fetchGenCode } from "./data";
+// import { fetchGenCode } from "./data";
 
 export const formatDateToLocal = (dateRequest) => {
   const request = dateRequest;

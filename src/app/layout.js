@@ -6,7 +6,7 @@ import { ThemeProvider } from '@mui/material/styles';
 // import theme from '@/app/theme';
 import themeOptions from "@/app/theme";
 
-export const experimental_ppr = true;
+// export const experimental_ppr = true;
 
 export const metadata = {
   title: "Miscord | Welcome to the Terminal",
