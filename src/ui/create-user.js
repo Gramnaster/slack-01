@@ -1,8 +1,10 @@
 'use client';
 
+import { SignMeUpButton } from "@/components/main-menu/buttons";
 import { createNewUser } from "@/lib/data";
-import { Box, Button, Input, InputLabel } from "@mui/material"
-// import { useEffect, useState } from "react";
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, Input, InputLabel, Paper, Stack, styled, Typography } from "@mui/material"
+import { useState } from "react";
+import { RadioButtonUnchecked, CheckCircleOutline } from '@mui/icons-material';
 
 export default function CreateUserForm() {
   // const [formData, setFormData] = useState('');
@@ -24,10 +26,12 @@ export default function CreateUserForm() {
   // const [formData, setFormData] = useState('');
 
   // const [userData, setUserData] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
     const formData = new FormData(e.target);
     const requestBody = {
       'email': formData.get('email'),
@@ -55,27 +59,60 @@ export default function CreateUserForm() {
   //   console.log('create-user.js userData:', userData);
   // }, [userData]);
 
+  const DemoPaper = styled(Paper)(({ theme }) => ({
+    width: '400px',
+    height: '550px',
+    ...theme.typography.body2,
+  }));
+
+  // const SecureCheckbox = styled(FormControlLabel)(({ theme }) => ({
+  //   // width: '64px',
+  //   // height: '64px',
+  //   fontSize: '64px',
+  //   ...theme.typography.body2,
+  // }));
+
   return (
-    <div>
-      <form autoComplete='off' method='post' onSubmit={handleSubmit}>
-        <InputLabel htmlFor='email'>new_email</InputLabel>
-        <Input id='email' name='email' type='email' placeholder='new_email@gmail.com' required />
+    <Box 
+      sx={{
+          h:'600px', 
+          w: '400px', 
+          p: '50px',
+    }}>
+      <DemoPaper 
+        elevation={24}
+        sx={{
+          p: '40px',
+      }}>
+        <form autoComplete='off' method='post' onSubmit={handleSubmit}>
+          <Stack direction='column' gap='20px' sx={{position:'relative'}}>
+            <Typography variant='h5' sx={{display: 'flex', justifyContent: 'center', pb:'10px'}}>SIGN_UP_NOW</Typography>
+            <Box>
+              <InputLabel htmlFor='email'>new_email</InputLabel>
+              <Input variant='outlined' color='primary' id='email' name='email' type='email' placeholder='new_email@gmail.com' required />
+            </Box>
 
-        <InputLabel id='password'>new_password</InputLabel>
-        <Input id='password' name='password' type='password' placeholder='secure_pass_12345' required />
-
-        <InputLabel id='password-confirm'>verify_password</InputLabel>
-        <Input id='password-confirm' name='password-confirm'  type='password' placeholder='Same as above' required />
-        <Button type='submit'>SIGN_ME_UP</Button>
-      </form>
-      {/* {formData && (
-        <div style={{ marginTop: '20px', padding: '10px', border: '1px solid #ccc' }}>
-          <h3>Captured Form Data:</h3>
-          <p><strong>Email:</strong> {formData.email}</p>
-          <p><strong>Password:</strong> {formData.password}</p>
-          <p><strong>Confirm:</strong> {formData.passwordConfirm}</p>
-        </div>
-      )} */}
-    </div>
+            <Box>
+              <InputLabel id='password'>new_password</InputLabel>
+              <Input variant="outlined" color='primary' id='password' name='password' type='password' placeholder='secure_pass_12345' required />
+            </Box>
+            <Box>
+              <InputLabel id='password-confirm'>verify_password</InputLabel>
+              <Input variant='outlined' color='primary' id='password-confirm' name='password-confirm'  type='password' placeholder='Same as above' required />
+            </Box>
+            <Paper>
+              <FormGroup>
+                <FormControlLabel required control={<Checkbox icon={<RadioButtonUnchecked />}/>} label="security_protocol totally_not_a_robot" 
+                  sx={{ '& .MuiSvgIcon-root': { fontSize: 64, '& path': { strokeWidth: 1 } }}}/>
+              </FormGroup>
+            </Paper>
+            {/* <Button type='submit'>SIGN_ME_UP</Button> */}
+            <Box sx={{display: 'flex', alignContent:'flex-end', justifyContent: 'flex-end'}}>
+              <SignMeUpButton/>
+            </Box>
+          </Stack>
+        </form>
+      </DemoPaper>
+    </Box>
   )
 }

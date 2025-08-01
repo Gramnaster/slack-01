@@ -10,6 +10,7 @@ import { displayUserAccess, formatDateToLocal } from "@/lib/utils";
 import Codegen from "@/components/main-menu/codegen";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import LoginButton, { SignUpButton } from "@/components/main-menu/buttons";
 
 export default function RootPage() {
   // By default, redirect logged-in users to a general channel.
@@ -107,16 +108,10 @@ export default function RootPage() {
           </Box>
           <Stack spacing={4} direction='row' sx={{pb: 5}}>
             <Link href='/login'>
-              <Button variant='contained' sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}
-                onClick={redirectLogin()}>
-                <img src='/assets/images/button-login-01.png'/> LOG_IN
-              </Button>
+              <LoginButton/>
             </Link>
             <Link href='/create-user'>
-              <Button variant='contained' sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}
-                onClick={redirectLogin()}>
-                <img src='/assets/images/button-signup-01.png'/> SIGN_UP
-              </Button>
+              <SignUpButton/>
             </Link>
           </Stack>
           <img src='/assets/images/bg-dots-bottom-01.png' style={{ position: 'absolute', bottom: 40, width: '400px', height: '12px' }} alt="Center three dots" />

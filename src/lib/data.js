@@ -114,9 +114,9 @@ export async function createNewUser(requestBody) {
     }
   } catch (error) {
     if (error) {
-      const fullMsgError = error.response.data.errors.full_messages;
+      const fullMsgErrors = error.response.data.errors.full_messages;
       // console.error(`Full Message Error:`, fullMsgError[0]);
-      fullMsgError.forEach((message, index) => {
+      fullMsgErrors.forEach((message, index) => {
           console.error(`Error ${index + 1}: ${message}`);
       });
       // console.error(`API Error:`, error);
