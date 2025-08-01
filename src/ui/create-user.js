@@ -4,7 +4,8 @@ import { SignMeUpButton } from "@/components/main-menu/buttons";
 import { createNewUser } from "@/lib/data";
 import { Box, Button, Checkbox, FormControlLabel, FormGroup, Input, InputLabel, Paper, Stack, styled, Typography } from "@mui/material"
 import { useState } from "react";
-import { RadioButtonUnchecked, CheckCircleOutline } from '@mui/icons-material';
+import { RadioButtonUnchecked, CheckCircleOutline, CheckBoxOutlineBlankOutlined, CheckBoxOutlineBlank, CropSquare, CheckCircle } from '@mui/icons-material';
+import Link from "next/link";
 
 export default function CreateUserForm() {
   // const [formData, setFormData] = useState('');
@@ -102,13 +103,33 @@ export default function CreateUserForm() {
             </Box>
             <Paper>
               <FormGroup>
-                <FormControlLabel required control={<Checkbox icon={<RadioButtonUnchecked />}/>} label="security_protocol totally_not_a_robot" 
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 64, '& path': { strokeWidth: 1 } }}}/>
+                <FormControlLabel required 
+                  label="security_protocol totally_not_a_robot" 
+                  // sx={{ '& .MuiSvgIcon-root': { 64 }}}
+                  control={<Checkbox icon={
+                    <RadioButtonUnchecked 
+                      sx={{
+                        fontSize: 64, 
+                        '& circle': { strokeWidth: 0.1 }  // This works!
+                      }}/> }
+                    checkedIcon={
+                      <CheckCircle 
+                        sx={{
+                          fontSize: 64,
+                          '& circle': { strokeWidth: 0.1 }
+                        }}
+                      />
+                    }
+                      />} />
               </FormGroup>
             </Paper>
             {/* <Button type='submit'>SIGN_ME_UP</Button> */}
             <Box sx={{display: 'flex', alignContent:'flex-end', justifyContent: 'flex-end'}}>
-              <SignMeUpButton/>
+              {/* Maybe don't link here and add the redirect to SignMeUpButton instead
+               when the user account creation is successful */}
+              <Link href='/login'>
+                <SignMeUpButton/>
+              </Link>
             </Box>
           </Stack>
         </form>

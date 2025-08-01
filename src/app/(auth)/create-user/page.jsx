@@ -41,11 +41,9 @@ export default function CreateUserPage() {
           flexDirection: 'column'
       }}>
         <Box>
-          <Link href='/login'>
-            <Suspense>
-              <CreateUserForm />
-            </Suspense>
-          </Link>
+          <Suspense>
+            <CreateUserForm />
+          </Suspense>
         </Box>
       </Box>
     </Box>
