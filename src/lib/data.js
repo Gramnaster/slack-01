@@ -77,31 +77,50 @@ export async function fetchDirectMessages(userId) {
   }
 }
 
-export async function createNewUser(formData) {
-  if (!formData) return null;
-  const email = formData.email;
-  const password = formData.password;
-  const verifyPassword = formData['password-confirm'];
-
-  if (verifyPassword !== password) {
-    return 'createNewUser Passwords do not match.';
-  }
+export async function createNewUser(requestBody) {
+  console.log('createNewUser data received:', requestBody);
   
-  const requestBody = {
-    "email": email,
-    "password": password,
-    "password_confirmation": verifyPassword
-  }
+  if (!requestBody) throw new Error('createNewUser No form data found');
+
+  // if (data) {
+  //   const formData =  new FormData(data);
+  //   console.log('createNewUser formData:', formData);
+  //   const email = formData.email;
+  //   const password = formData.password;
+  //   const verifyPassword = formData['password-confirm'];
+
+  //   if (!email || !password || !verifyPassword) {
+  //     throw new Error('createNewUser Form incomplete!');
+  //   }
+    
+  //   if (verifyPassword !== password) {
+  //     throw new Error('createNewUser Passwords do not match.');
+  //   }
+    
+  //   requestBody = {
+  //     "email": email,
+  //     "password": password,
+  //     "password_confirmation": verifyPassword
+  //   }
+
+  //   console.log(`createNewUser requestBody:`, requestBody);
+  // }
 
   try {
     const response = await axios.post(`${API_URL}/auth`, requestBody);
-    if (response.status === 'success') {
+    if (response.data && response.data.status === 'success') {
       console.log(`API New user created successfully:`, response.status);
-      return response;
+      return response.data;
     }
   } catch (error) {
     if (error) {
-      console.error(`API Error creating new user ${requestBody}`, error);
+      const fullMsgError = error.response.data.errors["full-messages"];
+      console.error(`Full Message Error:`, fullMsgError[0]);
+      console.error(`API Error:`, error);
+      console.error(`API Error creating new user:`, fullMsgError[0]);
+      console.error(`API Error creating new user ${requestBody.email}`, typeof error.response.data.errors);
+      console.error(`API Error with email: ${error.response.data.errors.email}`, typeof error.response.data.errors.email);
+      console.error(`API Error with password: ${error.response.data.errors.password}`, typeof error.response.data.errors.password);
       throw new Error(`Failed to submit user`);
     }
   }

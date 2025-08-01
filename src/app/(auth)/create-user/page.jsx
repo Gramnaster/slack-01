@@ -1,9 +1,14 @@
-import React from 'react'
+'use client';
 
-function page() {
+import CreateUserForm from '@/ui/create-user'
+import { Suspense } from 'react'
+
+export default function CreateUserPage() {
   return (
-    <div>page</div>
+    <div>
+      <Suspense>
+        <CreateUserForm />
+      </Suspense>
+      </div>
   )
 }
-
-export default page

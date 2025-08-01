@@ -2,7 +2,7 @@
 
 // import { redirect } from 'next/navigation';
 // import Navigation from "@/components/Navigation/Navigation";
-import { Box, Button, Icon, List, ListItemIcon, Stack, Typography } from "@mui/material";
+import { Box, Button, List, ListItemIcon, Stack, Typography } from "@mui/material";
 // import Link from "next/link";
 import Background from '../../public/assets/images/bg-welcome-01.png';
 import ListItem from '@mui/material/ListItem';
@@ -112,10 +112,12 @@ export default function RootPage() {
                 <img src='/assets/images/button-login-01.png'/> LOG_IN
               </Button>
             </Link>
-            <Button variant='contained' sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}
-              onClick={redirectLogin()}>
-              <img src='/assets/images/button-signup-01.png'/> SIGN_UP
-            </Button>
+            <Link href='/create-user'>
+              <Button variant='contained' sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}
+                onClick={redirectLogin()}>
+                <img src='/assets/images/button-signup-01.png'/> SIGN_UP
+              </Button>
+            </Link>
           </Stack>
           <img src='/assets/images/bg-dots-bottom-01.png' style={{ position: 'absolute', bottom: 40, width: '400px', height: '12px' }} alt="Center three dots" />
         </Box>
