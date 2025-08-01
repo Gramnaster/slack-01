@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { auth } from '../../auth';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 // Helper function to create an Axios instance with auth headers from a server component
 // The rest of the file's essentially just various fetches that are server side instead of client
 // Because iirc it won't work / will work slowly with 'use client'
@@ -72,6 +74,36 @@ export async function fetchDirectMessages(userId) {
   } catch (error) {
     console.error(`API Error fetching messages for user ${userId}:`, error);
     throw new Error('Failed to fetch direct messages.');
+  }
+}
+
+export async function createNewUser(formData) {
+  if (!formData) return null;
+  const email = formData.email;
+  const password = formData.password;
+  const verifyPassword = formData['password-confirm'];
+
+  if (verifyPassword !== password) {
+    return 'createNewUser Passwords do not match.';
+  }
+  
+  const requestBody = {
+    "email": email,
+    "password": password,
+    "password_confirmation": verifyPassword
+  }
+
+  try {
+    const response = await axios.post(`${API_URL}/auth`, requestBody);
+    if (response.status === 'success') {
+      console.log(`API New user created successfully:`, response.status);
+      return response;
+    }
+  } catch (error) {
+    if (error) {
+      console.error(`API Error creating new user ${requestBody}`, error);
+      throw new Error(`Failed to submit user`);
+    }
   }
 }
 
