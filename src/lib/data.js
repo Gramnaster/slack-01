@@ -114,13 +114,16 @@ export async function createNewUser(requestBody) {
     }
   } catch (error) {
     if (error) {
-      const fullMsgError = error.response.data.errors["full-messages"];
-      console.error(`Full Message Error:`, fullMsgError[0]);
-      console.error(`API Error:`, error);
-      console.error(`API Error creating new user:`, fullMsgError[0]);
-      console.error(`API Error creating new user ${requestBody.email}`, typeof error.response.data.errors);
-      console.error(`API Error with email: ${error.response.data.errors.email}`, typeof error.response.data.errors.email);
-      console.error(`API Error with password: ${error.response.data.errors.password}`, typeof error.response.data.errors.password);
+      const fullMsgError = error.response.data.errors.full_messages;
+      // console.error(`Full Message Error:`, fullMsgError[0]);
+      fullMsgError.forEach((message, index) => {
+          console.error(`Error ${index + 1}: ${message}`);
+      });
+      // console.error(`API Error:`, error);
+      // console.error(`API Error creating new user:`, fullMsgError[0]);
+      // console.error(`API Error creating new user ${requestBody.email}`, typeof error.response.data.errors);
+      // console.error(`API Error with email: ${error.response.data.errors.email}`, typeof error.response.data.errors.email);
+      // console.error(`API Error with password: ${error.response.data.errors.password}`, typeof error.response.data.errors.password);
       throw new Error(`Failed to submit user`);
     }
   }
