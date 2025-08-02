@@ -1,6 +1,6 @@
 'use client';
 
-import { SignMeUpButton } from "@/components/main-menu/buttons";
+import { SignMeUpButton } from "@/ui/buttons";
 import { createNewUser } from "@/lib/data";
 import { Box, Button, Checkbox, FormControlLabel, FormGroup, Input, InputLabel, Paper, Stack, styled, Typography } from "@mui/material"
 import { useState } from "react";
@@ -51,6 +51,7 @@ export default function CreateUserForm() {
         return console.log('create-user.js error:', error);
       }
     }
+    setIsLoading(false);
     return console.log('create-user.js handleSubmit is done');
   };
 
@@ -66,12 +67,13 @@ export default function CreateUserForm() {
     ...theme.typography.body2,
   }));
 
-  // const SecureCheckbox = styled(FormControlLabel)(({ theme }) => ({
-  //   // width: '64px',
-  //   // height: '64px',
-  //   fontSize: '64px',
-  //   ...theme.typography.body2,
-  // }));
+  const SecureCheckbox = styled(FormControlLabel)(({ theme }) => ({
+    // width: '64px',
+    // height: '64px',
+    fontSize: '64px',
+    src: '../../../../public/assets/images/bg-welcome-01.png',
+    ...theme.typography.body2,
+  }));
 
   return (
     <Box 
@@ -103,33 +105,16 @@ export default function CreateUserForm() {
             </Box>
             <Paper>
               <FormGroup>
-                <FormControlLabel required 
+                <SecureCheckbox required 
                   label="security_protocol totally_not_a_robot" 
-                  // sx={{ '& .MuiSvgIcon-root': { 64 }}}
-                  control={<Checkbox icon={
-                    <RadioButtonUnchecked 
-                      sx={{
-                        fontSize: 64, 
-                        '& circle': { strokeWidth: 0.1 }  // This works!
-                      }}/> }
-                    checkedIcon={
-                      <CheckCircle 
-                        sx={{
-                          fontSize: 64,
-                          '& circle': { strokeWidth: 0.1 }
-                        }}
-                      />
-                    }
-                      />} />
+                />
               </FormGroup>
             </Paper>
             {/* <Button type='submit'>SIGN_ME_UP</Button> */}
             <Box sx={{display: 'flex', alignContent:'flex-end', justifyContent: 'flex-end'}}>
               {/* Maybe don't link here and add the redirect to SignMeUpButton instead
                when the user account creation is successful */}
-              <Link href='/login'>
-                <SignMeUpButton/>
-              </Link>
+              <SignMeUpButton/>
             </Box>
           </Stack>
         </form>

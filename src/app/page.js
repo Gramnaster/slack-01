@@ -10,7 +10,7 @@ import { displayUserAccess, formatDateToLocal } from "@/lib/utils";
 import Codegen from "@/components/main-menu/codegen";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import LoginButton, { SignUpButton } from "@/components/main-menu/buttons";
+import LoginButton, { SignUpButton } from "@/ui/buttons";
 
 export default function RootPage() {
   // By default, redirect logged-in users to a general channel.
@@ -28,10 +28,6 @@ export default function RootPage() {
   useEffect(() => {
     setTriNumber(Codegen());
   }, []);
-
-  const redirectLogin = () => {
-    
-  }
 
   return (
     <Box
