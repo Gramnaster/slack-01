@@ -6,6 +6,8 @@ import { Box, Button, Checkbox, FormControlLabel, FormGroup, Input, InputLabel, 
 import { useState } from "react";
 import { RadioButtonUnchecked, CheckCircleOutline, CheckBoxOutlineBlankOutlined, CheckBoxOutlineBlank, CropSquare, CheckCircle } from '@mui/icons-material';
 import Link from "next/link";
+import { signUp } from "@/lib/actions";
+import { redirect } from "next/dist/server/api-utils";
 
 export default function CreateUserForm() {
   // const [formData, setFormData] = useState('');
@@ -44,7 +46,10 @@ export default function CreateUserForm() {
     try {
       // setUserData(requestBody);
       const result = await createNewUser(requestBody);
+      // Check if condition for redirect
+      // if (result.errors) redirect('/login');
       console.log('create-user.js handleSubmit passed result to createNewUser:', result);
+      if (result && result.status === 'success') redirect('/login');
       return console.log('create-user.js handleSubmit is successful');
     } catch (error) {
       if (error) {
@@ -71,7 +76,7 @@ export default function CreateUserForm() {
     // width: '64px',
     // height: '64px',
     fontSize: '64px',
-    src: '../../../../public/assets/images/bg-welcome-01.png',
+    // src: '../../../../public/assets/images/bg-welcome-01.png',
     ...theme.typography.body2,
   }));
 
@@ -87,37 +92,39 @@ export default function CreateUserForm() {
         sx={{
           p: '40px',
       }}>
-        <form autoComplete='off' method='post' onSubmit={handleSubmit}>
-          <Stack direction='column' gap='20px' sx={{position:'relative'}}>
-            <Typography variant='h5' sx={{display: 'flex', justifyContent: 'center', pb:'10px'}}>SIGN_UP_NOW</Typography>
-            <Box>
-              <InputLabel htmlFor='email'>new_email</InputLabel>
-              <Input variant='outlined' color='primary' id='email' name='email' type='email' placeholder='new_email@gmail.com' required />
-            </Box>
 
-            <Box>
-              <InputLabel id='password'>new_password</InputLabel>
-              <Input variant="outlined" color='primary' id='password' name='password' type='password' placeholder='secure_pass_12345' required />
+          <form autoComplete='off' method='post' onSubmit={handleSubmit}>
+            <Box sx={{h:'100%', w:'100%'}}>
+              <Stack direction='column' gap='20px' sx={{position:'relative'}}>
+                <Typography variant='h5' sx={{display: 'flex', justifyContent: 'center', pb:'10px'}}>SIGN_UP_NOW</Typography>
+                <Box>
+                  <InputLabel htmlFor='email'>new_email</InputLabel>
+                  <Input variant='outlined' color='primary' id='email' name='email' type='email' placeholder='new_email@gmail.com' required />
+                </Box>
+
+                <Box>
+                  <InputLabel id='password'>new_password</InputLabel>
+                  <Input variant="outlined" color='primary' id='password' name='password' type='password' placeholder='secure_pass_12345' required />
+                </Box>
+                <Box>
+                  <InputLabel id='password-confirm'>verify_password</InputLabel>
+                  <Input variant='outlined' color='primary' id='password-confirm' name='password-confirm'  type='password' placeholder='Same as above' required />
+                </Box>
+                <Paper>
+                  <FormGroup>
+                    {/* <SecureCheckbox required label="security_protocol totally_not_a_robot" 
+                    /> */}
+                  </FormGroup>
+                </Paper>
+                {/* <Button type='submit'>SIGN_ME_UP</Button> */}
+                <Box sx={{display: 'flex', alignContent:'flex-end', justifyContent: 'flex-end'}}>
+                  {/* Maybe don't link here and add the redirect to SignMeUpButton instead
+                  when the user account creation is successful */}
+                  <SignMeUpButton/>
+                </Box>
+              </Stack>
             </Box>
-            <Box>
-              <InputLabel id='password-confirm'>verify_password</InputLabel>
-              <Input variant='outlined' color='primary' id='password-confirm' name='password-confirm'  type='password' placeholder='Same as above' required />
-            </Box>
-            <Paper>
-              <FormGroup>
-                <SecureCheckbox required 
-                  label="security_protocol totally_not_a_robot" 
-                />
-              </FormGroup>
-            </Paper>
-            {/* <Button type='submit'>SIGN_ME_UP</Button> */}
-            <Box sx={{display: 'flex', alignContent:'flex-end', justifyContent: 'flex-end'}}>
-              {/* Maybe don't link here and add the redirect to SignMeUpButton instead
-               when the user account creation is successful */}
-              <SignMeUpButton/>
-            </Box>
-          </Stack>
-        </form>
+          </form>
       </DemoPaper>
     </Box>
   )

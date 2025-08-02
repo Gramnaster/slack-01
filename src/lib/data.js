@@ -114,6 +114,7 @@ export async function createNewUser(requestBody) {
     }
   } catch (error) {
     if (error) {
+      // Check .length of all error props
       const fullMsgErrors = error.response.data.errors.full_messages;
       // console.error(`Full Message Error:`, fullMsgError[0]);
       fullMsgErrors.forEach((message, index) => {
@@ -124,7 +125,8 @@ export async function createNewUser(requestBody) {
       // console.error(`API Error creating new user ${requestBody.email}`, typeof error.response.data.errors);
       // console.error(`API Error with email: ${error.response.data.errors.email}`, typeof error.response.data.errors.email);
       // console.error(`API Error with password: ${error.response.data.errors.password}`, typeof error.response.data.errors.password);
-      throw new Error(`Failed to submit user`);
+      // throw new Error(`Failed to submit user`);
+      return error;
     }
   }
 }
