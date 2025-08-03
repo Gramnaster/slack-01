@@ -23,9 +23,13 @@ export default function RootPage() {
     'This project has been designed and programmed by John Patrick Villalon.'
   ];
 
+  const [isLoading, setIsLoading] = useState(false); 
+  // const router = useRouter();
   const [triNumber, setTriNumber] = useState('000 000 000 000');
 
   useEffect(() => {
+    // const handleStart = () => setIsLoading(true);
+    // const handleComplete = () => setIsLoading(false);
     setTriNumber(Codegen());
   }, []);
 
@@ -51,8 +55,9 @@ export default function RootPage() {
         <img src='/assets/images/bg-corner-topright-01.png' style={{ position: 'absolute', top: 40, right: 40, width: '40px', height: '40px' }} alt="Top right corner design" />
         <img src='/assets/images/bg-corner-bottomleft-01.png' style={{ position: 'absolute', bottom: 40, left: 40, width: '40px', height: '40px' }} alt="Bottom left corner design" />
         <img src='/assets/images/bg-corner-bottomright-01.png' style={{ position: 'absolute', bottom: 40, right: 40, width: '40px', height: '40px' }} alt="Bottom right corner design" />
-        
-        <Typography sx={{ position: 'absolute', top: 60, left: 60 }}> USER-NO-ACCESS-GRANTED // </Typography>
+        <img src='/assets/images/bg-dots-top-01.png' style={{ position: 'absolute', top: 40, width: '248px', height: '12px' }} alt="Center three dots" />
+        <img src='/assets/images/bg-dots-bottom-01.png' style={{ position: 'absolute', bottom: 40, width: '400px', height: '12px' }} alt="Center three dots" />
+        <Typography sx={{ position: 'absolute', top: 60, left: 60 }}> USER-ACCESS-GRANTED // </Typography>
         {/* eslint-disable-next-line */}
         <Typography sx={{ position: 'absolute', bottom: 60, left: 60 }}>{triNumber} // </Typography>
         <Typography sx={{ position: 'absolute', top: 60, right: 60 }}>{formatDateToLocal()} </Typography>
@@ -80,7 +85,7 @@ export default function RootPage() {
             gap: 1,
             flexDirection: 'column'
           }}>
-          <img src='/assets/images/bg-dots-top-01.png' style={{ position: 'absolute', top: 40, width: '248px', height: '12px' }} alt="Center three dots" />
+          
           <Box sx={{display:'flex', flexDirection:'row', gap:5, alignItems:'center'}}>
             <Box sx={{w:'120px', h:'120px', aspectRatio:'1/1'}}>
               <img src='/assets/images/bg-largebox-01.png'/>
@@ -102,25 +107,28 @@ export default function RootPage() {
             </List>
           </Box>
           <Stack spacing={4} direction='row' sx={{pb: 5}}>
-            <Link href='/login'>
+            <Link href='/login' onClick={() => setIsLoading(true)}>
               <LoginButton/>
             </Link>
-            <Link href='/create-user'>
+            <Link href='/create-user' onClick={() => setIsLoading(true)}>
               <SignUpButton/>
             </Link>
           </Stack>
-          <img src='/assets/images/bg-dots-bottom-01.png' style={{ position: 'absolute', bottom: 40, width: '400px', height: '12px' }} alt="Center three dots" />
+          
         </Box>
         <Box
           component='footer'
           sx={{
+            // position: 'relative', 
             h: '100%',
             w: '100%',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'space-between'
         }}>
-          
+          {/* eslint-disable-next-line */}
+          {isLoading && <Typography sx={{ position: 'absolute', bottom: '20%', left: '50%', transform: 'translateX(-50%)' }}>//CHANGING_PAGES...// </Typography>
+          }
         </Box>
       </Box>
   )
