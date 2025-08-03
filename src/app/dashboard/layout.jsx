@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 
 import { redirect } from 'next/navigation';
 import { auth } from '../../../auth';
@@ -6,11 +6,12 @@ import Navigation from '@/components/navigation/navigation';
 import { fetchChannels, fetchUsers } from '@/lib/data';
 import { Box, Button, Typography } from '@mui/material';
 import Background from '../../../public/assets/images/bg-welcome-01.png';
-import { Suspense, useState } from 'react';
+import { Suspense } from 'react';
 import { logout } from '@/lib/actions';
+import Link from 'next/link';
 
 export default async function MainLayout({ children }) {
-  const [currentPage, setCurrentPage] = useState('');
+  // const [currentPage, setCurrentPage] = useState('');
   
   // Check authentication on the server side
   const session = await auth();
@@ -94,9 +95,14 @@ export default async function MainLayout({ children }) {
             }}>
             <Typography variant='body2' color='text.secondary'>./MAIN_MENU</Typography>
           </Box>
-          <Suspense>
-            <Navigation channels={channels} users={users} />
-          </Suspense>
+          <Box sx={{display: 'flex', p: '4px', flexDirection: 'column'}}>
+            <Suspense>
+              {/* <Navigation channels={channels} users={users} /> */}
+              <Link href='/dm'>dir_msg</Link>
+              <Link href='/ch'>user_ch</Link>
+              <Navigation channels={channels} />
+            </Suspense>
+          </Box>
           <Box sx={{display: 'flex', justifyContent:'flex-end', mt: 'auto'}}>
             <form action={logout}>
               <Button variant='contained' type='submit' sx={{w:'100px', h:'42px', borderRadius: 0, gap: 1}}>
@@ -124,7 +130,9 @@ export default async function MainLayout({ children }) {
           }}>
             <Typography variant='body2' color='text.secondary'>.//USER_LIST</Typography>
           </Box>
-          {children}
+          <Box sx={{overflowY:'auto'}}>
+            <Navigation users={users} />
+          </Box>
         </Box>
         {/* Messages Section */}
         <Box component='section'

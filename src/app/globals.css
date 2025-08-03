@@ -3,6 +3,27 @@
   --foreground: #FF7300;
 }
 
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #1A1A1A;
+  border: 1px solid #FF7300;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #FF7300;
+  border-radius: 0px;
+  /* border: 3px solid #1A1A1A; */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #B5FF3B;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: #1A1A1A;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #120800;

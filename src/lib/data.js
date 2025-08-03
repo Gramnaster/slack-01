@@ -57,10 +57,10 @@ export async function fetchUsers(session) {
   }
 }
 
-export async function fetchChannelMessages(channelId) {
+export async function fetchChannelMessages(channelId, session) {
   if (!channelId) return [];
   try {
-    const api = await getAuthenticatedApi();
+    const api = await getAuthenticatedApi(session);
     const response = await api.get(`/messages?receiver_id=${channelId}&receiver_class=Channel`);
     console.log(`fetchChannelMessages${channelId} response:`, response.data.data);
     return response.data.data;
@@ -70,10 +70,10 @@ export async function fetchChannelMessages(channelId) {
   }
 }
 
-export async function fetchDirectMessages(userId) {
+export async function fetchDirectMessages(userId, session) {
   if (!userId) return [];
   try {
-    const api = await getAuthenticatedApi();
+    const api = await getAuthenticatedApi(session);
     const response = await api.get(`/messages?receiver_id=${userId}&receiver_class=User`);
     console.log(`fetchDirectMessages${userId} response:`, response.data.data);
     return response.data.data;
