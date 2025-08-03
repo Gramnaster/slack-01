@@ -5,12 +5,12 @@ import { usePathname } from 'next/navigation';
 import { logout } from '../../lib/actions';
 import { Button } from '@mui/material';
 
-export default function Navigation({ channels = [], users = [] }) {
+export default function Navigation({ channels = [], users = [], children }) {
   const pathname = usePathname();
 
   return (
-    <nav style={{ width: '250px', borderRight: '1px solid #ccc', padding: '1rem' }}>
-      
+    <nav style={{ borderRight: '1px solid #ccc'}}>
+      {children}
       <ul>
         {/* {users.map((user) => (
           <li key={user.id}>
@@ -34,8 +34,8 @@ export default function Navigation({ channels = [], users = [] }) {
       </ul>
       <hr />
       <form action={logout}>
-        <Button variant='contained' type='submit' sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}>
-          <img src='/assets/images/button-logout-01.png'/>  LOG_OUT
+        <Button variant='contained' type='submit' sx={{w:'100px', h:'42px', borderRadius: 0, gap: 1}}>
+          <img src='/assets/images/button-logout-01.png' style={{ width: '20px', height: '20px' }}/>  LOG_OUT
         </Button>
       </form>
     </nav>

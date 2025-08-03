@@ -23,7 +23,7 @@ const themeOptions = createTheme({
     },
     text: {
       primary: '#FF7300',
-      secondary: '#FF7300',
+      secondary: '#251A13',
       disabled: '#FF7300',
     },
     error: {

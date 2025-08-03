@@ -1,9 +1,9 @@
 'use server';
 
-import { redirect } from 'next/navigation';
+// import { redirect } from 'next/navigation';
 // import { revalidatePath } from 'next/cache';
 import { signIn, signOut } from '../../auth';
-import { createNewUser } from './data';
+// import { createNewUser } from './data';
 // import { redirect } from 'next/navigation';
 
 export async function authenticate(prevState, formData) {
