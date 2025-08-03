@@ -2,11 +2,11 @@
 
 // import { redirect } from 'next/navigation';
 // import Navigation from "@/components/Navigation/Navigation";
-import { Box, Button, List, ListItemIcon, Stack, Typography } from "@mui/material";
+import { Box, List, ListItemIcon, Stack, Typography } from "@mui/material";
 // import Link from "next/link";
 import Background from '../../public/assets/images/bg-welcome-01.png';
 import ListItem from '@mui/material/ListItem';
-import { displayUserAccess, formatDateToLocal } from "@/lib/utils";
+import { formatDateToLocal } from "@/lib/utils";
 import Codegen from "@/components/main-menu/codegen";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -52,8 +52,7 @@ export default function RootPage() {
         <img src='/assets/images/bg-corner-bottomleft-01.png' style={{ position: 'absolute', bottom: 40, left: 40, width: '40px', height: '40px' }} alt="Bottom left corner design" />
         <img src='/assets/images/bg-corner-bottomright-01.png' style={{ position: 'absolute', bottom: 40, right: 40, width: '40px', height: '40px' }} alt="Bottom right corner design" />
         
-        {/* eslint-disable-next-line */}
-        <Typography sx={{ position: 'absolute', top: 60, left: 60 }}> user-access // </Typography>
+        <Typography sx={{ position: 'absolute', top: 60, left: 60 }}> USER-NO-ACCESS-GRANTED // </Typography>
         {/* eslint-disable-next-line */}
         <Typography sx={{ position: 'absolute', bottom: 60, left: 60 }}>{triNumber} // </Typography>
         <Typography sx={{ position: 'absolute', top: 60, right: 60 }}>{formatDateToLocal()} </Typography>
