@@ -22,8 +22,13 @@ export default async function MainLayout({ children }) {
   console.log('Dashboard user authenticated, fetching data');
   
   // User is authenticated, fetch the data on the server
-  const channels = await fetchChannels();
-  const users = await fetchUsers();
+  // const channels = await fetchChannels();
+  // const users = await fetchUsers();
+  // Parallel data fetch so logging in is faster
+  const [channels, users] = await Promise.all([
+    fetchChannels(session),
+    fetchUsers(session)
+  ]);
 
   return (
     <Box

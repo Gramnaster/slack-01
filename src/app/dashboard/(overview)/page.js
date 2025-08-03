@@ -17,7 +17,7 @@ export default function MainPage() {
   }, []);
   return (
     <>
-      <Typography sx={{ position: 'absolute', top: 60, left: 60 }}> USER-NO-ACCESS-GRANTED // </Typography>
+      <Typography sx={{ position: 'absolute', top: 60, left: 60 }}> USER-ACCESS-GRANTED // </Typography>
       {/* eslint-disable-next-line */}
       <Typography sx={{ position: 'absolute', bottom: 60, left: 60 }}>{triNumber} // </Typography>
       <Typography sx={{ position: 'absolute', top: 60, right: 60 }}>{formatDateToLocal()} </Typography>

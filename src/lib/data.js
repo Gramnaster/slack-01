@@ -6,8 +6,14 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 // Helper function to create an Axios instance with auth headers from a server component
 // The rest of the file's essentially just various fetches that are server side instead of client
 // Because iirc it won't work / will work slowly with 'use client'
-async function getAuthenticatedApi() {
-  const session = await auth();
+async function getAuthenticatedApi(session) {
+  // Checks session instead of revalidating every damn time lmao
+  if (!session?.user?.apiHeaders) {
+    console.error('getAuthenticatedApi: No session or API headers found.');
+    throw new Error('Authentication required.');
+  }
+  
+  // const session = await auth();
   console.log('getAuthenticatedApi: Session:', session);
   console.log('getAuthenticatedApi: API Headers:', session?.apiHeaders);
   
@@ -27,9 +33,9 @@ async function getAuthenticatedApi() {
   return api;
 }
 
-export async function fetchChannels() {
+export async function fetchChannels(session) {
   try {
-    const api = await getAuthenticatedApi();
+    const api = await getAuthenticatedApi(session);
     const response = await api.get('/channels');
     console.log('fetchChannels response:', response.data.data);
     return response.data.data;
@@ -39,9 +45,9 @@ export async function fetchChannels() {
   }
 }
 
-export async function fetchUsers() {
+export async function fetchUsers(session) {
   try {
-    const api = await getAuthenticatedApi();
+    const api = await getAuthenticatedApi(session);
     const response = await api.get('/users');
     console.log('fetchUsers response:', response.data.data);
     return response.data.data;

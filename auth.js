@@ -83,6 +83,9 @@ export const { auth, signIn, signOut } = NextAuth({
         token.email = user.email;
         token.apiHeaders = user.apiHeaders;
       }
+      if (user?.apiHeaders) {
+        token.apiHeaders = user.apiHeaders;
+      }
       console.log('Auth.js: Returning token:', token);
       return token;
     },
@@ -94,6 +97,9 @@ export const { auth, signIn, signOut } = NextAuth({
       session.user.email = token.email;
       session.apiHeaders = token.apiHeaders;
       console.log('Auth.js: Returning session:', session);
+      if (token?.apiHeaders) {
+        session.user.apiHeaders = token.apiHeaders;
+      }
       return session;
     },
   },
