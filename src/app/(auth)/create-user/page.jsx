@@ -1,9 +1,10 @@
 'use client';
 
 import CreateUserForm from '@/ui/create-user'
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { Suspense } from 'react';
 import Background from '../../../../public/assets/images/bg-welcome-01.png';
+import Link from 'next/link';
 // import Link from 'next/link';
 
 export default function CreateUserPage() {
@@ -29,6 +30,10 @@ export default function CreateUserPage() {
       <img src='/assets/images/bg-corner-topright-01.png' style={{ position: 'absolute', top: 40, right: 40, width: '40px', height: '40px' }} alt="Top right corner design" />
       <img src='/assets/images/bg-corner-bottomleft-01.png' style={{ position: 'absolute', bottom: 40, left: 40, width: '40px', height: '40px' }} alt="Bottom left corner design" />
       <img src='/assets/images/bg-corner-bottomright-01.png' style={{ position: 'absolute', bottom: 40, right: 40, width: '40px', height: '40px' }} alt="Bottom right corner design" />
+      {/* <img src='/assets/images/bg-corner-bottomright-01.png' style={{ position: 'absolute', bottom: 40, right: 40, width: '40px', height: '40px' }} alt="Top right back button" /> */}
+      <Link href='/' style={{ position: 'absolute', top: 50, right: 120, width: '40px', height: '40px' }}>
+        <Button>RETURN_HOME</Button>
+      </Link>
       <Box 
         component='section'
         sx={{

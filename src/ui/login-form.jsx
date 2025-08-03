@@ -1,8 +1,15 @@
 'use client'
 
 import { authenticate } from "@/lib/actions";
+import { Box, Button, InputLabel, OutlinedInput, Paper, Stack, styled, Typography } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 import { useActionState } from "react";
+
+const DemoPaper = styled(Paper)(({ theme }) => ({
+  width: '400px',
+  height: '300px',
+  ...theme.typography.body2,
+}));
 
 export default function LoginForm() {
   // useActionState imported from base React for React 19+
@@ -21,36 +28,60 @@ export default function LoginForm() {
   // Server Comp processes login and returns result to useActionState as 'authenticate'
   // Component re-renders with new state
   return (
-    <div style={{ maxWidth: '400px', margin: 'auto', marginTop: '100px' }}>
-      <h1>Please log in to continue.</h1>
+    <Box 
+      sx={{
+        h:'400px', 
+        w: '400px', 
+        p: '50px',
+    }}>
+      <DemoPaper 
+        elevation={24}
+        sx={{
+          p: '30px',
+      }}>
       <form action={formAction}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter your email address"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-          />
-        </div>
-        <input type="hidden" name="redirectTo" value={callbackUrl} />
-        <button type="submit" aria-disabled={isPending}>
-          {isPending ? 'Logging in...' : 'Log in'}
-        </button>
-        {errorMessage && (
-          <p style={{ color: 'red' }}>{errorMessage}</p>
-        )}
-      </form>
-    </div>
+        <Box sx={{h:'100%', w:'100%'}}>
+          <Stack direction='column' gap='20px' sx={{position:'relative'}}>
+            <Typography variant='h5' sx={{display: 'flex', justifyContent: 'center'}}>LOG_IN_NOW</Typography>
+            <Box>
+              <InputLabel htmlFor='email'>new_email *</InputLabel>
+              <OutlinedInput variant='outlined' color='primary' fullWidth id='email' name='email' type='email' 
+                placeholder='//new_email@gmail.com' autoComplete='off'
+                sx={{
+                  height: '30px', borderRadius: 0,
+                  backgroundColor: 'transparent', fontSize: '12px',
+                  '& .MuiOutlinedInput-notchedOutline': {borderColor: '#FF7300', borderWidth: '1px'},
+                  '&:hover .MuiOutlinedInput-notchedOutline': {borderColor: '#FF7300'},
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {borderColor: '#FF7300', borderWidth: '1px'},
+                  '& input': {color: '#FF7300', padding: '8px 12px'},
+                  '& input::placeholder': {color: 'rgba(255, 115, 0, 0.5)', opacity: 1,}}}
+              />
+            </Box>
+            <Box>
+              <InputLabel id='password'>new_password *</InputLabel>
+              <OutlinedInput variant="outlined" color='primary' fullWidth id='password' name='password' type='password' 
+                placeholder='//secure_pass_12345' required 
+                sx={{
+                  height: '30px', borderRadius: 0,
+                  backgroundColor: 'transparent', fontSize: '12px',
+                  '& .MuiOutlinedInput-notchedOutline': {borderColor: '#FF7300', borderWidth: '1px'},
+                  '&:hover .MuiOutlinedInput-notchedOutline': {borderColor: '#FF7300'},
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {borderColor: '#FF7300', borderWidth: '1px'},
+                  '& input': {color: '#FF7300', padding: '8px 12px'},
+                  '& input::placeholder': {color: 'rgba(255, 115, 0, 0.5)', opacity: 1,}}}
+              />
+            </Box>
+            <input type="hidden" name="redirectTo" value={callbackUrl} />
+            <Button type="submit" aria-disabled={isPending} variant='contained' sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}>
+              <img src='/assets/images/button-login-01.png'/> {isPending ? 'Logging in...' : 'LOG_IN'}
+            </Button>
+            {errorMessage && (
+              <p style={{ color: 'red' }}>{errorMessage}</p>
+            )}
+            </Stack>
+          </Box>
+        </form>
+      </DemoPaper>
+    </Box>
   )
 }

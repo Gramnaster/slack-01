@@ -17,10 +17,18 @@ export function SignUpButton() {
   )
 }
 
-export function SignMeUpButton() {
+export function SignMeUpButton({isLoading, disabled}) {
   return (
-    <Button variant='contained' type='submit' sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}>
-      <img src='/assets/images/button-signup-01.png'/> SIGN_ME_UP
+    <Button variant='contained' type='submit' aria-disabled={disabled} sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}>
+      <img src='/assets/images/button-signup-01.png'/> {isLoading ? 'SIGNING...' : 'SIGN_ME_UP'}
+    </Button>
+  )
+}
+
+export function HomeButton() {
+  return (
+    <Button variant='contained' sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}>
+      <img src='/assets/images/button-signup-01.png'/>  (HOME_PAGE)
     </Button>
   )
 }

@@ -63,6 +63,11 @@ export default function CreateUserForm() {
       return;
     }
 
+    if (password !== passwordConfirm) {
+      alert('//WARN: VERIFY PASSWORD MUST BE SAME AS PASSWORD');
+      return;
+    }
+
     if (!isChecked) {
       alert('//WARN: PLEASE COMPLETE THE SECURITY PROTOCOL');
       return;
@@ -84,10 +89,18 @@ export default function CreateUserForm() {
       // Check if condition for redirect
       // if (result.errors) redirect('/login');
       console.log('create-user.js handleSubmit passed result to createNewUser:', result);
-      if (result && result.status === 'success') redirect('/login');
+      if (result && result.status === 'success') {
+        alert('//SUCCESS: NEW ACCOUNT CREATED');
+        redirect('/login');
+      }
       return console.log('create-user.js handleSubmit is successful');
     } catch (error) {
       if (error) {
+        if (error.digest?.startsWith('NEXT_REDIRECT')) {
+          throw error;
+        }
+
+        alert(`//ERROR:\n${error.message}`);
         return console.log('create-user.js error:', error);
       }
     } finally {
@@ -215,7 +228,7 @@ export default function CreateUserForm() {
               <Box sx={{display: 'flex', alignContent:'flex-end', justifyContent: 'flex-end', pb: 1}}>
                 {/* Maybe don't link here and add the redirect to SignMeUpButton instead
                 when the user account creation is successful */}
-                <SignMeUpButton disabled={!isChecked || isLoading} />
+                <SignMeUpButton disabled={!isChecked || isLoading} isLoading={isLoading}/>
               </Box>
             </Stack>
           </Box>

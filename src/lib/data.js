@@ -113,20 +113,32 @@ export async function createNewUser(requestBody) {
       return response.data;
     }
   } catch (error) {
-    if (error) {
-      // Check .length of all error props
-      const fullMsgErrors = error.response.data.errors.full_messages;
-      // console.error(`Full Message Error:`, fullMsgError[0]);
-      fullMsgErrors.forEach((message, index) => {
-          console.error(`Error ${index + 1}: ${message}`);
+    // if (error) {
+    //   // Check .length of all error props
+    //   const fullMsgErrors = error.response.data.errors.full_messages;
+    //   // console.error(`Full Message Error:`, fullMsgError[0]);
+    //   fullMsgErrors.forEach((message, index) => {
+    //       console.error(`Error ${index + 1}: ${message}`);
+    //   });
+    //   // console.error(`API Error:`, error);
+    //   // console.error(`API Error creating new user:`, fullMsgError[0]);
+    //   // console.error(`API Error creating new user ${requestBody.email}`, typeof error.response.data.errors);
+    //   // console.error(`API Error with email: ${error.response.data.errors.email}`, typeof error.response.data.errors.email);
+    //   // console.error(`API Error with password: ${error.response.data.errors.password}`, typeof error.response.data.errors.password);
+    //   // throw new Error(`Failed to submit user`);
+    //   return error;
+    if (error.response?.data?.errors?.full_messages) {
+      const messages = error.response.data.errors.full_messages;
+      // Log each error for debugging
+      messages.forEach((message, index) => {
+        console.error(`API Error ${index + 1}: ${message}`);
       });
-      // console.error(`API Error:`, error);
-      // console.error(`API Error creating new user:`, fullMsgError[0]);
-      // console.error(`API Error creating new user ${requestBody.email}`, typeof error.response.data.errors);
-      // console.error(`API Error with email: ${error.response.data.errors.email}`, typeof error.response.data.errors.email);
-      // console.error(`API Error with password: ${error.response.data.errors.password}`, typeof error.response.data.errors.password);
-      // throw new Error(`Failed to submit user`);
-      return error;
+      // Join the messages and throw a new error that the UI can catch
+      throw new Error(messages.join('\n'));
+    } else {
+      // Handle unexpected errors
+      console.error('An unexpected API error occurred:', error);
+      throw new Error('Failed to create user due to an unexpected error.');
     }
   }
 }
