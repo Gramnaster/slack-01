@@ -4,9 +4,10 @@ import { redirect } from 'next/navigation';
 import { auth } from '../../../auth';
 import Navigation from '@/components/navigation/navigation';
 import { fetchChannels, fetchUsers } from '@/lib/data';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Background from '../../../public/assets/images/bg-welcome-01.png';
 import { Suspense, useState } from 'react';
+import { logout } from '@/lib/actions';
 
 export default async function MainLayout({ children }) {
   const [currentPage, setCurrentPage] = useState('');
@@ -96,6 +97,13 @@ export default async function MainLayout({ children }) {
           <Suspense>
             <Navigation channels={channels} users={users} />
           </Suspense>
+          <Box sx={{display: 'flex', justifyContent:'flex-end', mt: 'auto'}}>
+            <form action={logout}>
+              <Button variant='contained' type='submit' sx={{w:'100px', h:'42px', borderRadius: 0, gap: 1}}>
+                <img src='/assets/images/button-logout-01.png' style={{ width: '20px', height: '20px' }}/>  LOG_OUT
+              </Button>
+            </form>
+          </Box>
         </Box>
         {/* User List Section */}
         <Box component='section'

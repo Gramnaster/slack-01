@@ -84,7 +84,7 @@ export async function fetchDirectMessages(userId) {
 }
 
 export async function createNewUser(requestBody) {
-  console.log('createNewUser data received:', requestBody);
+  // console.log('createNewUser data received:', requestBody);
   
   if (!requestBody) throw new Error('createNewUser No form data found');
 
@@ -115,7 +115,7 @@ export async function createNewUser(requestBody) {
   try {
     const response = await axios.post(`${API_URL}/auth`, requestBody);
     if (response.data && response.data.status === 'success') {
-      console.log(`API New user created successfully:`, response.status);
+      // console.log(`API New user created successfully:`, response.status);
       return response.data;
     }
   } catch (error) {

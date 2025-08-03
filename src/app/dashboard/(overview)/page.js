@@ -24,7 +24,7 @@ export default function MainPage() {
       {/* eslint-disable-next-line */}
       <Typography sx={{ position: 'absolute', bottom: 60, right: 60 }}>// {formatDateToLocal('yearFormat')}-ALLRIGHTSRESERVED-COPYRIGHT:JPVILLALON </Typography>
       <div>
-        Dashboard
+        Dashboard Content
       </div>
     </>
   )
