@@ -84,17 +84,63 @@ export async function fetchDirectMessages(userId) {
   }
 }
 
-export async function postMessage(recipient, formData) {
+// I tried to combine the postMessage into one function for DRY purposes
+// But having to keep switching manually between 'User' or 'Channel'
+// And passing the right ID is huge headache
+// So I'm separating them for my mental health
+export async function postDirectMessage(recipient, formData) {
   if (!recipient || ! formData) return {};
   
   const message = formData.get('message');
   console.log('Posting message:', message, 'to:', recipient);
+
+  // Compiling the requestBody here so I don't have to do too many 'use server' components
+  const requestBody = {
+    receiver_id: Number(recipient.userId || recipient),
+    receiver_class: 'User',
+    body: message
+  };
+
   try {
     const api = await getAuthenticatedApi();
-    const response = await api.get();
+    const response = await api.post(`/messages`, requestBody);
+    console.log('postDirectMessage response:', response.data);
+    return response.data.data;
   } catch (error) {
-    console.error(`API Error posting messages to ${recipient}:`, error);
-    throw new Error('Failed to post messages');
+    if (error) {
+      // console.error(`API Error posting messages to user ${recipient}:`, error);
+      console.error(`API Error posting messages to user ${recipient}:`, {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        message: error.message
+      });
+      throw new Error('Failed to post messages to user');
+    }
+  }
+}
+
+export async function postChannelMessage(recipient, formData) {
+  if (!recipient || !formData) return {};
+
+  const message = formData.get('message');
+
+  const requestBody = {
+    receiver_id: Number(recipient.channelId || recipient),
+    receiver_class: 'Channel',
+    body: message
+  }; 
+
+  try {
+    const api = await getAuthenticatedApi();
+    const response = await api.post(`/messages`, requestBody);
+    console.log('postChannelMessage response: ', response.data);
+    return response.data.data;
+  } catch (error) {
+    if (error) {
+      console.error(`API Error posting messages to channel ${recipient}:`, error);
+      throw new Error('Failed to post messages to channel');
+    }
   }
 }
 
