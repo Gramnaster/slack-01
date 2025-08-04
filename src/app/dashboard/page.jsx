@@ -4,15 +4,20 @@
 // import { auth } from '../../../auth';
 import Navigation from '@/components/navigation/navigation';
 // import { fetchChannels, fetchUsers } from '@/lib/data';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography, useTheme } from '@mui/material';
 import Background from '../../../public/assets/images/bg-welcome-01.png';
-import { Suspense, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { logout } from '@/lib/actions';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import Image from 'next/image';
+import diamond from '../../../public/assets/images/list-diamondchevron-01.png';
 
 export default function MainLayout({ children, channels, users }) {
   // const [currentPage, setCurrentPage] = useState('');
   const [searchWord, setSearchWord] = useState('');
+  const pathname = usePathname();
+  const theme = useTheme();
   
   // Check authentication on the server side
   // const session = await auth();
@@ -40,6 +45,44 @@ export default function MainLayout({ children, channels, users }) {
 
   const handleSearchBar = (e) => {
     setSearchWord(e.target.value);
+  };
+
+   // Moved sorting above Navigation
+   // useMemo prevents re-sorting on every render.
+   // Create a copy before sorting to avoid mutating the original prop
+  const sortedUsers = useMemo(() => {
+    return [...users].sort((a, b) => a.id - b.id);
+  }, [users]);
+
+  const sortedChannels = useMemo(() => {
+    return [...channels].sort((a, b) => b.id - a.id);
+  }, [channels]);
+
+  // Get first id from already sorted lists
+  const firstUserId = sortedUsers.length > 0 ? sortedUsers[0].id : null;
+  const firstChannelId = sortedChannels.length > 0 ? sortedChannels[0].id : null;
+
+  const dmLink = firstUserId ? `/dashboard/dm/${firstUserId}` : '/dashboard/dm';
+  const chLink = firstChannelId ? `/dashboard/ch/${firstChannelId}` : '/dashboard/ch';
+
+  // Standard Next check for pathname, useful for determining whether Link is active
+  const isDmActive = pathname.startsWith('/dashboard/dm');
+  const isChActive = pathname.startsWith('/dashboard/ch');
+
+  const baseLinkStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '4px',
+    padding: '2px 4px',
+    textDecoration: 'none',
+    color: 'inherit',
+    fontFamily: "var(--font-roboto-mono), monospace",
+    fontSize: '12px',
+  };
+
+  const activeLinkStyle = {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.text.secondary,
   };
 
   return (
@@ -102,12 +145,21 @@ export default function MainLayout({ children, channels, users }) {
             }}>
             <Typography variant='body2' color='text.secondary'>./MAIN_MENU</Typography>
           </Box>
-          <Box sx={{display: 'flex', p: '4px', flexDirection: 'column', overflowY: 'auto'}}>
+          <Box sx={{display: 'flex', flexDirection: 'column'}}>
             <Suspense>
               {/* <Navigation channels={channels} users={users} /> */}
-              <Link href='/dm'>dir_msg</Link>
-              <Link href='/ch'>user_ch</Link>
-              <Navigation channels={channels} users={users} hideUsers searchWord={searchWord}/>
+              {/* Active link styling with reusable components */}
+              <Link href={dmLink} style={{ ...baseLinkStyle, ...(isDmActive && activeLinkStyle), height:'40px'  }}>
+                dir_msg
+                {isDmActive && <Image src={diamond} alt="active indicator" width={24} height={24} style={{marginLeft: 'auto'}} />}
+              </Link>
+              <Link href={chLink} style={{ ...baseLinkStyle, ...(isChActive && activeLinkStyle), height:'40px'  }}>
+                user_ch
+                {isChActive && <Image src={diamond} alt="active indicator" width={24} height={24} style={{marginLeft: 'auto'}} />}
+              </Link>
+              <Box sx={{display: 'flex', flexDirection: 'column', overflowY: 'auto', pb: '50px'}}>
+                <Navigation channels={sortedChannels} users={sortedUsers} hideUsers searchWord={searchWord}/>
+              </Box>
             </Suspense>
           </Box>
           <Box sx={{display: 'flex', justifyContent:'flex-end', mt: 'auto'}}>
@@ -118,6 +170,7 @@ export default function MainLayout({ children, channels, users }) {
             </form>
           </Box>
         </Box>
+
         {/* User List Section */}
         <Box component='section'
           sx={{
@@ -139,24 +192,25 @@ export default function MainLayout({ children, channels, users }) {
             <Typography variant='body2' color='text.secondary'>.//USER_LIST</Typography>
           </Box>
           <Box sx={{overflowY:'auto'}}>
-            <Box sx={{ p: '4px' }}>
-            <TextField
-              fullWidth
-              placeholder='Search...'
-              value={searchWord}
-              onChange={handleSearchBar}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                backgroundColor: 'transparent',
-                '& fieldset': { borderColor: '#FF7300' },
-                '&:hover fieldset': { borderColor: '#FF7300' },
-                '&.Mui-focused fieldset': { borderColor: '#FF7300' }},
-                '& input': { color: '#FF7300' },
-                '& input::placeholder': { color: 'rgba(255, 115, 0, 0.5)', opacity: 1 }
-              }}
-            />
+            <Box>
+              <TextField
+                fullWidth
+                placeholder='Search_user...'
+                value={searchWord}
+                onChange={handleSearchBar}
+                sx={{
+                  h: '40px',
+                  '& .MuiOutlinedInput-root': {
+                  backgroundColor: 'transparent',
+                  '& fieldset': { borderColor: '#FF7300' },
+                  '&:hover fieldset': { borderColor: '#FF7300' },
+                  '&.Mui-focused fieldset': { borderColor: '#FF7300' }},
+                  '& input': { color: '#FF7300' },
+                  '& input::placeholder': { color: 'rgba(255, 115, 0, 0.5)', opacity: 1 }
+                }}
+              />
           </Box>
-            <Navigation users={users} channels={channels} hideChannels searchWord={searchWord}/>
+            <Navigation users={sortedUsers} channels={sortedChannels} hideChannels searchWord={searchWord}/>
           </Box>
         </Box>
         {/* Messages Section */}

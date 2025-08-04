@@ -12,14 +12,14 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
   const theme = useTheme();
   const pathname = usePathname();
   // const [searchWord, setSearchWord] = useState('');
-  const [isClient, setIsClient] = useState(false);
+  // const [isClient, setIsClient] = useState(false);
 
   // I'm getting re-hydration issues with the userlist so we'll run
   // Client-side checks to ensure it rehydrates properly each time a change happens
   // Runs only on client after component mounts
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  // useEffect(() => {
+  //   setIsClient(true);
+  // }, []);
 
   // Filters through the current user list and sorts by descending id with standard sort
   const filteredUsers = users
@@ -33,25 +33,49 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
 
   // Applies sorting on client-side to prevent hydration mismatch
   // How do I even know what goes on client-side and server-side?
-  if (isClient) {
-    filteredUsers.sort((a,b) => a.id - b.id);
-    filteredChannels.sort((a,b) => b.id - a.id);
-  }
+  // if (isClient) {
+  //   filteredUsers.sort((a,b) => a.id - b.id);
+  //   filteredChannels.sort((a,b) => b.id - a.id);
+  // }
 
-  const handleSearchBar = (e) => {
-    setSearchWord(e.target.value);
-  };
+  // const handleSearchBar = (e) => {
+  //   setSearchWord(e.target.value);
+  // };
 
   // Themed style just like MUI's createTheme
   // But for vanilla
-  const linkStyle = { 
+  // const linkStyle = { 
+  //   fontFamily: "var(--font-roboto-mono), monospace", 
+  //   fontSize: '12px',
+  //   display: 'block',
+  //   whiteSpace: 'nowrap',
+  //   overflow: 'hidden',
+  //   textOverflow: 'ellipsis',
+  //   paddingRight: '10px',
+  // };
+  
+  // Define base and active styles for the links
+  const baseLinkStyle = { 
     fontFamily: "var(--font-roboto-mono), monospace", 
     fontSize: '12px',
-    display: 'block',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '4px',
+    padding: '2px 4px',
+    textDecoration: 'none',
+    color: 'inherit',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
+  };
+
+  const activeLinkStyle = {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.text.secondary,
+  };
+
+  const textSpanStyle = {
+    overflow: 'hidden',
     textOverflow: 'ellipsis',
-    paddingRight: '10px',
   };
 
   return (
@@ -59,7 +83,7 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
       {children}
 
       <Box>
-        {!hideUsers && (
+        {/* {!hideUsers && (
           <TextField
             fullWidth
             placeholder='Search_user...'
@@ -85,53 +109,50 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
                 opacity: 1,
               }
           }}/>
-        )}
+        )} */}
       </Box>
 
       {/* Users List */}
       {!hideUsers && (
-        <ul 
-          style={{
-            listStyle: 'none',
-            padding: 0,
-            margin: 0,
-        }}>
-          {filteredUsers.map((user) => (
-            <li key={user.id}>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+          {filteredUsers.map((user) => {
+            const isActive = pathname === `/dashboard/dm/${user.id}`;
+            return (
+            <li key={user.id} style={{height:'40px', border: '1px solid #FF7300'}}>
               <Link 
                 href={`/dashboard/dm/${user.id}`} 
-                style={{ 
-                  ...linkStyle,
-                  color: pathname === `/dashboard/dm/${user.id}` ? 'blue' : 'inherit' 
-              }}>
-                id:{user.id}-{user.email}
+                style={{ ...baseLinkStyle, ...(isActive && activeLinkStyle), height:'40px' }}
+              >
+                {/* <Box sx={{display:'flex', justifyContent:'space-between'}}> */}
+                  <span style={textSpanStyle}>id:{user.id}-{user.email}</span>
+                  {isActive && 
+                    <Image src={diamond} alt="active indicator" width={24} height={24} style={{marginLeft: 'auto'}}/>}
+                {/* </Box> */}
               </Link>
             </li>
-          ))} 
+            );
+          })} 
         </ul>
       )}
 
       {/* Channels List */}
       {!hideChannels && (
-        <ul 
-          style={{
-            listStyle: 'none',
-            padding: 0,
-            margin: 0,
-        }}>
-          {filteredChannels.map((channel) => (
-            <li key={channel.id}>
-              <Link 
-                href={`/dashboard/ch/${channel.id}`} 
-                style={{
-                  ...linkStyle,
-                  color: pathname === `/dashboard/ch/${channel.id}` ? 'blue' : 'inherit' 
-              }}>
-                ./+/:{channel.name} 
-                <Image src={diamond} alt="channel indicator" width={8} height={8} />
-              </Link>
-            </li>
-          ))}
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+          {filteredChannels.map((channel) => {
+            const isActive = pathname === `/dashboard/ch/${channel.id}`;
+            return (
+              <li key={channel.id} style={{height:'40px', border: '1px solid #FF7300'}}>
+                <Link 
+                  href={`/dashboard/ch/${channel.id}`} 
+                  style={{ ...baseLinkStyle, ...(isActive && activeLinkStyle), height:'40px' }}
+                >
+                  <span style={textSpanStyle}>./+/:{channel.name}</span>
+                  {isActive && 
+                    <Image src={diamond} alt="active indicator" width={24} height={24} style={{marginLeft: 'auto'}}/>}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       )}
       
