@@ -1,3 +1,6 @@
+
+'use server';
+
 import { fetchDirectMessages, postDirectMessage } from '@/lib/data';
 import { revalidatePath } from 'next/cache';
 import { auth } from '../../../../../auth';
@@ -49,7 +52,7 @@ export default async function DirectMessagePage({ params }) {
       {/* <MessageList messages={messages} />
       <MessageForm userId={resolvedParams.userId} /> */}
       {uniqueMessages.map((message) => {
-        const isCurrentUser = message.sender?.id === session.user.id;
+        const isCurrentUser = message.sender.id === session.user.id;
         console.log('[userId] uniqueMessages user:', isCurrentUser);
         return (
         <Box key={message.id}>

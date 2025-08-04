@@ -3,7 +3,7 @@
 // import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Codegen from '@/components/main-menu/codegen';
-import { Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import { formatDateToLocal } from '@/lib/utils';
 
 export default function MainPage() {
@@ -23,9 +23,10 @@ export default function MainPage() {
       <Typography sx={{ position: 'absolute', top: 60, right: 60 }}>{formatDateToLocal()} </Typography>
       {/* eslint-disable-next-line */}
       <Typography sx={{ position: 'absolute', bottom: 60, right: 60 }}>// {formatDateToLocal('yearFormat')}-ALLRIGHTSRESERVED-COPYRIGHT:JPVILLALON </Typography>
-      <div>
-        Dashboard Content
-      </div>
+      <Container>
+        {/* eslint-disable-next-line */}
+        <Typography variant='body2'>Welcome to Miscord's Homepage</Typography>
+      </Container>
     </>
   )
 }

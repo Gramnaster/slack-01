@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation';
 import { auth } from '../../../auth';
 import { fetchChannels, fetchUsers } from '@/lib/data';
-import MainLayout from './page';
+// import MainLayout from './page';
+import DashboardLayout from '@/ui/dashboard/dashboard-layout';
 
 // Moved async here at layout as server component
 // Because client and server components must be separated in Next
@@ -18,8 +19,8 @@ export default async function ServerMainLayout({ children }) {
 
   return (
     // <MainLayout>
-    <MainLayout channels={channels} users={users}>
+    <DashboardLayout channels={channels} users={users}>
       {children}
-    </MainLayout>
+    </DashboardLayout>
   );
 }

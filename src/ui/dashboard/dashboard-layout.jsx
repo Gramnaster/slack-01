@@ -14,7 +14,8 @@ import Image from 'next/image';
 import diamond from '../../../public/assets/images/list-diamondchevron-01.png';
 
 // Channels and users are fetcehd from dashboard/layout.jsx - the server component
-export default function MainLayout({ children, channels, users }) {
+// Added default arrays because if they don't, it will crash
+export default function DashboardLayout({ children, channels = [], users = [] }) {
   // const [currentPage, setCurrentPage] = useState('');
   const [searchWord, setSearchWord] = useState('');
   const pathname = usePathname();
