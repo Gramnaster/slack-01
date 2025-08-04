@@ -4,14 +4,16 @@
 // import { auth } from '../../../auth';
 import Navigation from '@/components/navigation/navigation';
 // import { fetchChannels, fetchUsers } from '@/lib/data';
-import { Box, Button, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Button, Container, TextField, Typography, useTheme } from '@mui/material';
 import Background from '../../../public/assets/images/bg-welcome-01.png';
-import { Suspense, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { logout } from '@/lib/actions';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import diamond from '../../../public/assets/images/list-diamondchevron-01.png';
+import Codegen from '@/components/main-menu/codegen';
+import { formatDateToLocal } from '@/lib/utils';
 
 // Channels and users are fetcehd from dashboard/layout.jsx - the server component
 // Added default arrays because if they don't, it will crash
@@ -53,6 +55,8 @@ export default function DashboardLayout({ children, channels = [], users = [] })
   // useMemo prevents re-sorting on every render.
   // Create a (shallow) copy before sorting to avoid mutating the original prop
   const sortedUsers = useMemo(() => {
+    // Returns mutated array where b is larger than a
+    // Returns array of increasing id
     return [...users].sort((a, b) => a.id - b.id);
   }, [users]);
 
@@ -92,11 +96,20 @@ export default function DashboardLayout({ children, channels = [], users = [] })
     borderBottom: '1px solid #1A1A1A'
   };
 
+  const [triNumber, setTriNumber] = useState('000 000 000 000');
+    
+  useEffect(() => {
+    // const handleStart = () => setIsLoading(true);
+    // const handleComplete = () => setIsLoading(false);
+    setTriNumber(Codegen());
+  }, []);
+
   return (
     <Box
       component='main'
       sx={{
         boxSizing: 'border-box',
+        position: 'relative',
         flex: 1,
         p: '2rem',
         m: 0,
@@ -108,7 +121,9 @@ export default function DashboardLayout({ children, channels = [], users = [] })
         backgroundPosition: 'center',
         aspectRatio: '16/9',
         display: 'flex',
-        flexDirection: { xs: 'column', sm: 'row'}
+        flexDirection: { xs: 'column', sm: 'row'},
+        // height: 'calc(100vh - 140px)',
+        overflow: 'hidden'
     }}>
       {/* Background Details */}
       <img src='/assets/images/bg-corner-topleft-01.png' style={{ position: 'absolute', top: 40, left: 40, width: '40px', height: '40px' }} alt="Top left corner design" />
@@ -118,6 +133,13 @@ export default function DashboardLayout({ children, channels = [], users = [] })
       <img src='/assets/images/bg-dots-squaretop-01.png' style={{ position: 'absolute', top: 40, left: '50%', transform: 'translateX(-50%)' }} alt="Center three dots" />
       <img src='/assets/images/bg-dots-bottom-01.png' style={{ position: 'absolute', bottom: 40, left: '50%', transform: 'translateX(-50%)' }} alt="Center three dots" />
       
+      <Typography sx={{ position: 'absolute', top: 60, left: 60 }}> USER-ACCESS-GRANTED // </Typography>
+      {/* eslint-disable-next-line */}
+      <Typography sx={{ position: 'absolute', bottom: 60, left: 60 }}>{triNumber} // </Typography>
+      <Typography sx={{ position: 'absolute', top: 60, right: 60 }}>{formatDateToLocal()} </Typography>
+      {/* eslint-disable-next-line */}
+      <Typography sx={{ position: 'absolute', bottom: 60, right: 60 }}>// {formatDateToLocal('yearFormat')}-ALLRIGHTSRESERVED-COPYRIGHT:JPVILLALON </Typography>
+
       {/* Primary container */}
       <Box component='main' 
         sx={{
@@ -141,8 +163,10 @@ export default function DashboardLayout({ children, channels = [], users = [] })
             flex: 1,
             flexDirection: 'column',
             w:'180px',
+            minWidth: '150px',
+            maxWidth: '180px',
             border: '1px solid #FF7300',
-            minWidth: 0,
+            // minWidth: 0,
         }}>
           {/* Section Header */}
           <Box 
@@ -181,7 +205,7 @@ export default function DashboardLayout({ children, channels = [], users = [] })
           </Box>
           <Box sx={{display: 'flex', justifyContent:'center', mt: 'auto', pb: 1}}>
             <form action={logout}>
-              <Button variant='contained' type='submit' fullWidth sx={{w:'100%', h:'42px', borderRadius:0, gap:1, display:'flex', justifyContent:'center'}}>
+              <Button variant='contained' type='submit' fullWidth sx={{width:'100%', height:'42px', borderRadius:0, gap:1, display:'flex', justifyContent:'center'}}>
                 <img src='/assets/images/button-logout-01.png' style={{ width: '20px', height: '20px' }}/>  LOG_OUT
               </Button>
             </form>
@@ -233,6 +257,7 @@ export default function DashboardLayout({ children, channels = [], users = [] })
             <Navigation users={sortedUsers} channels={sortedChannels} hideChannels searchWord={searchWord}/>
           </Box>
         </Box>
+
         {/* Messages Section */}
         <Box component='section'
           sx={{
@@ -241,23 +266,28 @@ export default function DashboardLayout({ children, channels = [], users = [] })
             flexDirection: 'column',
             w:'180px',
             border: '1px solid #FF7300',
-            overflowY:'auto'
+            // height: '100%',
+            minHeight: 0,
+            overflowY:'hidden'
         }}>
           {/* Section Header */}
-          <Box sx={{
+          {/* <Box sx={{
               display: 'flex', 
               flexDirection: 'row', 
               justifyContent: 'space-between',
-              h: '100%',
+              // h: '100%',
+              flexShrink: 0, 
               p: '4px',
               borderBottom: '1px solid #FF7300',
               borderLeft: '1px solid #1A1A1A',
               borderRight: '1px solid #1A1A1A',
-              backgroundColor: '#FF7300'}}>
+              backgroundColor: '#FF7300'
+          }}>
             <Typography variant='body2' color='text.secondary'>.///DIRECT_MESSAGES</Typography>
             <Typography variant='body2' color='text.secondary'>TO::/RYAN_JAVS_ALEA@YAHOO.COM</Typography>
-          </Box>
-          <Box sx={{display:'flex', flexDirection:'column', justifyContent:'flex-end', overflowY: 'auto'}}>
+          </Box> */}
+
+          <Box sx={{flex:1, overflow:'hidden', minHeight: 0}}>
             {children}
           </Box>
           

@@ -19,7 +19,7 @@ export default async function ServerMainLayout({ children }) {
 
   return (
     // <MainLayout>
-    <DashboardLayout channels={channels} users={users}>
+    <DashboardLayout channels={channels} users={users} sx={{display:'flex'}}>
       {children}
     </DashboardLayout>
   );

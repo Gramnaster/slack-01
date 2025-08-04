@@ -24,7 +24,7 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
   // Filters through the current user list and sorts by descending id with standard sort
   const filteredUsers = users
     .filter((user) => user.email.toLowerCase().includes(searchWord.toLowerCase()))
-    // .sort((a,b) => b.id - a.id);
+    // .sort((a,b) => a.id - b.id);
 
   // Filters through the current channel list and sorts by id descending
   const filteredChannels = channels
@@ -124,6 +124,7 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
               <Box 
                 component={Link}
                 href={`/dashboard/dm/${user.id}`} 
+                // onClick={(e) => set}
                 sx={{ 
                   ...baseLinkStyle, 
                   ...(isActive && activeLinkStyle), 

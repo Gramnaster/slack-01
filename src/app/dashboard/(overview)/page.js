@@ -3,7 +3,7 @@
 // import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Codegen from '@/components/main-menu/codegen';
-import { Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import { formatDateToLocal } from '@/lib/utils';
 
 export default function MainPage() {
@@ -16,17 +16,18 @@ export default function MainPage() {
     setTriNumber(Codegen());
   }, []);
   return (
-    <>
-      <Typography sx={{ position: 'absolute', top: 60, left: 60 }}> USER-ACCESS-GRANTED // </Typography>
+    <Box sx={{display:'flex'}}>
+      {/* <Typography sx={{ position: 'absolute', top: 60, left: 60 }}> USER-ACCESS-GRANTED // </Typography> */}
       {/* eslint-disable-next-line */}
-      <Typography sx={{ position: 'absolute', bottom: 60, left: 60 }}>{triNumber} // </Typography>
-      <Typography sx={{ position: 'absolute', top: 60, right: 60 }}>{formatDateToLocal()} </Typography>
+      {/* <Typography sx={{ position: 'absolute', bottom: 60, left: 60 }}>{triNumber} // </Typography> */}
+      {/* <Typography sx={{ position: 'absolute', top: 60, right: 60 }}>{formatDateToLocal()} </Typography> */}
       {/* eslint-disable-next-line */}
-      <Typography sx={{ position: 'absolute', bottom: 60, right: 60 }}>// {formatDateToLocal('yearFormat')}-ALLRIGHTSRESERVED-COPYRIGHT:JPVILLALON </Typography>
-      <Container>
-        {/* eslint-disable-next-line */}
-        <Typography variant='body2'>Welcome to Miscord's Homepage</Typography>
+      {/* <Typography sx={{ position: 'absolute', bottom: 60, right: 60 }}>// {formatDateToLocal('yearFormat')}-ALLRIGHTSRESERVED-COPYRIGHT:JPVILLALON </Typography> */}
+      <Container sx={{position:'relative', display:'flex', justifyContent:'center', alignItems:'center', alignContents:'center', alignSelf:'center', textAlign: 'center',}}>
+        <Typography variant='body2' sx={{ position:'absolute', top: '50%', left: '50%', transform: 'translateX(-50%)', h:'100%'  }}> {/* eslint-disable-next-line */}
+          Welcome to Miscord's Homepage
+          </Typography>
       </Container>
-    </>
+    </Box>
   )
 }
