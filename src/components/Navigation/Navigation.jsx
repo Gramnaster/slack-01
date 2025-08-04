@@ -3,26 +3,55 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 // import { logout } from '../../lib/actions';
-import { Box, Button, TextField } from '@mui/material';
-import { useState } from 'react';
+import { Box, Button, TextField, useTheme } from '@mui/material';
+import { useEffect, useState } from 'react';
+import diamond from '../../../public/assets/images/list-diamondchevron-01.png';
+import Image from 'next/image';
 
-export default function Navigation({ channels = [], users = [], children }) {
+export default function Navigation({ channels = [], users = [], searchWord = '', children, hideUsers = false, hideChannels = false  }) {
+  const theme = useTheme();
   const pathname = usePathname();
-  const [searchWord, setSearchWord] = useState('');
+  // const [searchWord, setSearchWord] = useState('');
+  const [isClient, setIsClient] = useState(false);
+
+  // I'm getting re-hydration issues with the userlist so we'll run
+  // Client-side checks to ensure it rehydrates properly each time a change happens
+  // Runs only on client after component mounts
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Filters through the current user list and sorts by descending id with standard sort
   const filteredUsers = users
     .filter((user) => user.email.toLowerCase().includes(searchWord.toLowerCase()))
-    .sort((a,b) => b.id - a.id);
+    // .sort((a,b) => b.id - a.id);
 
   // Filters through the current channel list and sorts by id descending
   const filteredChannels = channels
     .filter((channel) => channel.name.toLowerCase().includes(searchWord.toLowerCase()))
-    .sort((a,b) => b.id - a.id);
+    // .sort((a,b) => b.id - a.id);
 
+  // Applies sorting on client-side to prevent hydration mismatch
+  // How do I even know what goes on client-side and server-side?
+  if (isClient) {
+    filteredUsers.sort((a,b) => a.id - b.id);
+    filteredChannels.sort((a,b) => b.id - a.id);
+  }
 
   const handleSearchBar = (e) => {
     setSearchWord(e.target.value);
+  };
+
+  // Themed style just like MUI's createTheme
+  // But for vanilla
+  const linkStyle = { 
+    fontFamily: "var(--font-roboto-mono), monospace", 
+    fontSize: '12px',
+    display: 'block',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    paddingRight: '10px',
   };
 
   return (
@@ -30,54 +59,81 @@ export default function Navigation({ channels = [], users = [], children }) {
       {children}
 
       <Box>
-        <TextField
-          fullWidth
-          placeholder='Search_user...'
-          value={searchWord}
-          onChange={handleSearchBar}
-          sx={{
-            '& .MuiOutlinedInput-root': {
-            backgroundColor: 'transparent',
-            '& fieldset': {
-              borderColor: '#FF7300',
-            },
-            '&:hover fieldset': {
-              borderColor: '#FF7300',
-            },
-            '&.Mui-focused fieldset': {
-              borderColor: '#FF7300',
-            }},
-            '& input': {
-              color: '#FF7300',
-            },
-            '& input::placeholder': {
-              color: 'rgba(255, 115, 0, 0.5)',
-              opacity: 1,
-            }
-        }}/>
+        {!hideUsers && (
+          <TextField
+            fullWidth
+            placeholder='Search_user...'
+            value={searchWord}
+            onChange={handleSearchBar}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+              backgroundColor: 'transparent',
+              '& fieldset': {
+                borderColor: '#FF7300',
+              },
+              '&:hover fieldset': {
+                borderColor: '#FF7300',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#FF7300',
+              }},
+              '& input': {
+                color: '#FF7300',
+              },
+              '& input::placeholder': {
+                color: 'rgba(255, 115, 0, 0.5)',
+                opacity: 1,
+              }
+          }}/>
+        )}
       </Box>
 
       {/* Users List */}
-      <ul>
-        {filteredUsers.map((user) => (
-          <li key={user.id}>
-            <Link href={`/dashboard/dm/${user.id}`} style={{ color: pathname === `/dashboard/dm/${user.id}` ? 'blue' : 'inherit' }}>
-              {user.email}
-            </Link>
-          </li>
-        ))} 
-      </ul>
+      {!hideUsers && (
+        <ul 
+          style={{
+            listStyle: 'none',
+            padding: 0,
+            margin: 0,
+        }}>
+          {filteredUsers.map((user) => (
+            <li key={user.id}>
+              <Link 
+                href={`/dashboard/dm/${user.id}`} 
+                style={{ 
+                  ...linkStyle,
+                  color: pathname === `/dashboard/dm/${user.id}` ? 'blue' : 'inherit' 
+              }}>
+                id:{user.id}-{user.email}
+              </Link>
+            </li>
+          ))} 
+        </ul>
+      )}
 
       {/* Channels List */}
-      <ul>
-        {filteredChannels.map((channel) => (
-          <li key={channel.id}>
-            <Link href={`/dashboard/ch/${channel.id}`} style={{ color: pathname === `/dashboard/ch/${channel.id}` ? 'blue' : 'inherit' }}>
-              # {channel.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {!hideChannels && (
+        <ul 
+          style={{
+            listStyle: 'none',
+            padding: 0,
+            margin: 0,
+        }}>
+          {filteredChannels.map((channel) => (
+            <li key={channel.id}>
+              <Link 
+                href={`/dashboard/ch/${channel.id}`} 
+                style={{
+                  ...linkStyle,
+                  color: pathname === `/dashboard/ch/${channel.id}` ? 'blue' : 'inherit' 
+              }}>
+                ./+/:{channel.name} 
+                <Image src={diamond} alt="channel indicator" width={8} height={8} />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
       
     </nav>
   );

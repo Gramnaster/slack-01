@@ -10,14 +10,21 @@ export default async function DirectMessagePage({ params }) {
   const resolvedParams = await params;
   const messages = await fetchDirectMessages(resolvedParams.userId);
 
+
+  // No duplicate IDs so creates a new array and displays only one message
+  const uniqueMessages = Array.from(
+    new Map(messages.map(msg => [msg.id, msg])).values()
+  );
+
   // const action = channelId 
   //    ? postMessage.bind(null, { channelId })
   //    : postMessage.bind(null, { userId });
 
+  // More straightforward implementation of passing formData
+  // to the data.js PostMessage function
   async function sendMessage(formData) {
     'use server';
     
-
     try {
       await postDirectMessage(resolvedParams.userId, formData);
       // Refresh the page data so I can receive messages without refreshing it
@@ -34,7 +41,7 @@ export default async function DirectMessagePage({ params }) {
       <h1>Conversation with User {resolvedParams.userId}</h1>
       {/* <MessageList messages={messages} />
       <MessageForm userId={resolvedParams.userId} /> */}
-      {messages.map((message) => (
+      {uniqueMessages.map((message) => (
         <div key={message.id}>
           <p><strong>{message.sender?.email || 'Unknown'}:</strong>{message.body}</p>
           <small>{message.created_at}</small>
