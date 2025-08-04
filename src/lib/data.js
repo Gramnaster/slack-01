@@ -38,11 +38,13 @@ export async function fetchChannels() {
   try {
     const api = await getAuthenticatedApi();
     const response = await api.get('/channels');
-    console.log('fetchChannels response:', response.data.data);
+    // console.log('fetchChannels response:', response.data.data);
     return response.data.data;
   } catch (error) {
-    console.error('API Error fetching channels:', error);
-    throw new Error('Failed to fetch channels.');
+    if (error) {
+      console.error('API Error fetching channels:', error);
+      throw new Error('Failed to fetch channels.');
+    }
   }
 }
 
@@ -50,9 +52,12 @@ export async function fetchUsers() {
   try {
     const api = await getAuthenticatedApi();
     const response = await api.get('/users');
-    console.log('fetchUsers response:', response.data.data);
+    // console.log('fetchUsers response:', response.data.data);
     return response.data.data;
   } catch (error) {
+    if (error.code === 'ECONNRESET') {
+      console.error('The connection was reset.');
+    }
     console.error('API Error fetching users:', error);
     throw new Error('Failed to fetch users.');
   }
@@ -63,11 +68,13 @@ export async function fetchChannelMessages(channelId) {
   try {
     const api = await getAuthenticatedApi();
     const response = await api.get(`/messages?receiver_id=${channelId}&receiver_class=Channel`);
-    console.log(`fetchChannelMessages${channelId} response:`, response.data.data);
+    // console.log(`fetchChannelMessages${channelId} response:`, response.data.data);
     return response.data.data;
   } catch (error) {
-    console.error(`API Error fetching messages for channel ${channelId}:`, error);
-    throw new Error('Failed to fetch channel messages.');
+    if (error) {
+      console.error(`API Error fetching messages for channel ${channelId}:`, error);
+      throw new Error('Failed to fetch channel messages.');
+    }
   }
 }
 
@@ -76,11 +83,13 @@ export async function fetchDirectMessages(userId) {
   try {
     const api = await getAuthenticatedApi();
     const response = await api.get(`/messages?receiver_id=${userId}&receiver_class=User`);
-    console.log(`fetchDirectMessages${userId} response:`, response.data.data);
+    // console.log(`fetchDirectMessages${userId} response:`, response.data.data);
     return response.data.data;
   } catch (error) {
-    console.error(`API Error fetching messages for user ${userId}:`, error);
-    throw new Error('Failed to fetch direct messages.');
+    if (error) {
+      console.error(`API Error fetching messages for user ${userId}:`, error);
+      throw new Error('Failed to fetch direct messages.');
+    }
   }
 }
 
@@ -89,12 +98,13 @@ export async function fetchChannelDetails(channelId) {
   try {
     const api = await getAuthenticatedApi();
     const response = await api.get(`/channels/${channelId}`);
-    console.log(`fetchChannelDetails${channelId} response:`, response.data.data);
+    // console.log(`fetchChannelDetails${channelId} response:`, response.data.data);
     return response.data.data;
   } catch (error) {
-    if (error)
+    if (error) {
       console.error(`API Error fetching channel details for ${channelId}:`, error);
-    throw new Error('Failed to fetch channel details');
+      throw new Error('Failed to fetch channel details');
+    }
   }
 }
 
@@ -118,7 +128,7 @@ export async function postDirectMessage(recipient, formData) {
   try {
     const api = await getAuthenticatedApi();
     const response = await api.post(`/messages`, requestBody);
-    console.log('postDirectMessage response:', response.data);
+    // console.log('postDirectMessage response:', response.data);
     return response.data.data;
   } catch (error) {
     if (error) {
@@ -148,7 +158,7 @@ export async function postChannelMessage(recipient, formData) {
   try {
     const api = await getAuthenticatedApi();
     const response = await api.post(`/messages`, requestBody);
-    console.log('postChannelMessage response: ', response.data);
+    // console.log('postChannelMessage response: ', response.data);
     return response.data.data;
   } catch (error) {
     if (error) {

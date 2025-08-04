@@ -49,9 +49,9 @@ export default function DashboardLayout({ children, channels = [], users = [] })
     setSearchWord(e.target.value);
   };
 
-   // Moved sorting above Navigation
-   // useMemo prevents re-sorting on every render.
-   // Create a (shallow) copy before sorting to avoid mutating the original prop
+  // Moved sorting above Navigation
+  // useMemo prevents re-sorting on every render.
+  // Create a (shallow) copy before sorting to avoid mutating the original prop
   const sortedUsers = useMemo(() => {
     return [...users].sort((a, b) => a.id - b.id);
   }, [users]);
@@ -88,6 +88,8 @@ export default function DashboardLayout({ children, channels = [], users = [] })
   const activeLinkStyle = {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.text.secondary,
+    borderTop: '1px solid #1A1A1A',
+    borderBottom: '1px solid #1A1A1A'
   };
 
   return (
@@ -131,6 +133,7 @@ export default function DashboardLayout({ children, channels = [], users = [] })
           border: '2px solid #FF7300',
           backgroundColor: '#251A1399'
       }}>
+
         {/* Main Menu Section */}
         <Box component='section'
           sx={{
@@ -141,6 +144,7 @@ export default function DashboardLayout({ children, channels = [], users = [] })
             border: '1px solid #FF7300',
             minWidth: 0,
         }}>
+          {/* Section Header */}
           <Box 
             sx={{
               h: '100%',
@@ -149,28 +153,35 @@ export default function DashboardLayout({ children, channels = [], users = [] })
               borderRight: '1px solid #1A1A1A',
               backgroundColor: '#FF7300'
             }}>
-            <Typography variant='body2' color='text.secondary'>./MAIN_MENU</Typography>
+            <Box component={Link} href='/dashboard'>
+              <Typography variant='body2' color='text.secondary'>./MAIN_MENU</Typography>
+            </Box>
           </Box>
           <Box sx={{display: 'flex', flexDirection: 'column'}}>
             <Suspense>
-              {/* <Navigation channels={channels} users={users} /> */}
               {/* Active link styling with reusable components */}
-              <Link href={dmLink} style={{ ...baseLinkStyle, ...(isDmActive && activeLinkStyle), height:'40px'  }}>
+              <Box component={Link} href={dmLink} 
+                sx={{ ...baseLinkStyle, ...(isDmActive && activeLinkStyle), height:'40px', border: '1px solid #FF7300',
+                  ...(!isDmActive && {'&:hover': { backgroundColor: '#ff73003e' }}),
+              }}>
                 dir_msg
-                {isDmActive && <Image src={diamond} alt="active indicator" width={24} height={24} style={{marginLeft: 'auto'}} />}
-              </Link>
-              <Link href={chLink} style={{ ...baseLinkStyle, ...(isChActive && activeLinkStyle), height:'40px'  }}>
+                {isDmActive && <Image src={diamond} alt="active indicator" width={18} height={18} style={{marginLeft: 'auto'}} />}
+              </Box>
+              <Box component={Link} href={chLink} 
+                sx={{ ...baseLinkStyle, ...(isChActive && activeLinkStyle), height:'40px', border: '1px solid #FF7300',
+                  ...(!isChActive && {'&:hover': { backgroundColor: '#ff73003e' }}),
+              }}>
                 user_ch
-                {isChActive && <Image src={diamond} alt="active indicator" width={24} height={24} style={{marginLeft: 'auto'}} />}
-              </Link>
+                {isChActive && <Image src={diamond} alt="active indicator" width={18} height={18} style={{marginLeft: 'auto'}} />}
+              </Box>
               <Box sx={{display: 'flex', flexDirection: 'column', overflowY: 'auto', pb: '50px'}}>
                 <Navigation channels={sortedChannels} users={sortedUsers} hideUsers searchWord={searchWord}/>
               </Box>
             </Suspense>
           </Box>
-          <Box sx={{display: 'flex', justifyContent:'flex-end', mt: 'auto'}}>
+          <Box sx={{display: 'flex', justifyContent:'center', mt: 'auto', pb: 1}}>
             <form action={logout}>
-              <Button variant='contained' type='submit' sx={{w:'100px', h:'42px', borderRadius: 0, gap: 1}}>
+              <Button variant='contained' type='submit' fullWidth sx={{w:'100%', h:'42px', borderRadius:0, gap:1, display:'flex', justifyContent:'center'}}>
                 <img src='/assets/images/button-logout-01.png' style={{ width: '20px', height: '20px' }}/>  LOG_OUT
               </Button>
             </form>
@@ -186,6 +197,7 @@ export default function DashboardLayout({ children, channels = [], users = [] })
             w:'180px',
             border: '1px solid #FF7300'
         }}>
+          {/* Section Header */}
           <Box sx={{
             h: '100%',
             p: '4px',
@@ -198,11 +210,13 @@ export default function DashboardLayout({ children, channels = [], users = [] })
             <Typography variant='body2' color='text.secondary'>.//USER_LIST</Typography>
           </Box>
           <Box sx={{overflowY:'auto'}}>
+            {/* Search Bar for UserList */}
             <Box>
               <TextField
                 fullWidth
                 placeholder='Search_user...'
                 value={searchWord}
+                size='small'
                 onChange={handleSearchBar}
                 sx={{
                   h: '40px',
@@ -211,8 +225,8 @@ export default function DashboardLayout({ children, channels = [], users = [] })
                   '& fieldset': { borderColor: '#FF7300' },
                   '&:hover fieldset': { borderColor: '#FF7300' },
                   '&.Mui-focused fieldset': { borderColor: '#FF7300' }},
-                  '& input': { color: '#FF7300' },
-                  '& input::placeholder': { color: 'rgba(255, 115, 0, 0.5)', opacity: 1 }
+                  '& input': { color: '#FF7300', fontSize: '12px' },
+                  '& input::placeholder': { color: 'rgba(255, 115, 0, 0.5)', opacity: 1, fontSize: '12px' }
                 }}
               />
           </Box>
@@ -226,8 +240,10 @@ export default function DashboardLayout({ children, channels = [], users = [] })
             flex: 5,
             flexDirection: 'column',
             w:'180px',
-            border: '1px solid #FF7300'
+            border: '1px solid #FF7300',
+            overflowY:'auto'
         }}>
+          {/* Section Header */}
           <Box sx={{
               display: 'flex', 
               flexDirection: 'row', 
@@ -241,7 +257,7 @@ export default function DashboardLayout({ children, channels = [], users = [] })
             <Typography variant='body2' color='text.secondary'>.///DIRECT_MESSAGES</Typography>
             <Typography variant='body2' color='text.secondary'>TO::/RYAN_JAVS_ALEA@YAHOO.COM</Typography>
           </Box>
-          <Box>
+          <Box sx={{display:'flex', flexDirection:'column', justifyContent:'flex-end', overflowY: 'auto'}}>
             {children}
           </Box>
           
@@ -255,6 +271,7 @@ export default function DashboardLayout({ children, channels = [], users = [] })
             w:'180px',
             border: '1px solid #FF7300'
         }}>
+          {/* Section Header */}
           <Box sx={{
             h: '100%',
             p: '4px',

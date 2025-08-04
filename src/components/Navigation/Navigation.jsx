@@ -138,7 +138,7 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
                 {/* <Box sx={{display:'flex', justifyContent:'space-between'}}> */}
                   <span style={textSpanStyle}>id:{user.id}-{user.email}</span>
                   {isActive && 
-                    <Image src={diamond} alt="active indicator" width={24} height={24} style={{marginLeft: 'auto'}}/>}
+                    <Image src={diamond} alt="active indicator" width={18} height={18} style={{marginLeft: 'auto'}}/>}
                 {/* </Box> */}
               </Box>
             </li>
@@ -171,7 +171,7 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
                 }}>
                   <span style={textSpanStyle}>./+/:{channel.name}</span>
                   {isActive && 
-                    <Image src={diamond} alt="active indicator" width={24} height={24} style={{marginLeft: 'auto'}}/>}
+                    <Image src={diamond} alt="active indicator" width={18} height={18} style={{marginLeft: 'auto'}}/>}
                 </Box>
               </li>
             );
