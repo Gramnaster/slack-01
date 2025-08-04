@@ -84,6 +84,20 @@ export async function fetchDirectMessages(userId) {
   }
 }
 
+export async function fetchChannelDetails(channelId) {
+  if (!channelId) return {};
+  try {
+    const api = await getAuthenticatedApi();
+    const response = await api.get(`/channels/${channelId}`);
+    console.log(`fetchChannelDetails${channelId} response:`, response.data.data);
+    return response.data.data;
+  } catch (error) {
+    if (error)
+      console.error(`API Error fetching channel details for ${channelId}:`, error);
+    throw new Error('Failed to fetch channel details');
+  }
+}
+
 // I tried to combine the postMessage into one function for DRY purposes
 // But having to keep switching manually between 'User' or 'Channel'
 // And passing the right ID is huge headache

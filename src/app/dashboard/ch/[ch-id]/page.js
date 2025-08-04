@@ -4,16 +4,16 @@ import { revalidatePath } from 'next/cache';
 export default async function ChannelPage({ params }) {
   // Because we need to wait for the params to arrive
   // These declarations need await
-  const resolvedParams = await params;
-  const messages = await fetchChannelMessages(resolvedParams['ch-id']);
+  const refreshedParams = await params;
+  const messages = await fetchChannelMessages(refreshedParams['ch-id']);
 
   async function sendMessage(formData) {
     'use server';
     
     try {
-      await postChannelMessage(resolvedParams['ch-id'], formData);
+      await postChannelMessage(refreshedParams['ch-id'], formData);
       // Refresh the page data so I can receive messages without refreshing it
-      revalidatePath(`/dashboard/ch/${resolvedParams['ch-id']}`);
+      revalidatePath(`/dashboard/ch/${refreshedParams['ch-id']}`);
     } catch (error) {
       if (error) {
         console.error('Failed to send message:', error);
@@ -23,7 +23,7 @@ export default async function ChannelPage({ params }) {
 
   return (
     <div>
-      <h1>Channel {resolvedParams['ch-id']}</h1>
+      <h1>Channel {refreshedParams['ch-id']}</h1>
       {messages.map((message) => (
         <div key={message.id}>
           <p><strong>{message.sender?.email || 'Unknown'}:</strong>{message.body}</p>

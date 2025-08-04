@@ -13,6 +13,7 @@ import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import diamond from '../../../public/assets/images/list-diamondchevron-01.png';
 
+// Channels and users are fetcehd from dashboard/layout.jsx - the server component
 export default function MainLayout({ children, channels, users }) {
   // const [currentPage, setCurrentPage] = useState('');
   const [searchWord, setSearchWord] = useState('');
@@ -49,7 +50,7 @@ export default function MainLayout({ children, channels, users }) {
 
    // Moved sorting above Navigation
    // useMemo prevents re-sorting on every render.
-   // Create a copy before sorting to avoid mutating the original prop
+   // Create a (shallow) copy before sorting to avoid mutating the original prop
   const sortedUsers = useMemo(() => {
     return [...users].sort((a, b) => a.id - b.id);
   }, [users]);
@@ -58,10 +59,12 @@ export default function MainLayout({ children, channels, users }) {
     return [...channels].sort((a, b) => b.id - a.id);
   }, [channels]);
 
-  // Get first id from already sorted lists
+  // Get first id from already sorted lists for navigation purposes
+  // So dmLink and chLink, when clicked, automatically goes to the first on the list
   const firstUserId = sortedUsers.length > 0 ? sortedUsers[0].id : null;
   const firstChannelId = sortedChannels.length > 0 ? sortedChannels[0].id : null;
 
+  // If userId/channelId not found, redirect to empty page
   const dmLink = firstUserId ? `/dashboard/dm/${firstUserId}` : '/dashboard/dm';
   const chLink = firstChannelId ? `/dashboard/ch/${firstChannelId}` : '/dashboard/ch';
 
@@ -69,6 +72,7 @@ export default function MainLayout({ children, channels, users }) {
   const isDmActive = pathname.startsWith('/dashboard/dm');
   const isChActive = pathname.startsWith('/dashboard/ch');
 
+  // Styles for the link's active and non-active state
   const baseLinkStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -111,6 +115,7 @@ export default function MainLayout({ children, channels, users }) {
       <img src='/assets/images/bg-dots-squaretop-01.png' style={{ position: 'absolute', top: 40, left: '50%', transform: 'translateX(-50%)' }} alt="Center three dots" />
       <img src='/assets/images/bg-dots-bottom-01.png' style={{ position: 'absolute', bottom: 40, left: '50%', transform: 'translateX(-50%)' }} alt="Center three dots" />
       
+      {/* Primary container */}
       <Box component='main' 
         sx={{
           flex: 1,

@@ -1,10 +1,10 @@
-'use client';
+// 'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 // import { logout } from '../../lib/actions';
-import { Box, Button, TextField, useTheme } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, useTheme } from '@mui/material';
+// import { useEffect, useState } from 'react';
 import diamond from '../../../public/assets/images/list-diamondchevron-01.png';
 import Image from 'next/image';
 
@@ -54,7 +54,7 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
   //   paddingRight: '10px',
   // };
   
-  // Define base and active styles for the links
+  // Normal and Active styles for the links
   const baseLinkStyle = { 
     fontFamily: "var(--font-roboto-mono), monospace", 
     fontSize: '12px',
@@ -119,16 +119,28 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
             const isActive = pathname === `/dashboard/dm/${user.id}`;
             return (
             <li key={user.id} style={{height:'40px', border: '1px solid #FF7300'}}>
-              <Link 
+              {/* Hover and active effects */}
+              {/* Box with component=Link replaces the Link so we can use sx */}
+              <Box 
+                component={Link}
                 href={`/dashboard/dm/${user.id}`} 
-                style={{ ...baseLinkStyle, ...(isActive && activeLinkStyle), height:'40px' }}
-              >
+                sx={{ 
+                  ...baseLinkStyle, 
+                  ...(isActive && activeLinkStyle), 
+                  height:'40px',
+                  border: '1px solid #FF7300',
+                  ...(!isActive && {
+                    '&:hover': {
+                      backgroundColor: '#ff73003e',
+                    },
+                  }),
+                }}>
                 {/* <Box sx={{display:'flex', justifyContent:'space-between'}}> */}
                   <span style={textSpanStyle}>id:{user.id}-{user.email}</span>
                   {isActive && 
                     <Image src={diamond} alt="active indicator" width={24} height={24} style={{marginLeft: 'auto'}}/>}
                 {/* </Box> */}
-              </Link>
+              </Box>
             </li>
             );
           })} 
@@ -142,14 +154,25 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
             const isActive = pathname === `/dashboard/ch/${channel.id}`;
             return (
               <li key={channel.id} style={{height:'40px', border: '1px solid #FF7300'}}>
-                <Link 
+                {/* Hover and active effects */}
+                <Box
+                  component={Link} 
                   href={`/dashboard/ch/${channel.id}`} 
-                  style={{ ...baseLinkStyle, ...(isActive && activeLinkStyle), height:'40px' }}
-                >
+                  sx={{ 
+                  ...baseLinkStyle, 
+                  ...(isActive && activeLinkStyle), 
+                  height:'40px',
+                  border: '1px solid #FF7300',
+                  ...(!isActive && {
+                    '&:hover': {
+                      backgroundColor: '#ff73003e',
+                    },
+                  }),
+                }}>
                   <span style={textSpanStyle}>./+/:{channel.name}</span>
                   {isActive && 
                     <Image src={diamond} alt="active indicator" width={24} height={24} style={{marginLeft: 'auto'}}/>}
-                </Link>
+                </Box>
               </li>
             );
           })}

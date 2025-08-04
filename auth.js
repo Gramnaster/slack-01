@@ -97,6 +97,9 @@ export const { auth, signIn, signOut } = NextAuth({
       session.user.email = token.email;
       session.apiHeaders = token.apiHeaders;
       console.log('Auth.js: Returning session:', session);
+      if (token?.id) {
+        session.user.id = token.id;
+      }
       if (token?.apiHeaders) {
         session.user.apiHeaders = token.apiHeaders;
       }
