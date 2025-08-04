@@ -1,8 +1,10 @@
+import { Box } from "@mui/material";
+
 export default function ChannelMessageLayout({ children }) {
   return (
-    <div>
+    <Box sx={{height:'100%'}}>
       {/* Basic layout for now */}
       {children}
-    </div>
+    </Box>
   );
 }

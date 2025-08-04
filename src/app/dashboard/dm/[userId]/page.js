@@ -4,7 +4,7 @@
 import { fetchDirectMessages, postDirectMessage } from '@/lib/data';
 import { revalidatePath } from 'next/cache';
 import { auth } from '../../../../../auth';
-import { Box, Button, InputLabel, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 // import { MessageForm } from '@/components/message-form';
 // import { MessageList } from '@/components/message-list';
 // import { auth } from '../../../../../auth';
@@ -101,6 +101,7 @@ export default async function DirectMessagePage({ params }) {
             flex:1, 
             overflowY: 'auto', 
             minHeight: 0,
+            // flexDirection: 'column-reverse'
           // justifyContent:'flex-end'
         }}>
           {/* <MessageList messages={messages} />
