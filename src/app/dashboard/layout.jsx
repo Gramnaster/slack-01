@@ -1,10 +1,9 @@
 import { redirect } from 'next/navigation';
 import { auth } from '../../../auth';
 import { fetchChannels, fetchUsers } from '@/lib/data';
-import DashboardClientLayout from './dashboard-client-layout'; // Import the new client layout
+import MainLayout from './page';
 
-export default async function MainLayout({ children }) {
-  // 1. Authenticate and fetch data on the server
+export default async function ServerMainLayout({ children }) {
   const session = await auth();
   if (!session) {
     redirect('/login');
@@ -15,10 +14,10 @@ export default async function MainLayout({ children }) {
     fetchUsers(session)
   ]);
 
-  // 2. Render the Client Component and pass the fetched data as props
   return (
-    <DashboardClientLayout channels={channels} users={users}>
+    // <MainLayout>
+    <MainLayout channels={channels} users={users}>
       {children}
-    </DashboardClientLayout>
+    </MainLayout>
   );
 }

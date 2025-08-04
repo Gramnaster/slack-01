@@ -10,7 +10,7 @@ import { Suspense, useState } from 'react';
 import { logout } from '@/lib/actions';
 import Link from 'next/link';
 
-export default async function MainLayout({ children, channels, users }) {
+export default function MainLayout({ children, channels, users }) {
   // const [currentPage, setCurrentPage] = useState('');
   const [searchWord, setSearchWord] = useState('');
   
