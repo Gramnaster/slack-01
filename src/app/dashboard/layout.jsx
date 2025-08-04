@@ -156,6 +156,9 @@ export default async function MainLayout({ children }) {
             <Typography variant='body2' color='text.secondary'>.///DIRECT_MESSAGES</Typography>
             <Typography variant='body2' color='text.secondary'>TO::/RYAN_JAVS_ALEA@YAHOO.COM</Typography>
           </Box>
+          <Box>
+            {children}
+          </Box>
           
         </Box>
         {/* Console Section */}

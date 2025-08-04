@@ -6,14 +6,15 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 // Helper function to create an Axios instance with auth headers from a server component
 // The rest of the file's essentially just various fetches that are server side instead of client
 // Because iirc it won't work / will work slowly with 'use client'
-async function getAuthenticatedApi(session) {
+async function getAuthenticatedApi() {
+  const session = await auth();
+  
   // Checks session instead of revalidating every damn time lmao
   if (!session?.user?.apiHeaders) {
     console.error('getAuthenticatedApi: No session or API headers found.');
     throw new Error('Authentication required.');
   }
   
-  // const session = await auth();
   console.log('getAuthenticatedApi: Session:', session);
   console.log('getAuthenticatedApi: API Headers:', session?.apiHeaders);
   
@@ -33,9 +34,9 @@ async function getAuthenticatedApi(session) {
   return api;
 }
 
-export async function fetchChannels(session) {
+export async function fetchChannels() {
   try {
-    const api = await getAuthenticatedApi(session);
+    const api = await getAuthenticatedApi();
     const response = await api.get('/channels');
     console.log('fetchChannels response:', response.data.data);
     return response.data.data;
@@ -45,9 +46,9 @@ export async function fetchChannels(session) {
   }
 }
 
-export async function fetchUsers(session) {
+export async function fetchUsers() {
   try {
-    const api = await getAuthenticatedApi(session);
+    const api = await getAuthenticatedApi();
     const response = await api.get('/users');
     console.log('fetchUsers response:', response.data.data);
     return response.data.data;
@@ -57,10 +58,10 @@ export async function fetchUsers(session) {
   }
 }
 
-export async function fetchChannelMessages(channelId, session) {
+export async function fetchChannelMessages(channelId) {
   if (!channelId) return [];
   try {
-    const api = await getAuthenticatedApi(session);
+    const api = await getAuthenticatedApi();
     const response = await api.get(`/messages?receiver_id=${channelId}&receiver_class=Channel`);
     console.log(`fetchChannelMessages${channelId} response:`, response.data.data);
     return response.data.data;
@@ -70,16 +71,30 @@ export async function fetchChannelMessages(channelId, session) {
   }
 }
 
-export async function fetchDirectMessages(userId, session) {
+export async function fetchDirectMessages(userId) {
   if (!userId) return [];
   try {
-    const api = await getAuthenticatedApi(session);
+    const api = await getAuthenticatedApi();
     const response = await api.get(`/messages?receiver_id=${userId}&receiver_class=User`);
     console.log(`fetchDirectMessages${userId} response:`, response.data.data);
     return response.data.data;
   } catch (error) {
     console.error(`API Error fetching messages for user ${userId}:`, error);
     throw new Error('Failed to fetch direct messages.');
+  }
+}
+
+export async function postMessage(recipient, formData) {
+  if (!recipient || ! formData) return {};
+  
+  const message = formData.get('message');
+  console.log('Posting message:', message, 'to:', recipient);
+  try {
+    const api = await getAuthenticatedApi();
+    const response = await api.get();
+  } catch (error) {
+    console.error(`API Error posting messages to ${recipient}:`, error);
+    throw new Error('Failed to post messages');
   }
 }
 

@@ -56,8 +56,8 @@ export default function RootPage() {
         <img src='/assets/images/bg-corner-topright-01.png' style={{ position: 'absolute', top: 40, right: 40, width: '40px', height: '40px' }} alt="Top right corner design" />
         <img src='/assets/images/bg-corner-bottomleft-01.png' style={{ position: 'absolute', bottom: 40, left: 40, width: '40px', height: '40px' }} alt="Bottom left corner design" />
         <img src='/assets/images/bg-corner-bottomright-01.png' style={{ position: 'absolute', bottom: 40, right: 40, width: '40px', height: '40px' }} alt="Bottom right corner design" />
-        <img src='/assets/images/bg-dots-top-01.png' style={{ position: 'absolute', top: 40, width: '248px', height: '12px' }} alt="Center three dots" />
-        <img src='/assets/images/bg-dots-bottom-01.png' style={{ position: 'absolute', bottom: 40, width: '400px', height: '12px' }} alt="Center three dots" />
+        <img src='/assets/images/bg-dots-top-01.png' style={{ position: 'absolute', top: 40, left: '50%', width: '248px', height: '12px', transform: 'translateX(-50%)' }} alt="Center three dots" />
+        <img src='/assets/images/bg-dots-bottom-01.png' style={{ position: 'absolute', bottom: 40, left: '50%', width: '400px', height: '12px', transform: 'translateX(-50%)' }} alt="Center three dots" />
         <Typography sx={{ position: 'absolute', top: 60, left: 60 }}> USER-ACCESS-GRANTED // </Typography>
         {/* eslint-disable-next-line */}
         <Typography sx={{ position: 'absolute', bottom: 60, left: 60 }}>{triNumber} // </Typography>

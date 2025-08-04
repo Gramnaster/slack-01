@@ -44,7 +44,7 @@ export default function LoginForm() {
           <Stack direction='column' gap='20px' sx={{position:'relative'}}>
             <Typography variant='h5' sx={{display: 'flex', justifyContent: 'center'}}>LOG_IN_NOW</Typography>
             <Box>
-              <InputLabel htmlFor='email'>new_email *</InputLabel>
+              <InputLabel htmlFor='email' color='primary'>new_email *</InputLabel>
               <OutlinedInput variant='outlined' color='primary' fullWidth id='email' name='email' type='email' 
                 placeholder='//new_email@gmail.com' autoComplete='off'
                 sx={{
@@ -58,7 +58,7 @@ export default function LoginForm() {
               />
             </Box>
             <Box>
-              <InputLabel id='password'>new_password *</InputLabel>
+              <InputLabel id='password' color='primary'>new_password *</InputLabel>
               <OutlinedInput variant="outlined" color='primary' fullWidth id='password' name='password' type='password' 
                 placeholder='//secure_pass_12345' required 
                 sx={{

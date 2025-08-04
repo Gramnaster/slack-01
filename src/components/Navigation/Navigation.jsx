@@ -14,7 +14,7 @@ export default function Navigation({ channels = [], users = [], children }) {
       <ul>
         {users.map((user) => (
           <li key={user.id}>
-            <Link href={`/dm/${user.id}`} style={{ color: pathname === `/dm/${user.id}` ? 'blue' : 'inherit' }}>
+            <Link href={`/dashboard/dm/${user.id}`} style={{ color: pathname === `/dashboard/dm/${user.id}` ? 'blue' : 'inherit' }}>
               {user.email}
             </Link>
           </li>
@@ -25,7 +25,7 @@ export default function Navigation({ channels = [], users = [], children }) {
       <ul>
         {channels.map((channel) => (
           <li key={channel.id}>
-            <Link href={`/channels/${channel.id}`} style={{ color: pathname === `/channels/${channel.id}` ? 'blue' : 'inherit' }}>
+            <Link href={`/dashboard/ch/${channel.id}`} style={{ color: pathname === `/dashboard/ch/${channel.id}` ? 'blue' : 'inherit' }}>
               # {channel.name}
             </Link>
           </li>

@@ -5,7 +5,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 // import theme from '@/app/theme';
 import themeOptions from "@/app/theme";
-import CssBaseline from '@mui/material/CssBaseline';
+// import CssBaseline from '@mui/material/CssBaseline';
 
 // export const experimental_ppr = true;
 
@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
       <body className={`${jetBrainsMono.variable} ${robotoMono.variable} antialiased`}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={themeOptions}>
-            <CssBaseline />
+            {/* <CssBaseline /> */}
             <div className="App">
               {children}
             </div>

@@ -34,33 +34,42 @@ const themeOptions = createTheme({
     },
     divider: '#FF7300',
   },
-  overrides: {
-    MuiCssBaseline: {
+  components: {
+    MuiInputLabel: {
       styleOverrides: {
-        body: {
-          scrollbarColor: "#FF7300 #FF7300",
-          "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
-            backgroundColor: "#1A1A1A",
+        root: {
+          color: '#FF7300 !important', // Force all InputLabels to use primary color
+          '&.Mui-focused': {
+            color: '#FF7300 !important', // Keep primary color when focused
           },
-          "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
-            borderRadius: 8,
-            backgroundColor: "#FF7300",
-            minHeight: 24,
-            border: "1px solid #FF7300",
-          },
-          "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus": {
-            backgroundColor: "#FF7300",
-          },
-          "&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active": {
-            backgroundColor: "#FF7300",
-          },
-          "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover": {
-            backgroundColor: "#FF7300",
-          },
-          "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
-            backgroundColor: "#FF7300",
+          '&.Mui-error': {
+            color: '#FF0307 !important', // Use error color when there's an error
           },
         },
+        // body: {
+        //   scrollbarColor: "#FF7300 #FF7300",
+        //   "&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+        //     backgroundColor: "#1A1A1A",
+        //   },
+        //   "&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
+        //     borderRadius: 8,
+        //     backgroundColor: "#FF7300",
+        //     minHeight: 24,
+        //     border: "1px solid #FF7300",
+        //   },
+        //   "&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus": {
+        //     backgroundColor: "#FF7300",
+        //   },
+        //   "&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active": {
+        //     backgroundColor: "#FF7300",
+        //   },
+        //   "&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover": {
+        //     backgroundColor: "#FF7300",
+        //   },
+        //   "&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
+        //     backgroundColor: "#FF7300",
+        //   },
+        // },
       },
     },
   },

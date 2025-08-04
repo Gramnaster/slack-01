@@ -2,7 +2,7 @@
 
 import { SignMeUpButton } from "@/ui/buttons";
 import { createNewUser } from "@/lib/data";
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Input, InputLabel, OutlinedInput, Paper, Stack, styled, TextField, Typography } from "@mui/material"
+import { Box, InputLabel, OutlinedInput, Paper, Stack, styled, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 
@@ -142,7 +142,7 @@ export default function CreateUserForm() {
             <Stack direction='column' gap='25px' sx={{position:'relative'}}>
               <Typography variant='h5' sx={{display: 'flex', justifyContent: 'center', pb:'10px'}}>SIGN_UP_NOW</Typography>
               <Box>
-                <InputLabel htmlFor='email'>new_email *</InputLabel>
+                <InputLabel htmlFor='email' color='text.primary'>new_email *</InputLabel>
                 <OutlinedInput variant='outlined' color='primary' fullWidth id='email' name='email' type='email' 
                   placeholder='//new_email@gmail.com' autoComplete='off' value={email} 
                   onChange={e => setEmail(e.target.value)} required 
@@ -158,7 +158,7 @@ export default function CreateUserForm() {
               </Box>
 
               <Box>
-                <InputLabel id='password'>new_password *</InputLabel>
+                <InputLabel id='password' color='text.primary'>new_password *</InputLabel>
                 <OutlinedInput variant="outlined" color='primary' fullWidth id='password' name='password' type='password' 
                   placeholder='//secure_pass_12345' value={password} 
                   onChange={e => setPassword(e.target.value)} required 
@@ -173,7 +173,7 @@ export default function CreateUserForm() {
                 />
               </Box>
               <Box>
-                <InputLabel id='password-confirm'>verify_password *</InputLabel>
+                <InputLabel id='password-confirm' color='text.primary'>verify_password *</InputLabel>
                 <OutlinedInput variant='outlined' color='primary' fullWidth id='password-confirm' name='password-confirm'  type='password' 
                   placeholder='//Same as above' value={passwordConfirm} 
                   onChange={e => setPasswordConfirm(e.target.value)} required 
