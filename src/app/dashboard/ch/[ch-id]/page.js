@@ -130,7 +130,7 @@ export default async function ChannelPage({ params }) {
                   color: isCurrentUser ? '#00A8E9' : '#B5FF3B',
                   pb: 1, 
                   }}>
-                  [sender]::{(message.sender?.email || 'Unknown').toUpperCase()}
+                  [sndr]::{(message.sender?.email || 'Unknown').toUpperCase()}
 
               </Typography>
               <Typography variant='body2' sx={{textAlign: isCurrentUser ? 'left' : 'left'}}>{message.body}</Typography>

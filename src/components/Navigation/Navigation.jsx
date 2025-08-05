@@ -222,7 +222,7 @@ export default function Navigation({
           {/* Channels List */}
           {!hideChannels && (
             <Box>
-              <Box sx={{
+              {/* <Box sx={{
                 display: 'flex', 
                 flexDirection: 'row', 
                 justifyContent: 'space-between',
@@ -230,14 +230,14 @@ export default function Navigation({
                 flexShrink: 0, 
                 p: '4px',
                 borderBottom: '1px solid #FF7300',
-                // borderLeft: '1px solid #1A1A1A',
+                // borderLeft: '1px solid #010101ff',
                 // borderRight: '1px solid #1A1A1A',
                 backgroundColor: '#FF7300',
               }}>
                 <Typography variant='body2' color='text.secondary'>
                   .//CHANNEL_LIST
                 </Typography>
-              </Box>
+              </Box> */}
               <TextField
                 fullWidth
                 placeholder='Search_channels...'
