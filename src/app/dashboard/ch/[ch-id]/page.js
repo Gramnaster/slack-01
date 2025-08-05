@@ -3,7 +3,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { revalidatePath } from 'next/cache';
 import { auth } from '../../../../../auth';
 
-export default async function ChannelPage({ params, channels = [] }) {
+export default async function ChannelPage({ params }) {
   // Because we need to wait for the params to arrive
   // These declarations need await
   const refreshedParams = await params;
@@ -20,6 +20,8 @@ export default async function ChannelPage({ params, channels = [] }) {
   ]);
 
   console.log('[ch-id] messages, channel:', messages, channel);
+  console.log('[ch-id] channel.channel_members:', channel?.channel_members);
+  console.log('[ch-id] Full channel object:', JSON.stringify(channel, null, 2));
 
   const session = await auth();
   console.log('[ch-id] session:', session);

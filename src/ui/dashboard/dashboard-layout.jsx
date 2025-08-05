@@ -4,7 +4,7 @@
 // import { auth } from '../../../auth';
 import Navigation from '@/components/navigation/navigation';
 // import { fetchChannels, fetchUsers } from '@/lib/data';
-import { Box, Button, Container, TextField, Typography, useTheme } from '@mui/material';
+import { Box, Button, TextField, Typography, useTheme } from '@mui/material';
 import Background from '../../../public/assets/images/bg-welcome-01.png';
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { logout } from '@/lib/actions';
@@ -17,7 +17,7 @@ import { formatDateToLocal } from '@/lib/utils';
 
 // Channels and users are fetcehd from dashboard/layout.jsx - the server component
 // Added default arrays because if they don't, it will crash
-export default function DashboardLayout({ children, channels = [], users = [] }) {
+export default function DashboardLayout({ children, channels = [], users = [], }) {
   // const [currentPage, setCurrentPage] = useState('');
   const [searchWord, setSearchWord] = useState('');
   const pathname = usePathname();
@@ -63,6 +63,13 @@ export default function DashboardLayout({ children, channels = [], users = [] })
   const sortedChannels = useMemo(() => {
     return [...channels].sort((a, b) => b.id - a.id);
   }, [channels]);
+
+  // Sorting is moved to Parent Layout directly instead
+  // const sortedChannelMembers = useMemo(() => {
+  //   // Returns mutated array where b is larger than a
+  //   // Returns array of increasing id
+  //   return [...channelMembers].sort((a, b) => a.id - b.id);
+  // }, [users]);
 
   // Get first id from already sorted lists for navigation purposes
   // So dmLink and chLink, when clicked, automatically goes to the first on the list

@@ -98,7 +98,7 @@ export async function fetchChannelDetails(channelId) {
   try {
     const api = await getAuthenticatedApi();
     const response = await api.get(`/channels/${channelId}`);
-    // console.log(`fetchChannelDetails${channelId} response:`, response.data.data);
+    console.log(`fetchChannelDetails${channelId} response:`, response.data.data);
     return response.data.data;
   } catch (error) {
     if (error) {

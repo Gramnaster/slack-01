@@ -8,7 +8,20 @@ import { Box, useTheme } from '@mui/material';
 import diamond from '../../../public/assets/images/list-diamondchevron-01.png';
 import Image from 'next/image';
 
-export default function Navigation({ channels = [], users = [], searchWord = '', children, hideUsers = false, hideChannels = false  }) {
+export default function Navigation({ 
+  channels = [], 
+  users = [], 
+  searchWord = '', 
+  children, 
+  hideUsers = false, 
+  hideChannels = false, 
+  // channelMembers = []  
+}) {
+
+  console.log('Navigation received channels:', channels);
+  console.log('Navigation channels sample:', channels[0]);
+  console.log('Navigation channel 89 check:', channels.find(ch => ch.id === 89));
+  
   const theme = useTheme();
   const pathname = usePathname();
   // const [searchWord, setSearchWord] = useState('');
@@ -30,6 +43,29 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
   const filteredChannels = channels
     .filter((channel) => channel.name.toLowerCase().includes(searchWord.toLowerCase()))
     // .sort((a,b) => b.id - a.id);
+
+  // We gotta know if we're viewing a channel using pathname
+  const isChannelSelected = pathname.startsWith('/dashboard/ch/');
+  const channelId = isChannelSelected ? pathname.split('/dashboard/ch/')[1] : null;
+  console.log('Navigation isChannelSelected:', isChannelSelected);
+  console.log('Navigation channelId:', channelId);
+
+  // Get channelMembers
+  const currentChannel = channels.find((ch) => ch.id === parseInt(channelId));
+  const channelMembers = currentChannel?.channel_members || [];
+  console.log('Navigation currentChannel:', currentChannel);
+  console.log('Navigation channelMembers:', channelMembers);
+
+  // Filters through channel members when a channel is selected and sorts by id descending
+  const filteredChannelMembers = channelMembers
+    .filter((member) => member.user?.email.toLowerCase().includes(searchWord.toLowerCase()));
+  console.log('Navigation filteredChannelMembers:', filteredChannelMembers);
+
+  // Determines what to show
+  const showChannelMembers = isChannelSelected && !hideUsers && filteredChannelMembers.length > 0;
+  const showUsersList = !isChannelSelected && !hideUsers;
+  console.log('Navigation showChannelMembers:', showChannelMembers);
+  console.log('Navigation showUsersList:', showUsersList);
 
   // Applies sorting on client-side to prevent hydration mismatch
   // How do I even know what goes on client-side and server-side?
@@ -77,6 +113,8 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   };
+  
+  // I need to import a dialog here which would let me add members to a channel
 
   return (
     <nav>
@@ -112,8 +150,8 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
         )} */}
       </Box>
 
-      {/* Users List */}
-      {!hideUsers && (
+      {/* Users List for Non-Channels */}
+      {showUsersList && (
         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
           {filteredUsers.map((user) => {
             const isActive = pathname === `/dashboard/dm/${user.id}`;
@@ -179,6 +217,43 @@ export default function Navigation({ channels = [], users = [], searchWord = '',
           })}
         </ul>
       )}
+
+      {/* Channel Members List */}
+      {showChannelMembers && (
+        <Box>
+          {/* <Box sx={{py:'8px', px:'4px' fontSize:'12px'}}>
+          </Box> */}
+          <ul style={{ listStyle:'none', padding: 0, margin: 0}}>
+            {filteredChannelMembers.map((member) => {
+              const isActive = pathname === `/dashboard/dm/${member.user.id}`;
+              return (
+                <li key={member.id} style={{height:'40px', border: '1px solid #FF7300'}}>
+                  <Box
+                    component={Link}
+                    href={`/dashboard/dm/${member.user.id}`}
+                    sx={{
+                      ...baseLinkStyle,
+                      ...(isActive && activeLinkStyle),
+                      height: '40px',
+                      border: '1px solid #FF7300',
+                      ...(!isActive && {
+                        '&:hover': {
+                          backgroundColor: '#FF7400e',
+                        },
+                      }),
+                    }}>
+                      <span style={textSpanStyle}>id:{member.user.id}-{member.user.email}</span>
+                      {isActive &&
+                        <Image src={diamond} alt='active indiciator' width={18} height={18} style={{marginLeft: 'auto'}}/>
+                      }
+                    </Box>
+                </li>
+              );
+            })}
+          </ul>
+        </Box>
+        )
+      }
       
     </nav>
   );
