@@ -19,7 +19,7 @@ import { formatDateToLocal } from '@/lib/utils';
 // Added default arrays because if they don't, it will crash
 export default function DashboardLayout({ children, channels = [], users = [], }) {
   // const [currentPage, setCurrentPage] = useState('');
-  const [searchWord, setSearchWord] = useState('');
+  // const [searchWord, setSearchWord] = useState('');
   const pathname = usePathname();
   const theme = useTheme();
   
@@ -47,9 +47,9 @@ export default function DashboardLayout({ children, channels = [], users = [], }
   //   fetchUsers(session)
   // ]);
 
-  const handleSearchBar = (e) => {
-    setSearchWord(e.target.value);
-  };
+  // const handleSearchBar = (e) => {
+  //   setSearchWord(e.target.value);
+  // };
 
   // Moved sorting above Navigation
   // useMemo prevents re-sorting on every render.
@@ -206,7 +206,7 @@ export default function DashboardLayout({ children, channels = [], users = [], }
                 {isChActive && <Image src={diamond} alt="active indicator" width={18} height={18} style={{marginLeft: 'auto'}} />}
               </Box>
               <Box sx={{display: 'flex', flexDirection: 'column', overflowY: 'auto', pb: '50px'}}>
-                <Navigation channels={sortedChannels} users={sortedUsers} hideUsers searchWord={searchWord}/>
+                <Navigation channels={sortedChannels} users={sortedUsers} hideUsers/>
               </Box>
             </Suspense>
           </Box>
@@ -226,10 +226,13 @@ export default function DashboardLayout({ children, channels = [], users = [], }
             flex: 2,
             flexDirection: 'column',
             w:'180px',
-            border: '1px solid #FF7300'
+            border: '1px solid #FF7300',
+            // height: '100%',
+            minHeight: 0,
+            overflowY:'hidden'
         }}>
           {/* Section Header */}
-          <Box sx={{
+          {/* <Box sx={{
             h: '100%',
             p: '4px',
             borderBottom: '1px solid #FF7300',
@@ -239,10 +242,10 @@ export default function DashboardLayout({ children, channels = [], users = [], }
             minWidth: 0,
           }}>
             <Typography variant='body2' color='text.secondary'>.//USER_LIST</Typography>
-          </Box>
-          <Box sx={{overflowY:'auto'}}>
+          </Box> */}
+          {/* {/* <Box sx={{overflowY:'auto'}}> */}
             {/* Search Bar for UserList */}
-            <Box>
+            {/* <Box>
               <TextField
                 fullWidth
                 placeholder='Search_user...'
@@ -259,9 +262,10 @@ export default function DashboardLayout({ children, channels = [], users = [], }
                   '& input': { color: '#FF7300', fontSize: '12px' },
                   '& input::placeholder': { color: 'rgba(255, 115, 0, 0.5)', opacity: 1, fontSize: '12px' }
                 }}
-              />
-          </Box>
-            <Navigation users={sortedUsers} channels={sortedChannels} hideChannels searchWord={searchWord}/>
+              /> 
+          </Box> */}
+          <Box sx={{flex:1, overflow:'hidden', minHeight: 0}}>
+            <Navigation users={sortedUsers} channels={sortedChannels} hideChannels/>
           </Box>
         </Box>
 
