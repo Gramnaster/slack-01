@@ -7,6 +7,7 @@ import { Box, TextField, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
 import diamond from '../../../public/assets/images/list-diamondchevron-01.png';
 import Image from 'next/image';
+import ChannelDialog from '../channels/ch-dialog';
 
 export default function Navigation({ 
   channels = [], 
@@ -155,6 +156,7 @@ export default function Navigation({
                 size='small'
                 onChange={handleSearchBar}
                 sx={{
+                  borderRadius: 0,
                   h: '40px',
                   '& .MuiOutlinedInput-root': {
                   backgroundColor: 'transparent',
@@ -245,6 +247,7 @@ export default function Navigation({
                 size='small'
                 onChange={handleSearchBar}
                 sx={{
+                  borderRadius: 0,
                   h: '40px',
                   '& .MuiOutlinedInput-root': {
                   backgroundColor: 'transparent',
@@ -254,6 +257,7 @@ export default function Navigation({
                   '& input': { color: '#FF7300', fontSize: '12px' },
                   '& input::placeholder': { color: 'rgba(255, 115, 0, 0.5)', opacity: 1, fontSize: '12px' }
                 }}/>
+                <ChannelDialog />
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {filteredChannels.map((channel) => {
                 const isActive = pathname === `/dashboard/ch/${channel.id}`;

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { auth } from '../../auth';
+import { redirect } from 'next/navigation';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -42,6 +43,10 @@ export async function fetchChannels() {
     return response.data.data;
   } catch (error) {
     if (error) {
+      if (error.code === 'ETIMEDOUT') {
+      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      redirect('/login');
+    }
       console.error('API Error fetching channels:', error);
       throw new Error('Failed to fetch channels.');
     }
@@ -58,6 +63,10 @@ export async function fetchUsers() {
     if (error.code === 'ECONNRESET') {
       console.error('The connection was reset.');
     }
+    if (error.code === 'ETIMEDOUT') {
+      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      redirect('/login');
+    }
     console.error('API Error fetching users:', error);
     throw new Error('Failed to fetch users.');
   }
@@ -72,6 +81,10 @@ export async function fetchChannelMessages(channelId) {
     return response.data.data;
   } catch (error) {
     if (error) {
+      if (error.code === 'ETIMEDOUT') {
+      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      redirect('/login');
+    }
       console.error(`API Error fetching messages for channel ${channelId}:`, error);
       throw new Error('Failed to fetch channel messages.');
     }
@@ -87,6 +100,10 @@ export async function fetchDirectMessages(userId) {
     return response.data.data;
   } catch (error) {
     if (error) {
+      if (error.code === 'ETIMEDOUT') {
+      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      redirect('/login');
+    }
       console.error(`API Error fetching messages for user ${userId}:`, error);
       throw new Error('Failed to fetch direct messages.');
     }
@@ -102,6 +119,10 @@ export async function fetchChannelDetails(channelId) {
     return response.data.data;
   } catch (error) {
     if (error) {
+      if (error.code === 'ETIMEDOUT') {
+      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      redirect('/login');
+    }
       console.error(`API Error fetching channel details for ${channelId}:`, error);
       throw new Error('Failed to fetch channel details');
     }
@@ -132,6 +153,10 @@ export async function postDirectMessage(recipient, formData) {
     return response.data.data;
   } catch (error) {
     if (error) {
+      if (error.code === 'ETIMEDOUT') {
+      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      redirect('/login');
+    }
       // console.error(`API Error posting messages to user ${recipient}:`, error);
       console.error(`API Error posting messages to user ${recipient}:`, {
         status: error.response?.status,
@@ -162,6 +187,10 @@ export async function postChannelMessage(recipient, formData) {
     return response.data.data;
   } catch (error) {
     if (error) {
+      if (error.code === 'ETIMEDOUT') {
+      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      redirect('/login');
+    }
       console.error(`API Error posting messages to channel ${recipient}:`, error);
       throw new Error('Failed to post messages to channel');
     }
@@ -204,6 +233,10 @@ export async function createNewUser(requestBody) {
       return response.data;
     }
   } catch (error) {
+    if (error.code === 'ETIMEDOUT') {
+      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      redirect('/login');
+    }
     // if (error) {
     //   // Check .length of all error props
     //   const fullMsgErrors = error.response.data.errors.full_messages;

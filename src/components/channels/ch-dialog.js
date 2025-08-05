@@ -1,3 +1,5 @@
+'use client';
+
 import { authenticate } from "@/lib/actions";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
 import { useActionState, useState } from "react";
@@ -29,7 +31,7 @@ import { useActionState, useState } from "react";
 //   )
 // }
 
-export default function FormDialog() {
+export default function ChannelDialog() {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -56,8 +58,8 @@ export default function FormDialog() {
 
   return (
     <>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
+      <Button variant="outlined" onClick={handleClickOpen} sx={{}}>
+        <img src='/assets/images/button-login-01.png'/> ADD_CHANNEL
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>+ Add Channel +</DialogTitle>
