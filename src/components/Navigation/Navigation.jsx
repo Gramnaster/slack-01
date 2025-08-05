@@ -274,7 +274,7 @@ export default function Navigation({
                         },
                       }),
                     }}>
-                      <span style={textSpanStyle}>./+/:{channel.name}</span>
+                      <span style={textSpanStyle}>ch/:{channel.name}</span>
                       {isActive && 
                         <Image src={diamond} alt="active indicator" width={18} height={18} style={{marginLeft: 'auto'}}/>}
                     </Box>
