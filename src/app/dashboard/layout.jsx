@@ -21,38 +21,59 @@ export default async function ServerMainLayout({ children }) {
   console.log('ServerMainlayout users:', users, typeof users);
 
   // Fetch detailed channel data for each channel to get channel_members
-  const detailedChannels = await Promise.all(
+  const detailedChannelsData = await Promise.all(
     channels.map(channel => fetchChannelDetails(channel.id))
   );
 
-  console.log('ServerMainlayout detailedChannels:', detailedChannels);
+  console.log('ServerMainlayout detailedChannels:', detailedChannelsData);
+
+  const usersById = new Map(users.map(user => [user.id, user]));
+
+  const fullChannelDetails = detailedChannelsData.map(channel => {
+    if (!channel.channel_members) {
+      return channel;
+    }
+
+    const allMembers = channel.channel_members
+      .map(member => ({
+        ...member,
+        user: usersById.get(member.user_id) || null
+      }))
+      .filter(member => member.user)
+      .sort((a, b) => a.user.id - b.user.id);
+
+      return {
+      ...channel,
+      channel_members: allMembers,
+    };
+  });
 
   // Gets channel details and user details so I have a full view of channel_members
   // When I prop-drill the crap into my navigation specifically
   // So I can display their emails properly on my navbar
   // Because it'll look so good for QOL purposes
-  const fullChannelDetails = detailedChannels.map((channel) => {
-    console.log(`ServerMainlayout processing channel ${channel.id}:`, channel);
-    if (channel.channel_members) {
-      console.log(`Channel ${channel.id} has members:`, channel.channel_members);
+  // const fullChannelDetails = detailedChannels.map((channel) => {
+  //   console.log(`ServerMainlayout processing channel ${channel.id}:`, channel);
+  //   if (channel.channel_members) {
+  //     console.log(`Channel ${channel.id} has members:`, channel.channel_members);
       // Ensures that channel member user_ids have all of their details
       // Will filter these details so any that doesn't match will be removed
       // Finally sort them here instead
-      const allMembers = channel.channel_members.map((member) => {
-        const fullUserDetails = users.find((user) => user.id === member.user_id);
-        console.log('ServerMainlayout fullUserDetails:', fullUserDetails, typeof fullUserDetails);
-        return {...member, user: fullUserDetails};
-      }).filter((member) => member.user)
-        .sort((a,b) => a.user.id - b.user.id);
-      console.log('ServerMainlayout allMembers:', allMembers, typeof allMembers);
+  //     const allMembers = channel.channel_members.map((member) => {
+  //       const fullUserDetails = users.find((user) => user.id === member.user_id);
+  //       console.log('ServerMainlayout fullUserDetails:', fullUserDetails, typeof fullUserDetails);
+  //       return {...member, user: fullUserDetails};
+  //     }).filter((member) => member.user)
+  //       .sort((a,b) => a.user.id - b.user.id);
+  //     console.log('ServerMainlayout allMembers:', allMembers, typeof allMembers);
 
-      return {...channel, channel_members: allMembers};
-    } else {
-      console.log(`ServerMainlayout channel ${channel.id} has no channel_members`);
-      return channel;    
-    }
-  });
-  console.log('ServerMainlayout fullChannelDetails:', fullChannelDetails, typeof fullChannelDetails);
+  //     return {...channel, channel_members: allMembers};
+  //   } else {
+  //     console.log(`ServerMainlayout channel ${channel.id} has no channel_members`);
+  //     return channel;    
+  //   }
+  // });
+  // console.log('ServerMainlayout fullChannelDetails:', fullChannelDetails, typeof fullChannelDetails);
 
   return (
     // <MainLayout>
