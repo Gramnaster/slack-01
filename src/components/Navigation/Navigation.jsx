@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-// import { logout } from '../../lib/actions';
 import { Box, TextField, Typography, useTheme } from '@mui/material';
 import { useState } from 'react';
 import diamond from '../../../public/assets/images/list-diamondchevron-01.png';
@@ -13,17 +12,12 @@ import AddMemberDialog from '../channels/add-member-dialog';
 export default function Navigation({ 
   channels = [], 
   users = [], 
-  // searchWord = '', 
   children, 
   hideUsers = false, 
   hideChannels = false, 
-  // channelMembers = []  
 }) {
 
   const [searchWord, setSearchWord] = useState('');
-  // const handleSearchBar = (e) => {
-  //   setSearchWord(e.target.value);
-  // };
 
   console.log('Navigation received channels:', channels);
   console.log('Navigation channels sample:', channels[0]);
@@ -31,39 +25,20 @@ export default function Navigation({
   
   const theme = useTheme();
   const pathname = usePathname();
-  // const [searchWord, setSearchWord] = useState('');
-  // const [isClient, setIsClient] = useState(false);
-
-  // I'm getting re-hydration issues with the userlist so we'll run
-  // Client-side checks to ensure it rehydrates properly each time a change happens
-  // Runs only on client after component mounts
-  // useEffect(() => {
-  //   setIsClient(true);
-  // }, []);
 
   // Filters through the current user list and sorts by descending id with standard sort
   const filteredUsers = users
     .filter((user) => user.email.toLowerCase().includes(searchWord.toLowerCase()))
-    // .sort((a,b) => a.id - b.id);
 
   // Filters through the current channel list and sorts by id descending
   const filteredChannels = channels
     .filter((channel) => channel.name.toLowerCase().includes(searchWord.toLowerCase()))
-    // .sort((a,b) => b.id - a.id);
 
   // We gotta know if we're viewing a channel using pathname
   const isChannelSelected = pathname.startsWith('/dashboard/ch/');
   const channelId = isChannelSelected ? pathname.split('/dashboard/ch/')[1] : null;
   console.log('Navigation isChannelSelected:', isChannelSelected);
   console.log('Navigation channelId:', channelId);
-
-  // Entire thing has been moved to dashboard-layout
-  // Get first channel id so we can use it for navigation
-  // Then if not found, redirect
-  // Check if we have channels available
-  // const firstChannelId = filteredChannels.length > 0 ? filteredChannels[0].id : null;
-  // const chLink = firstChannelId ? `/dashboard/ch/${firstChannelId}` : '/dashboard/ch';
-  // const hasChannels = filteredChannels.length > 0;
 
   // Get channelMembers
   const currentChannel = channels.find((ch) => ch.id === parseInt(channelId));
@@ -81,29 +56,6 @@ export default function Navigation({
   const showUsersList = !isChannelSelected && !hideUsers;
   console.log('Navigation showChannelMembers:', showChannelMembers);
   console.log('Navigation showUsersList:', showUsersList);
-
-  // Applies sorting on client-side to prevent hydration mismatch
-  // How do I even know what goes on client-side and server-side?
-  // if (isClient) {
-  //   filteredUsers.sort((a,b) => a.id - b.id);
-  //   filteredChannels.sort((a,b) => b.id - a.id);
-  // }
-
-  // const handleSearchBar = (e) => {
-  //   setSearchWord(e.target.value);
-  // };
-
-  // Themed style just like MUI's createTheme
-  // But for vanilla
-  // const linkStyle = { 
-  //   fontFamily: "var(--font-roboto-mono), monospace", 
-  //   fontSize: '12px',
-  //   display: 'block',
-  //   whiteSpace: 'nowrap',
-  //   overflow: 'hidden',
-  //   textOverflow: 'ellipsis',
-  //   paddingRight: '10px',
-  // };
   
   // Normal and Active styles for the links
   const baseLinkStyle = { 
@@ -128,12 +80,9 @@ export default function Navigation({
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   };
-  
-  // I need to import a dialog here which would let me add members to a channel
 
   return (
     <Box sx={{display:'flex', flexDirection:'column', height:'100%'}}>
-      {/* <nav> */}
         {children}
 
         {/* Header + Search Bar for when users are visible */}
@@ -156,9 +105,7 @@ export default function Navigation({
               {showChannelMembers ? './/CHANNEL_MEMBERS' : './/USER_LIST'}
             </Typography>
           </Box>
-          {/* <Box> */}
             {/* Search Bar for UserList */}
-            {/* <Box sx={{ flexShrink: 0 }}> */}
               <TextField
                 fullWidth
                 placeholder='Search_user...'
@@ -166,7 +113,6 @@ export default function Navigation({
                 size='small'
                 onChange={(e) => setSearchWord(e.target.value)}
                 sx={{
-                  // borderRadius: 0,
                   h: '40px',
                   '& .MuiOutlinedInput-root': {
                   borderRadius: 0,
@@ -181,8 +127,6 @@ export default function Navigation({
               {isChannelSelected && !showUsersList && (
                 <AddMemberDialog users={users} channelId={channelId}/>
               )}
-            {/* </Box> */}
-          {/* </Box> */}
         </Box>
         
         {/* Scrollable List Section - Because I'm gonna get a headache from this layout >:( */}
@@ -190,15 +134,10 @@ export default function Navigation({
           sx={{
             display: 'flex', 
             flexDirection:'column', 
-            // px: 3, 
-            // py: 1, 
             flex:1, 
             overflowY: 'auto', 
             minHeight: 0,
-            // flexDirection: 'column-reverse'
-            // justifyContent:'flex-end'
         }}>
-          {/* <Box sx={{ flex: 1, minHeight: 0 }}> */}
           {/* Users List for Non-Channels */}
           {showUsersList && (
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
@@ -211,7 +150,6 @@ export default function Navigation({
                   <Box 
                     component={Link}
                     href={`/dashboard/dm/${user.id}`} 
-                    // onClick={(e) => set}
                     sx={{ 
                       ...baseLinkStyle, 
                       ...(isActive && activeLinkStyle), 
@@ -234,7 +172,6 @@ export default function Navigation({
           )}
           {/* Channel Members List */}
           {showChannelMembers && (
-            // <Box>
               <ul style={{ listStyle:'none', padding: 0, margin: 0}}>
                 {filteredChannelMembers.map((member) => {
                   const isActive = pathname === `/dashboard/dm/${member.user.id}`;
@@ -281,7 +218,6 @@ export default function Navigation({
                 size='small'
                 onChange={(e) => setSearchWord(e.target.value)}
                 sx={{
-                  // borderRadius: 0,
                   h: '40px',
                   '& .MuiOutlinedInput-root': {
                   borderRadius: 0,

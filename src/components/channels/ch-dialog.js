@@ -1,6 +1,5 @@
 'use client';
 
-// import { authenticate } from "@/lib/actions";
 import { createChannel } from "@/lib/data";
 import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 import { useRouter } from "next/navigation";
@@ -14,11 +13,8 @@ export default function ChannelDialog({ users = [] }) {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [isPending, setIsPending] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-
-  // const [isLoading, setIsLoading] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [channelName, setChannelName] = useState('');
-  // const [userList, setUserList] = useState('');
   const [nameError, setNameError] = useState('');
 
   const handleClickOpen = () => {
@@ -32,15 +28,6 @@ export default function ChannelDialog({ users = [] }) {
     setNameError('');
     setErrorMessage('');
   };
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.currentTarget);
-  //   const formJson = Object.fromEntries(formData.entries());
-  //   const email = formJson.email;
-  //   console.log(email);
-  //   handleClose();
-  // };
 
   const handleChannelNameChange = (event) => {
     const name = event.target.value;
@@ -62,15 +49,7 @@ export default function ChannelDialog({ users = [] }) {
   };
 
   const handleSubmit = async (e) => {
-    // 'use server';
     e.preventDefault();
-    
-
-    // // Prevent double submission
-    // if (formSubmitted || isPending) {
-    //   alert('//WARN: SUBMISSION IN PROGRESS');
-    //   return;
-    // }
 
     if (channelName.length < 5) {
       setNameError('//WARN: CHANNEL NAME MUST BE > 5 CHARS');
@@ -82,15 +61,6 @@ export default function ChannelDialog({ users = [] }) {
     
     setIsPending(true);
     setErrorMessage('');
-
-    // const formData = new FormData(e.currentTarget);
-    // if (formData.get('name') === '') {
-    //   alert('//WARN: ENTER A CHANNEL NAME');
-    //   return;
-    // } else if (formData.get('name').length < 5) {
-    //   alert('//WARN: CHANNEL NAME MUST BE LONGER THAN 5 CHARS');
-    //   return;
-    // }
 
     const requestBody = {
       'name': channelName,
@@ -126,7 +96,6 @@ export default function ChannelDialog({ users = [] }) {
           </DialogContentText>
           <form onSubmit={handleSubmit} id="channel-form">
             {/* Channel Name Textfield */}
-            {/* <InputLabel color='text.primary'>new_channel_name</InputLabel> */}
             <TextField
               autoFocus
               required
@@ -143,23 +112,21 @@ export default function ChannelDialog({ users = [] }) {
             />
             {/* Dropdown forms */}
             <FormControl fullWidth margin="dense" variant="standard">
-              {/* <InputLabel color='text.primary'>desired_members</InputLabel> */}
               <Select
-                  labelId="user-select-label"
-                  id="user-select"
-                  multiple
-                  value={selectedUsers}
-                  onChange={handleUserSelectChange}
-                  input={<OutlinedInput label="Add Members" />}
-                  renderValue={(selected) => (
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      {selected.map((userId) => {
-                        const user = users.find(u => u.id === userId);
-                        return <Chip key={userId} label={user ? user.email : userId} />;
-                      })}
-                    </Box>
-                  )}
-                >
+                id="user-select"
+                multiple
+                value={selectedUsers}
+                onChange={handleUserSelectChange}
+                input={<OutlinedInput label="Add Members" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {selected.map((userId) => {
+                      const user = users.find(u => u.id === userId);
+                      return <Chip key={userId} label={user ? user.email : userId} />;
+                    })}
+                  </Box>
+                )}
+              >
                   {users.map((user) => (
                     <MenuItem key={user.id} value={user.id} sx={{fontSize:'12px'}}>
                      +id:{user.id}-{user.email}

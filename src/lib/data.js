@@ -15,7 +15,7 @@ async function getAuthenticatedApi() {
   
   // Checks session instead of revalidating every damn time lmao
   if (!session?.user?.apiHeaders) {
-    console.error('getAuthenticatedApi: No session or API headers found.');
+    // console.error('getAuthenticatedApi: No session or API headers found.');
     throw new Error('Authentication required.');
   }
   
@@ -34,7 +34,7 @@ async function getAuthenticatedApi() {
       'token-type': session?.apiHeaders?.['token-type'],
     },
   });
-  console.log('getAuthenticatedApi API:', api);
+  // console.log('getAuthenticatedApi API:', api);
   return api;
 }
 
@@ -47,10 +47,10 @@ export async function fetchChannels() {
   } catch (error) {
     if (error) {
       if (error.code === 'ETIMEDOUT') {
-      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      // console.error('Connection to API timed out while fetching users. Redirecting to login.');
       redirect('/login');
     }
-      console.error('API Error fetching channels:', error);
+      // console.error('API Error fetching channels:', error);
       // throw new Error('Failed to fetch channels.');
       return [];
     }
@@ -65,13 +65,13 @@ export async function fetchUsers() {
     return response.data.data  || [];
   } catch (error) {
     if (error.code === 'ECONNRESET') {
-      console.error('The connection was reset.');
+      // console.error('The connection was reset.');
     }
     if (error.code === 'ETIMEDOUT') {
-      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      // console.error('Connection to API timed out while fetching users. Redirecting to login.');
       redirect('/login');
     }
-    console.error('API Error fetching users:', error);
+    // console.error('API Error fetching users:', error);
     // throw new Error('Failed to fetch users.');
     // redirect(`/?error=${encodeURIComponent(error)}`);
     return [];
@@ -88,10 +88,10 @@ export async function fetchChannelMessages(channelId) {
   } catch (error) {
     if (error) {
       if (error.code === 'ETIMEDOUT') {
-      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      // console.error('Connection to API timed out while fetching users. Redirecting to login.');
       redirect('/login');
     }
-      console.error(`API Error fetching messages for channel ${channelId}:`, error);
+      // console.error(`API Error fetching messages for channel ${channelId}:`, error);
       // throw new Error('Failed to fetch channel messages.');
       return [];
     }
@@ -108,10 +108,10 @@ export async function fetchDirectMessages(userId) {
   } catch (error) {
     if (error) {
       if (error.code === 'ETIMEDOUT') {
-      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      // console.error('Connection to API timed out while fetching users. Redirecting to login.');
       redirect('/login');
     }
-      console.error(`API Error fetching messages for user ${userId}:`, error);
+      // console.error(`API Error fetching messages for user ${userId}:`, error);
       // throw new Error('Failed to fetch direct messages.');
       return [];
     }
@@ -123,15 +123,15 @@ export async function fetchChannelDetails(channelId) {
   try {
     const api = await getAuthenticatedApi();
     const response = await api.get(`/channels/${channelId}`);
-    console.log(`fetchChannelDetails${channelId} response:`, response.data.data);
+    // console.log(`fetchChannelDetails${channelId} response:`, response.data.data);
     return response.data.data  || [];
   } catch (error) {
     if (error) {
       if (error.code === 'ETIMEDOUT') {
-      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      // console.error('Connection to API timed out while fetching users. Redirecting to login.');
       redirect('/login');
     }
-      console.error(`API Error fetching channel details for ${channelId}:`, error);
+      // console.error(`API Error fetching channel details for ${channelId}:`, error);
       // throw new Error('Failed to fetch channel details');
       return [];
     }
@@ -146,7 +146,7 @@ export async function postDirectMessage(recipient, formData) {
   if (!recipient || ! formData) return {};
   
   const message = formData.get('message');
-  console.log('Posting message:', message, 'to:', recipient);
+  // console.log('Posting message:', message, 'to:', recipient);
 
   // Compiling the requestBody here so I don't have to do too many 'use server' components
   const requestBody = {
@@ -163,16 +163,16 @@ export async function postDirectMessage(recipient, formData) {
   } catch (error) {
     if (error) {
       if (error.code === 'ETIMEDOUT') {
-      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      // console.error('Connection to API timed out while fetching users. Redirecting to login.');
       redirect('/login');
     }
       // console.error(`API Error posting messages to user ${recipient}:`, error);
-      console.error(`API Error posting messages to user ${recipient}:`, {
-        status: error.response?.status,
-        statusText: error.response?.statusText,
-        data: error.response?.data,
-        message: error.message
-      });
+      // console.error(`API Error posting messages to user ${recipient}:`, {
+      //   status: error.response?.status,
+      //   statusText: error.response?.statusText,
+      //   data: error.response?.data,
+      //   message: error.message
+      // });
       // throw new Error('Failed to post messages to user');
       return [];
     }
@@ -198,10 +198,10 @@ export async function postChannelMessage(recipient, formData) {
   } catch (error) {
     if (error) {
       if (error.code === 'ETIMEDOUT') {
-      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      // console.error('Connection to API timed out while fetching users. Redirecting to login.');
       redirect('/login');
     }
-      console.error(`API Error posting messages to channel ${recipient}:`, error);
+      // console.error(`API Error posting messages to channel ${recipient}:`, error);
       // throw new Error('Failed to post messages to channel');
       return [];
     }
@@ -245,7 +245,7 @@ export async function createNewUser(requestBody) {
     }
   } catch (error) {
     if (error.code === 'ETIMEDOUT') {
-      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      // console.error('Connection to API timed out while fetching users. Redirecting to login.');
       redirect('/login');
     }
     // if (error) {
@@ -262,20 +262,22 @@ export async function createNewUser(requestBody) {
     //   // console.error(`API Error with password: ${error.response.data.errors.password}`, typeof error.response.data.errors.password);
     //   // throw new Error(`Failed to submit user`);
     //   return error;
-    if (error.response?.data?.errors?.full_messages) {
-      const messages = error.response.data.errors.full_messages;
+    // if (error.response?.data?.errors?.full_messages) {
+      // const messages = error.response.data.errors.full_messages;
       // Log each error for debugging
-      messages.forEach((message, index) => {
-        console.error(`API Error ${index + 1}: ${message}`);
-      });
+      // messages.forEach((message, index) => {
+      //   console.error(`API Error ${index + 1}: ${message}`);
+      // }
+    // );
       // Join the messages and throw a new error that the UI can catch
-      throw new Error(messages.join('\n'));
-    } else {
+      // throw new Error(messages.join('\n'));
+    // } 
+    // else {
       // Handle unexpected errors
-      console.error('An unexpected API error occurred:', error);
+      // console.error('An unexpected API error occurred:', error);
       // throw new Error('Failed to create user due to an unexpected error.');
       return [];
-    }
+    // }
   }
 }
 
@@ -291,23 +293,24 @@ export async function createChannel(requestBody) {
     }
   } catch (error) {
     if (error.code === 'ETIMEDOUT') {
-      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      // console.error('Connection to API timed out while fetching users. Redirecting to login.');
       redirect('/login');
     }
-    if (error.response?.data?.errors?.full_messages) {
-      const messages = error.response.data.errors.full_messages;
+    // if (error.response?.data?.errors?.full_messages) {
+      // const messages = error.response.data.errors.full_messages;
       // Log each error for debugging
-      messages.forEach((message, index) => {
-        console.error(`API Error ${index + 1}: ${message}`);
-      });
+      // messages.forEach((message, index) => {
+        // console.error(`API Error ${index + 1}: ${message}`);
+      // });
       // Join the messages and throw a new error that the UI can catch
-      throw new Error(messages.join('\n'));
-    } else {
+      // throw new Error(messages.join('\n'));
+    // } else {
       // Handle unexpected errors
-      console.error('An unexpected API error occurred:', error);
+      // console.error('An unexpected API error occurred:', error);
       // throw new Error('Failed to create user due to an unexpected error.');
-      return [];
-    }
+      // return [];
+    // }
+    return [];
   }
 
 }
@@ -324,52 +327,23 @@ export async function addChannelMembers(requestBody) {
     }
   } catch (error) {
     if (error.code === 'ETIMEDOUT') {
-      console.error('Connection to API timed out while adding users. Redirecting to login.');
+      // console.error('Connection to API timed out while adding users. Redirecting to login.');
       redirect('/login');
     }
-    if (error.response?.data?.errors?.full_messages) {
-      const messages = error.response.data.errors.full_messages;
+    // if (error.response?.data?.errors?.full_messages) {
+      // const messages = error.response.data.errors.full_messages;
       // Log each error for debugging
-      messages.forEach((message, index) => {
-        console.error(`API Error ${index + 1}: ${message}`);
-      });
+      // messages.forEach((message, index) => {
+        // console.error(`API Error ${index + 1}: ${message}`);
+      // });
       // Join the messages and throw a new error that the UI can catch
-      throw new Error(messages.join('\n'));
-    } else {
+      // throw new Error(messages.join('\n'));
+    // } else {
       // Handle unexpected errors
-      console.error('An unexpected API error occurred:', error);
+      // console.error('An unexpected API error occurred:', error);
       // throw new Error('Failed to create user due to an unexpected error.');
-      return [];
-    }
+      // return [];
+    // }
+    return [];
   }
 }
-
-// export async function fetchGenCode() {
-//   try {
-//     const response = await axios.get(`https://generate-secret.vercel.app/21`);
-//     console.log(`fetchGenCode response:`, response.data);
-
-//     if (!response.ok) {
-//       throw new Error(`fetchGenCode status:`, response.ok);
-//     }
-    
-//     const data = await response.String();
-//     return data;
-//   } catch (error) {
-//     console.error(`FetchGenCode error:`, error);
-//     throw new Error('Failed to fetch generated code');
-//   }
-// }
-
-// export async function fetchGenCode() {
-//   fetch(`https://generate-secret.vercel.app/21`)
-//     .then(response => {
-//       if (response.ok) {
-//         return response.data;
-//       }
-//     })
-//     .catch(error => {
-//       console.error(`FetchGenCode error:`, error);
-//       throw new Error('Failed to fetch generated code');
-//     });
-// }

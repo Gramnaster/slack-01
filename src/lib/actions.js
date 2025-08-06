@@ -1,10 +1,6 @@
 'use server';
 
-// import { redirect } from 'next/navigation';
-// import { revalidatePath } from 'next/cache';
 import { signIn, signOut } from '../../auth';
-// import { createNewUser } from './data';
-// import { redirect } from 'next/navigation';
 
 export async function authenticate(prevState, formData) {
   try {
@@ -31,10 +27,3 @@ export async function authenticate(prevState, formData) {
 export async function logout() {
   await signOut({ redirectTo: '/login' });
 }
-
-// export async function signUp(data) {
-//   // const data = await createNewUser(requestBody);
-//   if (data) redirect('/login');
-//   // return data;
-// }
-

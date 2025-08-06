@@ -13,29 +13,6 @@ const DemoPaper = styled(Paper)(({ theme }) => ({
 }));
 
 export default function CreateUserForm() {
-  // useEffect(() => {
-  //   console.log("CreateUserForm mounted");
-  //   return () => console.log("CreateUserForm unmounted");
-  // }, []);
-  // const [formData, setFormData] = useState('');
-
-  // const testFormData = (event) => {
-  //   event.preventDefault(); 
-
-  //   const form = event.target
-  //   const formDataObj = new FormData(form);
-  //   const data = {
-  //     email: formDataObj.get('email'),
-  //     password: formDataObj.get('password'),
-  //     passwordConfirm: formDataObj.get('password-confirm')
-  //   };
-
-  //   setFormData(data);
-  //   console.log(`1 Create user:`, data);
-  // }
-  // const [formData, setFormData] = useState('');
-
-  // const [userData, setUserData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -45,10 +22,6 @@ export default function CreateUserForm() {
 
   const handleCheckboxClick = () => {
     // Trying to prevent the forms for being cleared
-    // e.preventDefault();
-    // e.stopPropagation();
-    // e.nativeEvent.preventDefault();
-    // e.nativeEvent.stopImmediatePropagation();
     console.log('Checkbox clicked, current state:', isChecked);
     setIsChecked(!isChecked);
     console.log('Checkbox state after click:', !isChecked);
@@ -75,12 +48,6 @@ export default function CreateUserForm() {
 
     setFormSubmitted(true);
     setIsLoading(true);
-    // const formData = new FormData(e.target);
-    // const requestBody = {
-    //   'email': formData.get('email'),
-    //   'password': formData.get('password'),
-    //   'password-confirmation': formData.get('password-confirm')
-    // };
 
     const requestBody = {
       'email': email,
@@ -90,10 +57,7 @@ export default function CreateUserForm() {
     console.log('create-user.js handleSubmit parsedFormData:', requestBody);
     
     try {
-      // setUserData(requestBody);
       const result = await createNewUser(requestBody);
-      // Check if condition for redirect
-      // if (result.errors) redirect('/login');
       console.log('create-user.js handleSubmit passed result to createNewUser:', result);
       if (result && result.status === 'success') {
         alert('//SUCCESS: NEW ACCOUNT CREATED');
@@ -116,20 +80,6 @@ export default function CreateUserForm() {
     
     return console.log('create-user.js handleSubmit is done');
   };
-
-  // useEffect(() => {
-  //   handleSubmit();
-  //   createNewUser(userData);
-  //   console.log('create-user.js userData:', userData);
-  // }, [userData]);
-
-  // const SecureCheckbox = styled(FormControlLabel)(({ theme }) => ({
-  //   // width: '64px',
-  //   // height: '64px',
-  //   fontSize: '64px',
-  //   // src: '../../../../public/assets/images/bg-welcome-01.png',
-  //   ...theme.typography.body2,
-  // }));
 
   return (
     <Box 
@@ -196,16 +146,9 @@ export default function CreateUserForm() {
 
               <Box 
                 sx={{ display: 'flex', justifyContent: 'center', py: 1, mt: 1, border: '1px solid #FF7300' }}
-                // style={{display:'flex', justifyContent: 'center', border:'1px solid #FF7300'}}
                 >
                 <Box 
                   onClick={handleCheckboxClick}
-                  // onMouseDown={(e) => e.preventDefault()}
-                  // style={{
-                  //   cursor: 'pointer',
-                  //   border: 'none',
-                  //   background: 'transparent',
-                  //   padding: '8px 0 8px 26px'
                   sx={{cursor: 'pointer', pl: 3, py: 1,
                   display:'flex', flexDirection: 'row', 
                   justifyContent:'center', alignItems: 'center'
@@ -220,17 +163,10 @@ export default function CreateUserForm() {
                       <Typography component='span'>security_protocol</Typography>
                       <Typography component='span'>totally_not_a_robot *</Typography>
                     </Box>
-                    {/* Hidden input for form submission purposes */}
-                    {/* <input 
-                      type="hidden" 
-                      name="security-check" 
-                      value={isChecked ? "true" : "false"} 
-                    /> */}
                   </Box>
                 </Box>
               </Box>
               
-              {/* <Button type='submit'>SIGN_ME_UP</Button> */}
               <Box sx={{display: 'flex', alignContent:'flex-end', justifyContent: 'flex-end', pb: 1}}>
                 {/* Maybe don't link here and add the redirect to SignMeUpButton instead
                 when the user account creation is successful */}

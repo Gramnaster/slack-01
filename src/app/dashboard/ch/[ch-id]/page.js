@@ -7,11 +7,6 @@ export default async function ChannelPage({ params }) {
   // Because we need to wait for the params to arrive
   // These declarations need await
   const refreshedParams = await params;
-  // const messages = await fetchChannelMessages(refreshedParams['ch-id']);
-
-  // Instead of fetching again, just get the already present channel data
-  // Prevents too many fetch calls which is forcing me to timeout
-  // const channel = channels.find((ch) => ch.id === parseInt(refreshedParams['ch-id']));
 
   // Prop drilling is a huge PITA but I can't make it work
   const [messages, channel] = await Promise.all([
@@ -50,19 +45,6 @@ export default async function ChannelPage({ params }) {
   }
 
   return (
-    // <div>
-    //   <h1>Channel {refreshedParams['ch-id']}</h1>
-    //   {messages.map((message) => (
-    //     <div key={message.id}>
-    //       <p><strong>{message.sender?.email || 'Unknown'}:</strong>{message.body}</p>
-    //       <small>{message.created_at}</small>
-    //       </div>
-    //   ))}
-    //   <form action={sendMessage}>
-    //    <input name="message" placeholder="Send a message" required />
-    //    <button type="submit">Send</button>
-    //   </form>
-    // </div>
     <Box 
       sx={{display:'flex', flexDirection:'column', height:'100%'}}>
 
@@ -86,10 +68,6 @@ export default async function ChannelPage({ params }) {
       </Box>
 
       {/* Messages Container */}
-      {/* <Box sx={{display:'flex', flexDirection:'column', flex: 1, 
-        overflowY: 'hidden', alignContent:'space-between', justifyContent:'space-between'
-      }}> */}
-        {/* <Typography variant='h7'>Conversation with User {refreshedParams.userId}</Typography> */}
         <Box 
           sx={{
             display: 'flex', 
@@ -99,25 +77,17 @@ export default async function ChannelPage({ params }) {
             flex:1, 
             overflowY: 'auto', 
             minHeight: 0,
-            // flexDirection: 'column-reverse'
-          // justifyContent:'flex-end'
         }}>
-          {/* <MessageList messages={messages} />
-          <MessageForm userId={resolvedParams.userId} /> */}
           <Box sx={{ flex: 1, minHeight: 0 }} />
           {messages.map((message) => {
             const isCurrentUser = String(message.sender.id) === String(session.user.id);
-            // console.log('[userId] message.sender.id:', typeof message.sender.id, message.sender.id);
-            // console.log('[userId] session.user.id:', typeof session.user.id, session.user.id);
-            // console.log('[userId] uniqueMessages user:', typeof isCurrentUser, isCurrentUser);
+
             return (
             <Box key={message.id} 
               sx={{
                 border: '1px solid #FF7300',
-                // width: '100%',
                 backgroundColor: '#251A1399',
                 minWidth: '30ch',
-                // maxWidth: '66ch',
                 maxWidth: '400px',
                 p: 1,
                 mt: 1,
@@ -147,7 +117,6 @@ export default async function ChannelPage({ params }) {
         <Box sx={{borderTop: '1px solid #FF7300', display:'flex', justifyContent:'center', p:2, flexShrink: 0}}>
           <form action={sendMessage} style={{width:'100%', display:'flex', justifyContent:'center', gap: 3}}>
             <Box sx={{width:'590px', height:'90px'}}>
-              {/* <InputLabel name="message" placeholder="Send a message" /> */}
               <TextField name='message' placeholder='// Type_your_message_here...' fullWidth multiline
                 sx={{ backgroundColor: '#1A1A1A', height: '100%', width: '100%', pr: 1, borderRadius: 0,
                   '& .MuiOutlinedInput-root': {

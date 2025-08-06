@@ -1,5 +1,3 @@
-// import { CardSkeletonMUI } from "./skeleton";
-
 import Skeleton from '@mui/material/Skeleton';
 import Box from '@mui/material/Box';
 

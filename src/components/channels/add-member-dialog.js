@@ -1,4 +1,3 @@
-// import { authenticate } from "@/lib/actions";
 import { addChannelMembers } from "@/lib/data";
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
@@ -12,10 +11,7 @@ export default function AddMemberDialog({ users = [], channelId}) {
   const [isPending, setIsPending] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   
-  // const [isLoading, setIsLoading] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  // const [channelName, setChannelName] = useState('');
-  // const [userList, setUserList] = useState('');
   const [nameError, setNameError] = useState('');
 
   const handleClickOpen = () => {
@@ -25,26 +21,12 @@ export default function AddMemberDialog({ users = [], channelId}) {
   const handleClose = () => {
     setOpen(false);
     setSelectedUserId('');
-    // setChannelName('');
     setNameError('');
     setErrorMessage('');
   };
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.currentTarget);
-  //   const formJson = Object.fromEntries(formData.entries());
-  //   const email = formJson.email;
-  //   console.log(email);
-  //   handleClose();
-  // };
-  
-  // const handleUserSelectChange = (event) => {
-  //   setSelectedUserId(event.target.value);
-  // };
   
   const handleSubmit = async (e) => {
-    // 'use server';
     e.preventDefault();
 
     if (!selectedUserId) {

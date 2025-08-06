@@ -13,9 +13,6 @@ import Link from "next/link";
 import LoginButton, { SignUpButton } from "@/ui/buttons";
 
 export default function RootPage() {
-  // By default, redirect logged-in users to a general channel.
-  // The middleware already ensures only authenticated users can see this.
-  // redirect('/login');
   const mainDescription = [
     'MISCORD is great for communicating with your allies in a highly secure yet stylish way!',
     'Message friends, family, co-workers, and even strangers you shouldn’t be talking to!',
@@ -24,12 +21,9 @@ export default function RootPage() {
   ];
 
   const [isLoading, setIsLoading] = useState(false); 
-  // const router = useRouter();
   const [triNumber, setTriNumber] = useState('000 000 000 000');
 
   useEffect(() => {
-    // const handleStart = () => setIsLoading(true);
-    // const handleComplete = () => setIsLoading(false);
     setTriNumber(Codegen());
   }, []);
 
@@ -122,7 +116,6 @@ export default function RootPage() {
         <Box
           component='footer'
           sx={{
-            // position: 'relative', 
             h: '100%',
             w: '100%',
             display: 'flex',

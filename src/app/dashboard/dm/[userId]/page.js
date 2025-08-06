@@ -1,13 +1,8 @@
 
-// 'use server';
-
 import { fetchDirectMessages, postDirectMessage } from '@/lib/data';
 import { revalidatePath } from 'next/cache';
 import { auth } from '../../../../../auth';
 import { Box, Button, TextField, Typography } from '@mui/material';
-// import { MessageForm } from '@/components/message-form';
-// import { MessageList } from '@/components/message-list';
-// import { auth } from '../../../../../auth';
 
 export default async function DirectMessagePage({ params }) {
   // Because we need to wait for the params to arrive
@@ -18,14 +13,6 @@ export default async function DirectMessagePage({ params }) {
   console.log('DirectMessagePage refreshedParams:', refreshedParams, typeof refreshedParams);
   console.log('DirectMessagePage messages:', messages, typeof messages);
 
-  // messages[0].sender.email
-  // const [refreshedParams, messages] = await Promise.all([
-  //   await params,
-  //   await fetchDirectMessages(refreshedParams.userId)
-  // ]);
-
-  // const [isLoading, setIsLoading] = useState(false);
-
   // Getting the session id so I can compare it to the user.id
   // If it's the same id, it registers as the 'current user'
   const session = await auth();
@@ -35,10 +22,6 @@ export default async function DirectMessagePage({ params }) {
   const uniqueMessages = Array.from(
     new Map(messages.map(msg => [msg.id, msg])).values()
   );
-
-  // const action = channelId 
-  //    ? postMessage.bind(null, { channelId })
-  //    : postMessage.bind(null, { userId });
 
   // More straightforward implementation of passing formData
   // to the data.js PostMessage function
@@ -74,24 +57,18 @@ export default async function DirectMessagePage({ params }) {
           display: 'flex', 
           flexDirection: 'row', 
           justifyContent: 'space-between',
-          // h: '100%',
           flexShrink: 0, 
           p: '4px',
           borderBottom: '1px solid #FF7300',
           borderLeft: '1px solid #1A1A1A',
           borderRight: '1px solid #1A1A1A',
           backgroundColor: '#FF7300',
-          // overflow:'hidden'
       }}>
         <Typography variant='body2' color='text.secondary'>.///DIRECT_MESSAGES</Typography>
         <Typography variant='body2' color='text.secondary'>TO::/{handleHeaderTarget()}</Typography>
       </Box>
 
       {/* Messages Container */}
-      {/* <Box sx={{display:'flex', flexDirection:'column', flex: 1, 
-        overflowY: 'hidden', alignContent:'space-between', justifyContent:'space-between'
-      }}> */}
-        {/* <Typography variant='h7'>Conversation with User {refreshedParams.userId}</Typography> */}
         <Box 
           sx={{
             display: 'flex', 
@@ -101,25 +78,16 @@ export default async function DirectMessagePage({ params }) {
             flex:1, 
             overflowY: 'auto', 
             minHeight: 0,
-            // flexDirection: 'column-reverse'
-          // justifyContent:'flex-end'
         }}>
-          {/* <MessageList messages={messages} />
-          <MessageForm userId={resolvedParams.userId} /> */}
           <Box sx={{ flex: 1, minHeight: 0 }} />
           {uniqueMessages.map((message) => {
             const isCurrentUser = String(message.sender.id) === String(session.user.id);
-            // console.log('[userId] message.sender.id:', typeof message.sender.id, message.sender.id);
-            // console.log('[userId] session.user.id:', typeof session.user.id, session.user.id);
-            // console.log('[userId] uniqueMessages user:', typeof isCurrentUser, isCurrentUser);
             return (
             <Box key={message.id} 
               sx={{
                 border: '1px solid #FF7300',
-                // width: '100%',
                 backgroundColor: '#251A1399',
                 minWidth: '30ch',
-                // maxWidth: '66ch',
                 maxWidth: '400px',
                 p: 1,
                 mt: 1,
@@ -142,14 +110,12 @@ export default async function DirectMessagePage({ params }) {
             </Box>
             )
           })}
-          {/* </Box> */}
         </Box>
 
         {/* Text Field */}
         <Box sx={{borderTop: '1px solid #FF7300', display:'flex', justifyContent:'center', p:2, flexShrink: 0}}>
           <form action={sendMessage} style={{width:'100%', display:'flex', justifyContent:'center', gap: 3}}>
             <Box sx={{width:'590px', height:'90px'}}>
-              {/* <InputLabel name="message" placeholder="Send a message" /> */}
               <TextField name='message' placeholder='// Type_your_message_here...' fullWidth multiline
                 sx={{ backgroundColor: '#1A1A1A', height: '100%', width: '100%', pr: 1, borderRadius: 0,
                   '& .MuiOutlinedInput-root': {

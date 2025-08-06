@@ -15,7 +15,6 @@ export default async function ServerMainLayout({ children }) {
   const [channels, users] = await Promise.all([
     fetchChannels(session),
     fetchUsers(session),
-    // fetchChannelDetails(session)
   ]);
 
   console.log('ServerMainlayout channels:', channels, typeof channels);
