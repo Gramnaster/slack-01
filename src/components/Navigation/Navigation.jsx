@@ -280,7 +280,7 @@ export default function Navigation({
                   '& input': { color: '#FF7300', fontSize: '12px' },
                   '& input::placeholder': { color: 'rgba(255, 115, 0, 0.5)', opacity: 1, fontSize: '12px' }
                 }}/>
-              <ChannelDialog />
+              <ChannelDialog users={users}/>
             </Box>
 
           {/* Full Channel List - Scrollable */}

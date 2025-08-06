@@ -12,13 +12,15 @@ const DemoPaper = styled(Paper)(({ theme }) => ({
 }));
 
 export default function LoginForm() {
+  // If they try to access a specific page w/o auth, redirects them to login
+  // After login, sends them back to where they were trying to go to
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
+
   // useActionState imported from base React for React 19+
   // Parameters: authenticate and undefined init state
   // Returns: errorMessage from server, formAction that handles state, isPending if action is running
   // Needs 'use client' since it's a React hook
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
-
   const [errorMessage, formAction, isPending] = useActionState(
     authenticate,
     undefined,

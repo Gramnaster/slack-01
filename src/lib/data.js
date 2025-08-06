@@ -3,6 +3,7 @@
 import axios from 'axios';
 import { auth } from '../../auth';
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -276,6 +277,39 @@ export async function createNewUser(requestBody) {
       return [];
     }
   }
+}
+
+export async function createChannel(requestBody) {
+  if (!requestBody) throw new Error ('createChannel requestBody not found');
+  try {
+    const api = await getAuthenticatedApi();
+    const response = await api.post(`/channels`, requestBody);
+    if (response.data && response.data.status === 'success') {
+      // console.log(`API New user created successfully:`, response.status);
+      revalidatePath('/dashboard');
+      return response.data  || [];
+    }
+  } catch (error) {
+    if (error.code === 'ETIMEDOUT') {
+      console.error('Connection to API timed out while fetching users. Redirecting to login.');
+      redirect('/login');
+    }
+    if (error.response?.data?.errors?.full_messages) {
+      const messages = error.response.data.errors.full_messages;
+      // Log each error for debugging
+      messages.forEach((message, index) => {
+        console.error(`API Error ${index + 1}: ${message}`);
+      });
+      // Join the messages and throw a new error that the UI can catch
+      throw new Error(messages.join('\n'));
+    } else {
+      // Handle unexpected errors
+      console.error('An unexpected API error occurred:', error);
+      // throw new Error('Failed to create user due to an unexpected error.');
+      return [];
+    }
+  }
+
 }
 
 // export async function fetchGenCode() {

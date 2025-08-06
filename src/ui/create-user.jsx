@@ -75,11 +75,17 @@ export default function CreateUserForm() {
 
     setFormSubmitted(true);
     setIsLoading(true);
-    const formData = new FormData(e.target);
+    // const formData = new FormData(e.target);
+    // const requestBody = {
+    //   'email': formData.get('email'),
+    //   'password': formData.get('password'),
+    //   'password-confirmation': formData.get('password-confirm')
+    // };
+
     const requestBody = {
-      'email': formData.get('email'),
-      'password': formData.get('password'),
-      'password-confirmation': formData.get('password-confirm')
+      'email': email,
+      'password': password,
+      'password-confirmation': passwordConfirm
     };
     console.log('create-user.js handleSubmit parsedFormData:', requestBody);
     
