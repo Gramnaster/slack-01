@@ -8,6 +8,7 @@ import { useState } from 'react';
 import diamond from '../../../public/assets/images/list-diamondchevron-01.png';
 import Image from 'next/image';
 import ChannelDialog from '../channels/ch-dialog';
+import AddMemberDialog from '../channels/add-member-dialog';
 
 export default function Navigation({ 
   channels = [], 
@@ -155,7 +156,7 @@ export default function Navigation({
                 placeholder='Search_user...'
                 value={searchWord}
                 size='small'
-                onChange={handleSearchBar}
+                onChange={(e) => setSearchWord(e.target.value)}
                 sx={{
                   // borderRadius: 0,
                   h: '40px',
@@ -169,6 +170,9 @@ export default function Navigation({
                   '& input::placeholder': { color: 'rgba(255, 115, 0, 0.5)', opacity: 1, fontSize: '12px' }
                 }}
               />
+              {isChannelSelected && !showUsersList && (
+                <AddMemberDialog users={users} channelId={channelId}/>
+              )}
             {/* </Box> */}
           {/* </Box> */}
         </Box>
@@ -267,7 +271,7 @@ export default function Navigation({
                 placeholder='Search_channels...'
                 value={searchWord}
                 size='small'
-                onChange={handleSearchBar}
+                onChange={(e) => setSearchWord(e.target.value)}
                 sx={{
                   // borderRadius: 0,
                   h: '40px',

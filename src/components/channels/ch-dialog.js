@@ -79,6 +79,8 @@ export default function ChannelDialog({ users = [] }) {
     }
   };
 
+  // Always ensures my state is always an array
+  // Because autofill keeps screwing it up
   const handleUserSelectChange = (event) => {
     const { target: { value } } = event;
     // On autofill we get a stringified value.

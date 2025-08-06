@@ -311,6 +311,38 @@ export async function createChannel(requestBody) {
   }
 
 }
+export async function addChannelMembers(requestBody) {
+  if (!requestBody) throw new Error ('addChannelMembers requestBody not found');
+  try {
+    const api = await getAuthenticatedApi();
+    const response = await api.post(`/channel/add_member`, requestBody);
+    if (response.data && response.data.status === 'success') {
+      // console.log(`API New user created successfully:`, response.status);
+      revalidatePath(`/dashboard/ch/${requestBody.id}`);
+      revalidatePath('/dashboard');
+      return response.data  || [];
+    }
+  } catch (error) {
+    if (error.code === 'ETIMEDOUT') {
+      console.error('Connection to API timed out while adding users. Redirecting to login.');
+      redirect('/login');
+    }
+    if (error.response?.data?.errors?.full_messages) {
+      const messages = error.response.data.errors.full_messages;
+      // Log each error for debugging
+      messages.forEach((message, index) => {
+        console.error(`API Error ${index + 1}: ${message}`);
+      });
+      // Join the messages and throw a new error that the UI can catch
+      throw new Error(messages.join('\n'));
+    } else {
+      // Handle unexpected errors
+      console.error('An unexpected API error occurred:', error);
+      // throw new Error('Failed to create user due to an unexpected error.');
+      return [];
+    }
+  }
+}
 
 // export async function fetchGenCode() {
 //   try {
