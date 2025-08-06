@@ -7,7 +7,7 @@ import { useActionState } from "react";
 
 const DemoPaper = styled(Paper)(({ theme }) => ({
   width: '400px',
-  height: '300px',
+  height: '320px',
   ...theme.typography.body2,
 }));
 
@@ -72,12 +72,13 @@ export default function LoginForm() {
               />
             </Box>
             <input type="hidden" name="redirectTo" value={callbackUrl} />
-            <Button type="submit" aria-disabled={isPending} disabled={isPending} variant='contained' sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}>
+            <Button type="submit" aria-disabled={isPending} variant='contained' 
+              sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1, pointerEvents: isPending ? 'none' : 'auto',}}>
               <img src='/assets/images/button-login-01.png'/> {isPending ? 'Logging in...' : 'LOG_IN'}
             </Button>
-            {/* {errorMessage && (
-              <p style={{ color: 'red' }}>{errorMessage}</p>
-            )} */}
+            {errorMessage && (
+              <Typography sx={{ color: 'red', textAlign: 'center' }}>{errorMessage}</Typography>
+            )}
             </Stack>
           </Box>
         </form>

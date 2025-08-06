@@ -58,8 +58,8 @@ export default function ChannelDialog() {
 
   return (
     <>
-      <Button variant="outlined" onClick={handleClickOpen} sx={{}}>
-        <img src='/assets/images/button-login-01.png'/> ADD_CHANNEL
+      <Button variant="contained" onClick={handleClickOpen} sx={{gap: 1, borderRadius: 0}}>
+        <img src='/assets/images/button-signup-01.png'/> ADD_CHANNEL
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>+ Add Channel +</DialogTitle>

@@ -129,8 +129,9 @@ export default function Navigation({
 
         {/* Header + Search Bar for when users are visible */}
         {!hideUsers && (
-        <Box>
+        <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
         {/* Section Header */}
+        <Box sx={{ flexShrink: 0 }}>
           <Box sx={{
             display:'flex',
             h: '100%',
@@ -148,7 +149,7 @@ export default function Navigation({
           </Box>
           {/* <Box> */}
             {/* Search Bar for UserList */}
-            <Box sx={{ flexShrink: 0 }}>
+            {/* <Box sx={{ flexShrink: 0 }}> */}
               <TextField
                 fullWidth
                 placeholder='Search_user...'
@@ -156,9 +157,10 @@ export default function Navigation({
                 size='small'
                 onChange={handleSearchBar}
                 sx={{
-                  borderRadius: 0,
+                  // borderRadius: 0,
                   h: '40px',
                   '& .MuiOutlinedInput-root': {
+                  borderRadius: 0,
                   backgroundColor: 'transparent',
                   '& fieldset': { borderColor: '#FF7300' },
                   '&:hover fieldset': { borderColor: '#FF7300' },
@@ -167,11 +169,11 @@ export default function Navigation({
                   '& input::placeholder': { color: 'rgba(255, 115, 0, 0.5)', opacity: 1, fontSize: '12px' }
                 }}
               />
-            </Box>
+            {/* </Box> */}
           {/* </Box> */}
         </Box>
-        )}
-
+        
+        {/* Scrollable List Section - Because I'm gonna get a headache from this layout >:( */}
         <Box 
           sx={{
             display: 'flex', 
@@ -182,7 +184,7 @@ export default function Navigation({
             overflowY: 'auto', 
             minHeight: 0,
             // flexDirection: 'column-reverse'
-          // justifyContent:'flex-end'
+            // justifyContent:'flex-end'
         }}>
           {/* <Box sx={{ flex: 1, minHeight: 0 }}> */}
           {/* Users List for Non-Channels */}
@@ -209,91 +211,18 @@ export default function Navigation({
                         },
                       }),
                     }}>
-                    {/* <Box sx={{display:'flex', justifyContent:'space-between'}}> */}
                       <span style={textSpanStyle}>id:{user.id}-{user.email}</span>
                       {isActive && 
                         <Image src={diamond} alt="active indicator" width={18} height={18} style={{marginLeft: 'auto'}}/>}
-                    {/* </Box> */}
                   </Box>
                 </li>
                 );
               })} 
             </ul>
           )}
-
-          {/* Channels List */}
-          {!hideChannels && (
-            <Box>
-              {/* <Box sx={{
-                display: 'flex', 
-                flexDirection: 'row', 
-                justifyContent: 'space-between',
-                // h: '100%',
-                flexShrink: 0, 
-                p: '4px',
-                borderBottom: '1px solid #FF7300',
-                // borderLeft: '1px solid #010101ff',
-                // borderRight: '1px solid #1A1A1A',
-                backgroundColor: '#FF7300',
-              }}>
-                <Typography variant='body2' color='text.secondary'>
-                  .//CHANNEL_LIST
-                </Typography>
-              </Box> */}
-              <TextField
-                fullWidth
-                placeholder='Search_channels...'
-                value={searchWord}
-                size='small'
-                onChange={handleSearchBar}
-                sx={{
-                  borderRadius: 0,
-                  h: '40px',
-                  '& .MuiOutlinedInput-root': {
-                  backgroundColor: 'transparent',
-                  '& fieldset': { borderColor: '#FF7300' },
-                  '&:hover fieldset': { borderColor: '#FF7300' },
-                  '&.Mui-focused fieldset': { borderColor: '#FF7300' }},
-                  '& input': { color: '#FF7300', fontSize: '12px' },
-                  '& input::placeholder': { color: 'rgba(255, 115, 0, 0.5)', opacity: 1, fontSize: '12px' }
-                }}/>
-                <ChannelDialog />
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-              {filteredChannels.map((channel) => {
-                const isActive = pathname === `/dashboard/ch/${channel.id}`;
-                return (
-                  <li key={channel.id} style={{height:'40px', border: '1px solid #FF7300'}}>
-                    {/* Hover and active effects */}
-                    <Box
-                      component={Link} 
-                      href={`/dashboard/ch/${channel.id}`} 
-                      sx={{ 
-                      ...baseLinkStyle, 
-                      ...(isActive && activeLinkStyle), 
-                      height:'40px',
-                      border: '1px solid #FF7300',
-                      ...(!isActive && {
-                        '&:hover': {
-                          backgroundColor: '#ff73003e',
-                        },
-                      }),
-                    }}>
-                      <span style={textSpanStyle}>ch/:{channel.name}</span>
-                      {isActive && 
-                        <Image src={diamond} alt="active indicator" width={18} height={18} style={{marginLeft: 'auto'}}/>}
-                    </Box>
-                  </li>
-                );
-              })}
-            </ul>
-          </Box>
-          )}
-
           {/* Channel Members List */}
           {showChannelMembers && (
-            <Box>
-              {/* <Box sx={{py:'8px', px:'4px' fontSize:'12px'}}>
-              </Box> */}
+            // <Box>
               <ul style={{ listStyle:'none', padding: 0, margin: 0}}>
                 {filteredChannelMembers.map((member) => {
                   const isActive = pathname === `/dashboard/dm/${member.user.id}`;
@@ -322,12 +251,79 @@ export default function Navigation({
                   );
                 })}
               </ul>
-            </Box>
-            )
-          }
-          {/* </Box> */}
+          )}
         </Box>
-      {/* </nav> */}
+      </Box>
+      )}
+
+      {/* Channels Section */}
+        {/* Channels List */}
+        {!hideChannels && (
+          <Box  sx={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
+            {/* Channels Search & Add Button */}
+            <Box sx={{ flexShrink: 0}}>
+              <TextField
+                fullWidth
+                placeholder='Search_channels...'
+                value={searchWord}
+                size='small'
+                onChange={handleSearchBar}
+                sx={{
+                  // borderRadius: 0,
+                  h: '40px',
+                  '& .MuiOutlinedInput-root': {
+                  borderRadius: 0,
+                  backgroundColor: 'transparent',
+                  '& fieldset': { borderColor: '#FF7300' },
+                  '&:hover fieldset': { borderColor: '#FF7300' },
+                  '&.Mui-focused fieldset': { borderColor: '#FF7300' }},
+                  '& input': { color: '#FF7300', fontSize: '12px' },
+                  '& input::placeholder': { color: 'rgba(255, 115, 0, 0.5)', opacity: 1, fontSize: '12px' }
+                }}/>
+              <ChannelDialog />
+            </Box>
+
+          {/* Full Channel List - Scrollable */}
+          <Box 
+            sx={{
+              display: 'flex', 
+              flexDirection:'column', 
+              flex:1, 
+              overflowY: 'auto', 
+              minHeight: 0,
+
+          }}>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {filteredChannels.map((channel) => {
+                const isActive = pathname === `/dashboard/ch/${channel.id}`;
+                return (
+                  <li key={channel.id} style={{height:'40px', border: '1px solid #FF7300'}}>
+                    {/* Hover and active effects */}
+                    <Box
+                      component={Link} 
+                      href={`/dashboard/ch/${channel.id}`} 
+                      sx={{ 
+                      ...baseLinkStyle, 
+                      ...(isActive && activeLinkStyle), 
+                      height:'40px',
+                      border: '1px solid #FF7300',
+                      ...(!isActive && {
+                        '&:hover': {
+                          backgroundColor: '#ff73003e',
+                        },
+                      }),
+                    }}>
+                      <span style={textSpanStyle}>ch/:{channel.name}</span>
+                      {isActive && 
+                        <Image src={diamond} alt="active indicator" width={18} height={18} style={{marginLeft: 'auto'}}/>}
+                    </Box>
+                  </li>
+                );
+              })}
+            </ul>
+            </Box>
+          </Box>
+          )}
     </Box>
   );
 }

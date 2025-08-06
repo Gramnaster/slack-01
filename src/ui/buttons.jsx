@@ -19,7 +19,8 @@ export function SignUpButton() {
 
 export function SignMeUpButton({isLoading, disabled}) {
   return (
-    <Button variant='contained' type='submit' aria-disabled={disabled} disabled={disabled} sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}>
+    <Button variant='contained' type='submit' aria-disabled={disabled}
+      sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1, pointerEvents: isLoading ? 'none' : 'auto',}}>
       <img src='/assets/images/button-signup-01.png'/> {isLoading ? 'SIGNING...' : 'SIGN_ME_UP'}
     </Button>
   )

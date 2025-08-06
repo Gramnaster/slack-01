@@ -44,7 +44,7 @@ export const formatDateToLocal = (dateRequest) => {
 //   }
 // };
 
-export const displayUserAccess = async () => {
-  const x = 0;
-  return x;
-}
+// export const displayUserAccess = async () => {
+//   const x = 0;
+//   return x;
+// }

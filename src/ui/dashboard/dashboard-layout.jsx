@@ -188,7 +188,7 @@ export default function DashboardLayout({ children, channels = [], users = [], }
               <Typography variant='body2' color='text.secondary'>./MAIN_MENU</Typography>
             </Box>
           </Box>
-          <Box sx={{display: 'flex', flexDirection: 'column'}}>
+          <Box sx={{display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0}}>
             <Suspense>
               {/* Active link styling with reusable components */}
               <Box component={Link} href={dmLink} 
@@ -205,12 +205,12 @@ export default function DashboardLayout({ children, channels = [], users = [], }
                 user_ch
                 {isChActive && <Image src={diamond} alt="active indicator" width={18} height={18} style={{marginLeft: 'auto'}} />}
               </Box>
-              <Box sx={{display: 'flex', flexDirection: 'column', overflowY: 'auto', pb: '50px'}}>
+              <Box sx={{flexDirection: 'column', flex: 1, overflowY: 'auto', overflowX: 'hidden', pb: '50px'}}>
                 <Navigation channels={sortedChannels} users={sortedUsers} hideUsers/>
               </Box>
             </Suspense>
           </Box>
-          <Box sx={{display: 'flex', justifyContent:'center', mt: 'auto', pb: 1}}>
+          <Box sx={{display: 'flex', justifyContent:'center', mt: 'auto', pb: 1, flexShrink: 0}}>
             <form action={logout}>
               <Button variant='contained' type='submit' fullWidth sx={{width:'100%', height:'42px', borderRadius:0, gap:1, display:'flex', justifyContent:'center'}}>
                 <img src='/assets/images/button-logout-01.png' style={{ width: '20px', height: '20px' }}/>  LOG_OUT
