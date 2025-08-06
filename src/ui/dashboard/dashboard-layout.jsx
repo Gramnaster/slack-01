@@ -80,6 +80,9 @@ export default function DashboardLayout({ children, channels = [], users = [], }
   const dmLink = firstUserId ? `/dashboard/dm/${firstUserId}` : '/dashboard/dm';
   const chLink = firstChannelId ? `/dashboard/ch/${firstChannelId}` : '/dashboard/ch';
 
+  // Check if we have channels available
+  const hasChannels = sortedChannels.length > 0;
+
   // Standard Next check for pathname, useful for determining whether Link is active
   const isDmActive = pathname.startsWith('/dashboard/dm');
   const isChActive = pathname.startsWith('/dashboard/ch');
@@ -198,12 +201,13 @@ export default function DashboardLayout({ children, channels = [], users = [], }
                 dir_msg
                 {isDmActive && <Image src={diamond} alt="active indicator" width={18} height={18} style={{marginLeft: 'auto'}} />}
               </Box>
-              <Box component={Link} href={chLink} 
+              <Box component={hasChannels ? Link : 'div'} href={ hasChannels ? chLink : undefined} 
                 sx={{ ...baseLinkStyle, ...(isChActive && activeLinkStyle), height:'40px', border: '1px solid #FF7300',
                   ...(!isChActive && {'&:hover': { backgroundColor: '#ff73003e' }}),
+                  ...(!hasChannels && {opacity: 0.5, cursor: 'not-allowed', backgroundColor: '#333',  color: '#666'}),
               }}>
-                user_ch
-                {isChActive && <Image src={diamond} alt="active indicator" width={18} height={18} style={{marginLeft: 'auto'}} />}
+                user_ch {!hasChannels && '(no_ch)'}
+                {isChActive && hasChannels &&<Image src={diamond} alt="active indicator" width={18} height={18} style={{marginLeft: 'auto'}} />}
               </Box>
               <Box sx={{flexDirection: 'column', flex: 1, overflowY: 'auto', overflowX: 'hidden', pb: '50px'}}>
                 <Navigation channels={sortedChannels} users={sortedUsers} hideUsers/>

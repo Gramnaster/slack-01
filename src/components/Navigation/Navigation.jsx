@@ -21,9 +21,9 @@ export default function Navigation({
 }) {
 
   const [searchWord, setSearchWord] = useState('');
-  const handleSearchBar = (e) => {
-    setSearchWord(e.target.value);
-  };
+  // const handleSearchBar = (e) => {
+  //   setSearchWord(e.target.value);
+  // };
 
   console.log('Navigation received channels:', channels);
   console.log('Navigation channels sample:', channels[0]);
@@ -56,6 +56,13 @@ export default function Navigation({
   const channelId = isChannelSelected ? pathname.split('/dashboard/ch/')[1] : null;
   console.log('Navigation isChannelSelected:', isChannelSelected);
   console.log('Navigation channelId:', channelId);
+
+  // Get first channel id so we can use it for navigation
+  // Then if not found, redirect
+  // Check if we have channels available
+  const firstChannelId = filteredChannels.length > 0 ? filteredChannels[0].id : null;
+  const chLink = firstChannelId ? `/dashboard/ch/${firstChannelId}` : '/dashboard/ch';
+  const hasChannels = filteredChannels.length > 0;
 
   // Get channelMembers
   const currentChannel = channels.find((ch) => ch.id === parseInt(channelId));

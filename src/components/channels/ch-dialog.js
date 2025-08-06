@@ -1,37 +1,10 @@
 'use client';
 
-import { authenticate } from "@/lib/actions";
+// import { authenticate } from "@/lib/actions";
 import { createChannel } from "@/lib/data";
-import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField, Typography } from "@mui/material";
+import { Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useActionState, useState } from "react";
-
-// export default function ChannelDialog () {
-//   // const [modalState, setModalState] = useState({ type: null, user: null });
-
-//   return (
-//     <Dialog
-//       open={modalState.type !== null}
-//       onClose={handleCloseModal}
-//       fullWidth
-//       maxWidth="sm"
-//     >
-//       <DialogTitle
-//         className='cinzel-heading'
-//         sx={{
-//           font: '16px',
-//           justifyContent: 'center',
-//           alignContent: 'flex-start',
-//         }}
-//       >
-//         {getModalTitle()}
-//       </DialogTitle>
-//       <DialogContent dividers>
-//         {renderModalContent()}
-//       </DialogContent>
-//     </Dialog>
-//   )
-// }
+import { useState } from "react";
 
 export default function ChannelDialog({ users = [] }) {
   console.log('ChannelDialog is running');
@@ -135,8 +108,9 @@ export default function ChannelDialog({ users = [] }) {
       if (error) {
         setErrorMessage(error.message || 'Failed to create channel');
       }
+    } finally {
+      setIsPending(false);
     }
-    setIsPending(false);
   };
 
   return (
@@ -169,7 +143,7 @@ export default function ChannelDialog({ users = [] }) {
             />
             {/* Dropdown forms */}
             <FormControl fullWidth margin="dense" variant="standard">
-              <InputLabel color='text.primary'>desired_members</InputLabel>
+              {/* <InputLabel color='text.primary'>desired_members</InputLabel> */}
               <Select
                   labelId="user-select-label"
                   id="user-select"
