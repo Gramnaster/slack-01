@@ -314,7 +314,9 @@ export default function DashboardLayout({ children, channels = [], users = [], }
             flex: 3,
             flexDirection: 'column',
             w:'180px',
-            border: '1px solid #FF7300'
+            border: '1px solid #FF7300',
+            minHeight: 0,
+            overflowY:'hidden'
         }}>
           {/* Section Header */}
           <Box sx={{
@@ -329,7 +331,9 @@ export default function DashboardLayout({ children, channels = [], users = [], }
                 ./CONSOLE_LOG
             </Typography>
           </Box>
-          Console_Format
+          <Box sx={{display:'flex', h:'100%', w:'100%', alignContent:'flex-end', justifyContent:'flex-end'}}>
+            <Typography variant='body2'> Console_Format </Typography>
+          </Box>
         </Box>
       </Box>
     </Box>

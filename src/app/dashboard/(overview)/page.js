@@ -17,15 +17,15 @@ export default function MainPage() {
   // }, []);
 
   return (
-    <Box sx={{display:'flex'}}>
+    <Box sx={{display:'flex', alignItems: 'center', justifyContent: 'center', height:'100%', width:'100%'}}>
       {/* <Typography sx={{ position: 'absolute', top: 60, left: 60 }}> USER-ACCESS-GRANTED // </Typography> */}
       {/* <Typography sx={{ position: 'absolute', bottom: 60, left: 60 }}>{triNumber} // </Typography> */}
       {/* <Typography sx={{ position: 'absolute', top: 60, right: 60 }}>{formatDateToLocal()} </Typography> */}
       {/* <Typography sx={{ position: 'absolute', bottom: 60, right: 60 }}>// {formatDateToLocal('yearFormat')}-ALLRIGHTSRESERVED-COPYRIGHT:JPVILLALON </Typography> */}
       <Container sx={{position:'relative', display:'flex', justifyContent:'center', alignItems:'center', alignContents:'center', alignSelf:'center', textAlign: 'center',}}>
-        <Typography variant='body2' sx={{ position:'absolute', top: '50%', left: '50%', transform: 'translateX(-50%)', h:'100%'  }}> {/* eslint-disable-next-line */}
+        <Typography variant='body2'> {/* eslint-disable-next-line */}
           Welcome to Miscord's Homepage
-          </Typography>
+        </Typography>
       </Container>
     </Box>
   )

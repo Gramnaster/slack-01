@@ -3,7 +3,7 @@
 import { SignMeUpButton } from "@/ui/buttons";
 import { createNewUser } from "@/lib/data";
 import { Box, InputLabel, OutlinedInput, Paper, Stack, styled, Typography } from "@mui/material"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { redirect } from "next/navigation";
 
 const DemoPaper = styled(Paper)(({ theme }) => ({

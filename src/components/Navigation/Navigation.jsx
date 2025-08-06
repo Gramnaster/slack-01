@@ -57,12 +57,13 @@ export default function Navigation({
   console.log('Navigation isChannelSelected:', isChannelSelected);
   console.log('Navigation channelId:', channelId);
 
+  // Entire thing has been moved to dashboard-layout
   // Get first channel id so we can use it for navigation
   // Then if not found, redirect
   // Check if we have channels available
-  const firstChannelId = filteredChannels.length > 0 ? filteredChannels[0].id : null;
-  const chLink = firstChannelId ? `/dashboard/ch/${firstChannelId}` : '/dashboard/ch';
-  const hasChannels = filteredChannels.length > 0;
+  // const firstChannelId = filteredChannels.length > 0 ? filteredChannels[0].id : null;
+  // const chLink = firstChannelId ? `/dashboard/ch/${firstChannelId}` : '/dashboard/ch';
+  // const hasChannels = filteredChannels.length > 0;
 
   // Get channelMembers
   const currentChannel = channels.find((ch) => ch.id === parseInt(channelId));
