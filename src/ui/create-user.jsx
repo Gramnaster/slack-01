@@ -13,10 +13,10 @@ const DemoPaper = styled(Paper)(({ theme }) => ({
 }));
 
 export default function CreateUserForm() {
-  useEffect(() => {
-    console.log("CreateUserForm mounted");
-    return () => console.log("CreateUserForm unmounted");
-  }, []);
+  // useEffect(() => {
+  //   console.log("CreateUserForm mounted");
+  //   return () => console.log("CreateUserForm unmounted");
+  // }, []);
   // const [formData, setFormData] = useState('');
 
   // const testFormData = (event) => {
@@ -59,7 +59,7 @@ export default function CreateUserForm() {
 
     // Prevent double submission
     if (formSubmitted || isLoading) {
-      console.log('Submission already in progress');
+      alert('//WARN: SUBMISSION IN PROGRESS');
       return;
     }
 

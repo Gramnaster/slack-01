@@ -72,7 +72,7 @@ export const { auth, signIn, signOut } = NextAuth({
   ],
   callbacks: {
     // JWT and session callbacks for cookie / sesh persistence purposes 
-    // Admittedly not sure why we need both of them
+    // Saves api to jwt cookie after login
     // User comes from the response.data.data
     // Token persists even if user is gone (like subsequent visits without logging in)
     async jwt({ token, user }) {
@@ -90,6 +90,7 @@ export const { auth, signIn, signOut } = NextAuth({
       return token;
     },
     // Session callback to make the token data available to the rest of the pages
+    // token comes from stored jwt cookie
     // Every auth() call returns this session object
     async session({ session, token }) {
       console.log('Auth.js: Session callback triggered with token:', token);

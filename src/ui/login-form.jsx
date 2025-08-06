@@ -72,12 +72,12 @@ export default function LoginForm() {
               />
             </Box>
             <input type="hidden" name="redirectTo" value={callbackUrl} />
-            <Button type="submit" aria-disabled={isPending} variant='contained' sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}>
+            <Button type="submit" aria-disabled={isPending} disabled={isPending} variant='contained' sx={{w:'120px', h:'42px', borderRadius: 0, gap: 1}}>
               <img src='/assets/images/button-login-01.png'/> {isPending ? 'Logging in...' : 'LOG_IN'}
             </Button>
-            {errorMessage && (
+            {/* {errorMessage && (
               <p style={{ color: 'red' }}>{errorMessage}</p>
-            )}
+            )} */}
             </Stack>
           </Box>
         </form>

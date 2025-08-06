@@ -1,3 +1,5 @@
+'use server';
+
 import axios from 'axios';
 import { auth } from '../../auth';
 import { redirect } from 'next/navigation';
@@ -40,7 +42,7 @@ export async function fetchChannels() {
     const api = await getAuthenticatedApi();
     const response = await api.get('/channels');
     // console.log('fetchChannels response:', response.data.data);
-    return response.data.data;
+    return response.data.data || [];
   } catch (error) {
     if (error) {
       if (error.code === 'ETIMEDOUT') {
@@ -48,7 +50,8 @@ export async function fetchChannels() {
       redirect('/login');
     }
       console.error('API Error fetching channels:', error);
-      throw new Error('Failed to fetch channels.');
+      // throw new Error('Failed to fetch channels.');
+      return [];
     }
   }
 }
@@ -58,7 +61,7 @@ export async function fetchUsers() {
     const api = await getAuthenticatedApi();
     const response = await api.get('/users');
     // console.log('fetchUsers response:', response.data.data);
-    return response.data.data;
+    return response.data.data  || [];
   } catch (error) {
     if (error.code === 'ECONNRESET') {
       console.error('The connection was reset.');
@@ -68,7 +71,9 @@ export async function fetchUsers() {
       redirect('/login');
     }
     console.error('API Error fetching users:', error);
-    throw new Error('Failed to fetch users.');
+    // throw new Error('Failed to fetch users.');
+    // redirect(`/?error=${encodeURIComponent(error)}`);
+    return [];
   }
 }
 
@@ -78,7 +83,7 @@ export async function fetchChannelMessages(channelId) {
     const api = await getAuthenticatedApi();
     const response = await api.get(`/messages?receiver_id=${channelId}&receiver_class=Channel`);
     // console.log(`fetchChannelMessages${channelId} response:`, response.data.data);
-    return response.data.data;
+    return response.data.data  || [];
   } catch (error) {
     if (error) {
       if (error.code === 'ETIMEDOUT') {
@@ -86,7 +91,8 @@ export async function fetchChannelMessages(channelId) {
       redirect('/login');
     }
       console.error(`API Error fetching messages for channel ${channelId}:`, error);
-      throw new Error('Failed to fetch channel messages.');
+      // throw new Error('Failed to fetch channel messages.');
+      return [];
     }
   }
 }
@@ -97,7 +103,7 @@ export async function fetchDirectMessages(userId) {
     const api = await getAuthenticatedApi();
     const response = await api.get(`/messages?receiver_id=${userId}&receiver_class=User`);
     // console.log(`fetchDirectMessages${userId} response:`, response.data.data);
-    return response.data.data;
+    return response.data.data  || [];
   } catch (error) {
     if (error) {
       if (error.code === 'ETIMEDOUT') {
@@ -105,7 +111,8 @@ export async function fetchDirectMessages(userId) {
       redirect('/login');
     }
       console.error(`API Error fetching messages for user ${userId}:`, error);
-      throw new Error('Failed to fetch direct messages.');
+      // throw new Error('Failed to fetch direct messages.');
+      return [];
     }
   }
 }
@@ -116,7 +123,7 @@ export async function fetchChannelDetails(channelId) {
     const api = await getAuthenticatedApi();
     const response = await api.get(`/channels/${channelId}`);
     console.log(`fetchChannelDetails${channelId} response:`, response.data.data);
-    return response.data.data;
+    return response.data.data  || [];
   } catch (error) {
     if (error) {
       if (error.code === 'ETIMEDOUT') {
@@ -124,7 +131,8 @@ export async function fetchChannelDetails(channelId) {
       redirect('/login');
     }
       console.error(`API Error fetching channel details for ${channelId}:`, error);
-      throw new Error('Failed to fetch channel details');
+      // throw new Error('Failed to fetch channel details');
+      return [];
     }
   }
 }
@@ -150,7 +158,7 @@ export async function postDirectMessage(recipient, formData) {
     const api = await getAuthenticatedApi();
     const response = await api.post(`/messages`, requestBody);
     // console.log('postDirectMessage response:', response.data);
-    return response.data.data;
+    return response.data.data  || [];
   } catch (error) {
     if (error) {
       if (error.code === 'ETIMEDOUT') {
@@ -164,7 +172,8 @@ export async function postDirectMessage(recipient, formData) {
         data: error.response?.data,
         message: error.message
       });
-      throw new Error('Failed to post messages to user');
+      // throw new Error('Failed to post messages to user');
+      return [];
     }
   }
 }
@@ -184,7 +193,7 @@ export async function postChannelMessage(recipient, formData) {
     const api = await getAuthenticatedApi();
     const response = await api.post(`/messages`, requestBody);
     // console.log('postChannelMessage response: ', response.data);
-    return response.data.data;
+    return response.data.data  || [];
   } catch (error) {
     if (error) {
       if (error.code === 'ETIMEDOUT') {
@@ -192,7 +201,8 @@ export async function postChannelMessage(recipient, formData) {
       redirect('/login');
     }
       console.error(`API Error posting messages to channel ${recipient}:`, error);
-      throw new Error('Failed to post messages to channel');
+      // throw new Error('Failed to post messages to channel');
+      return [];
     }
   }
 }
@@ -230,7 +240,7 @@ export async function createNewUser(requestBody) {
     const response = await axios.post(`${API_URL}/auth`, requestBody);
     if (response.data && response.data.status === 'success') {
       // console.log(`API New user created successfully:`, response.status);
-      return response.data;
+      return response.data  || [];
     }
   } catch (error) {
     if (error.code === 'ETIMEDOUT') {
@@ -262,7 +272,8 @@ export async function createNewUser(requestBody) {
     } else {
       // Handle unexpected errors
       console.error('An unexpected API error occurred:', error);
-      throw new Error('Failed to create user due to an unexpected error.');
+      // throw new Error('Failed to create user due to an unexpected error.');
+      return [];
     }
   }
 }

@@ -10,21 +10,21 @@ import Link from 'next/link';
 export default function CreateUserPage() {
   return (
     <Box
-          component='main'
-          sx={{
-            boxSizing: 'border-box',
-            flex: 1,
-            p: '2rem',
-            m: 0,
-            height: '100vh',
-            width: '100%',
-            overflowY: 'auto',
-            backgroundImage: `url(${Background.src})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            aspectRatio: '16/9',
-            display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row'}
+      component='main'
+      sx={{
+        boxSizing: 'border-box',
+        flex: 1,
+        p: '2rem',
+        m: 0,
+        height: '100vh',
+        width: '100%',
+        overflowY: 'auto',
+        backgroundImage: `url(${Background.src})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        aspectRatio: '16/9',
+        display: 'flex',
+        flexDirection: { xs: 'column', sm: 'row'}
     }}>
       <img src='/assets/images/bg-corner-topleft-01.png' style={{ position: 'absolute', top: 40, left: 40, width: '40px', height: '40px' }} alt="Top left corner design" />
       <img src='/assets/images/bg-corner-topright-01.png' style={{ position: 'absolute', top: 40, right: 40, width: '40px', height: '40px' }} alt="Top right corner design" />

@@ -1,5 +1,5 @@
 
-'use server';
+// 'use server';
 
 import { fetchDirectMessages, postDirectMessage } from '@/lib/data';
 import { revalidatePath } from 'next/cache';
@@ -43,7 +43,7 @@ export default async function DirectMessagePage({ params }) {
   // More straightforward implementation of passing formData
   // to the data.js PostMessage function
   async function sendMessage(formData) {
-    // 'use server';
+    'use server';
     
     try {
       await postDirectMessage(refreshedParams.userId, formData);
