@@ -1,4 +1,4 @@
-<img width="863" height="480" alt="slack-03" src="https://github.com/user-attachments/assets/b0edf3d6-ba96-4eed-8ade-7d1e997e2092" />## Tech Stack
+## Tech Stack
 ### Website (images below in case website is down or expired)
 ```
 Website: The backend is currently down, so only images will be provided.
