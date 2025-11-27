@@ -19,6 +19,7 @@ Deployed On: Railway
 ```
 
 ### Customer-Facing Frontend Images
+<div align="center">
 <img width="863" height="480" alt="slack-01" src="https://github.com/user-attachments/assets/e2d12255-3273-4350-ad75-13d52de1d4d0" />
 <div align="center"> Main Page </div> </br>
 
@@ -57,3 +58,4 @@ Deployed On: Railway
 
 <img width="864" height="480" alt="slack-12" src="https://github.com/user-attachments/assets/e6b894da-5212-4f97-8b01-2586733ae6bc" />
 <div align="center"> Adding new member to an already existing channel </div> </br>
+</div>
