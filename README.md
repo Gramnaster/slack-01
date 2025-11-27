@@ -44,9 +44,6 @@ Deployed On: Railway
 <img width="863" height="480" alt="slack-08" src="https://github.com/user-attachments/assets/f208273f-fc63-48c1-a639-0095a820e7d3" />
 <div align="center"> Full exchange of messages </div> </br>
 
-<img width="863" height="480" alt="slack-01" src="https://github.com/user-attachments/assets/e2d12255-3273-4350-ad75-13d52de1d4d0" />
-<div align="center"> Main Page </div> </br>
-
 <img width="864" height="481" alt="slack-09" src="https://github.com/user-attachments/assets/14200cce-f2dd-4990-b5c3-6a4b4dc99b83" />
 <div align="center"> Creating New Channel Modal </div> </br>
 
